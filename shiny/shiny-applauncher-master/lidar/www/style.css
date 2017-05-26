@@ -1,0 +1,25 @@
+select { 
+  max-width: 125px; 
+}
+
+input[type="number"] {
+  max-width: 50px; 
+}
+
+.jslider { 
+  max-width: 250px; 
+}
+
+.well { 
+  padding: 12px; 
+  margin-bottom: 5px; 
+  max-width: 280px; 
+}
+
+.span4 { 
+  max-width: 280px; 
+}
+
+.span8 {
+  max-width: 500px; 
+}
