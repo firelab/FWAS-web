@@ -3,6 +3,7 @@
 #=================================
 
 library(shiny)
+library(shinyjs)
 
 
 # From a future version of Shiny
@@ -123,7 +124,7 @@ shinyServer(function(input, output, session) {
   })
   output$tempVal<-renderPrint({temperatureNum()})
   
-  
+  # skaCfg<-""
   
   writeCfg <- reactive({
     # isolate({
@@ -207,13 +208,27 @@ shinyServer(function(input, output, session) {
       {
         cat(paste("temperature_units = ", NaN,"\n",collapse=""),file=cfg,append=TRUE)
       }
+      return(cfg)
+      # skaCfg<-cfg
     # })
   })
   # runWN <- reactive({
   #   # if(length(input$run_wn) > 0 && input$run_wn == 1){
   observeEvent(input$run_wn,{
-    writeCfg()
-    # system("/home/tanner/src/FWAS/1.0.py /home/tanner/src/FWAS/ui/thresholds/threshold.cfg")
+    skaCfg<-writeCfg()
+    # system(paste("/home/tanner/src/FWAS/instantAlert.py",skaCfg,sep=" "))
+  })
+  useShinyjs()
+  observe({
+    if(input$run_wn>0)
+    {
+      shinyjs::hide("run_wn")
+      output$runResult<-renderPrint("Alert Created! Reload the App to create another Alert.")
+    }
+    
+    if(input$run_wn==0)
+      shinyjs::show("run_wn")
+    # shinyjs::show("ska")
   })
   #     
       # withProgress(session, min=1, max=15, {

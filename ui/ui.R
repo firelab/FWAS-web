@@ -4,6 +4,8 @@
 
 library(shiny)
 library(shinythemes)
+library(shinyjs)
+
 
 shinyUI(fluidPage(
   theme = shinythemes::shinytheme("cosmo"),
@@ -106,10 +108,12 @@ shinyUI(fluidPage(
       column(3, h3('Create Alert'))
     ),
     hr(),
+    useShinyjs(),
     fluidRow(
       # column(2, htmlOutput('runButton'))
-      column(2, actionButton('run_wn', label="Go!"))
-    ),
+      column(2, actionButton('run_wn', label="Go!"))),
+      fluidRow(
+      column(8,verbatimTextOutput("runResult"))),
     hr(),
     fluidRow(
       column(4, htmlOutput('wnText'), style = "color:darkblue"),

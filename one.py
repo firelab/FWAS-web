@@ -25,6 +25,7 @@ import createAlert
 from station import printStation
 import numpy
 import sys
+#from HRRR import insideStraight
 
 def getRAWSData(Lat,Lon,Radius,limit,spdUnits,tempUnits):
     """
@@ -36,7 +37,7 @@ def getRAWSData(Lat,Lon,Radius,limit,spdUnits,tempUnits):
 timeZone=['']
 radius=[0.0]
 Location=[0.00,0.00]
-numLimit=[0]
+numLimit=[0]   
 unitLimits={'temp':'','tempABV':'','spd':'','spdABV':''}
 limits={'temp':0,'spd':0,'dir':0,'rain':0,'rh':0,'gust':0}
 
@@ -54,7 +55,7 @@ def setLimits(temp,spd,direction,Precip,RH,Gust):
     limits['rain']=Precip
     limits['rh']=RH
     limits['gust']=Gust
-
+    
 def setGlobalVars(Lat,Lon,Radius,TZ,stationLimit):
     """
     Sets Things that do not change for run
@@ -64,7 +65,7 @@ def setGlobalVars(Lat,Lon,Radius,TZ,stationLimit):
     timeZone[0]=TZ
     radius[0]=Radius
     numLimit[0]=stationLimit
-
+    
 def setLimitUnits(spd,temp):
     """
     Sets Units on Thresholds
@@ -73,7 +74,7 @@ def setLimitUnits(spd,temp):
     unitLimits['tempABV']=temp[1]
     unitLimits['spd']=spd[0]
     unitLimits['spdABV']=spd[1]
-
+        
 
 def readThresholds():
     """
@@ -105,7 +106,7 @@ def checkThresholds(thresholds,units):
     needKeys=['wind_speed','relative_humiditiy','temperature']
     needUnits=['wind_speed_units','temperature_units']
     return [needKeys,needUnits]
-
+    
 def configureNotifications(header):
     """
     Figures out email or text message
@@ -131,59 +132,78 @@ def runFWAS():
     headerLib=thresholds[0]
     thresholdsLib=thresholds[1]
     unitLib=thresholds[2]
-
+    
     zoneStr=calcTime.convertTimeZone(float(headerLib['time_zone']))
     setGlobalVars(float(headerLib['latitude']),float(headerLib['longitude']),float(headerLib['radius']),zoneStr,int(headerLib['limit']))
     setLimits(float(thresholdsLib['temperature']),float(thresholdsLib['wind_speed']),0,0,float(thresholdsLib['relative_humidity']),float(thresholdsLib['wind_gust']))
     setLimitUnits(calcUnits.getWindSpdUnits(float(unitLib['wind_speed_units'])),calcUnits.getTempUnits(float(unitLib['temperature_units'])))
-
+    
     wxData=getRAWSData(Location[0],Location[1],radius[0],numLimit[0],calcUnits.unitSystemFlag['wind'],calcUnits.unitSystemFlag['temp'])
-
+    
     wxStationsA=comparator.checkData(wxData,limits,timeZone[0],unitLimits)
 
     wxStations=comparator.cleanStations(wxStationsA)
-
+    
 #    for i in range(len(wxStations)):
 #        station.printStation(wxStations[i])
-
+    
     wxLoc=createAlert.getStationDirections(Location,wxStations)
-#
+#    
     Alert=createAlert.makeSystemAlert(thresholdsLib,unitLimits,wxStations)
-#    print Alert
+#    print Alert    
     send.sendEmailAlert(Alert,configureNotifications(headerLib),headerLib['alert_name'])
-
-# cfgLoc[0]='/home/tanner/src/FWAS/ui/thresholds/threshold-USERNAME-2017-05-24_11-24-29.cfg'
+    
+#cfgLoc[0]='/home/tanner/src/FWAS/ui/thresholds/threshold-USERNAME-2017-05-24_11-24-29.cfg'
 
 
 #wxS=[x for x in wxS if not x.is_empty]
+
 
 def runInitialFWAS():
     thresholds=readThresholds()
     headerLib=thresholds[0]
     thresholdsLib=thresholds[1]
     unitLib=thresholds[2]
-
+    
     zoneStr=calcTime.convertTimeZone(float(headerLib['time_zone']))
     setGlobalVars(float(headerLib['latitude']),float(headerLib['longitude']),float(headerLib['radius']),zoneStr,int(headerLib['limit']))
     setLimits(float(thresholdsLib['temperature']),float(thresholdsLib['wind_speed']),0,0,float(thresholdsLib['relative_humidity']),float(thresholdsLib['wind_gust']))
     setLimitUnits(calcUnits.getWindSpdUnits(float(unitLib['wind_speed_units'])),calcUnits.getTempUnits(float(unitLib['temperature_units'])))
-
+    
     wxData=getRAWSData(Location[0],Location[1],radius[0],numLimit[0],calcUnits.unitSystemFlag['wind'],calcUnits.unitSystemFlag['temp'])
-
+    
     wxStationsA=comparator.checkData(wxData,limits,timeZone[0],unitLimits)
 
     wxStations=comparator.cleanStations(wxStationsA)
-
+    
 #    for i in range(len(wxStations)):
 #        station.printStation(wxStations[i])
-
+    
     wxLoc=createAlert.getStationDirections(Location,wxStations)
-#
+#    
     Alert=createAlert.makeSystemAlert(thresholdsLib,unitLimits,wxStations)
-
+    
     iniAlert="""This message shows that you have successfully created a Fire Weather Alert!
 Below are the current conditions and what an alert will look like\n
 """
     firstAlert=iniAlert+Alert
-
+    
     send.sendEmailAlert(firstAlert,configureNotifications(headerLib),headerLib['alert_name'])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -12,9 +12,8 @@ from geopy.distance import great_circle
 import math
 import datetime
 import dateutil
-import send
+#import send
 #import raws
-import checker
 import pint
 
 #timeInt=2

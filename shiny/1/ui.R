@@ -1,5 +1,5 @@
 library(shiny)
-
+library(shinyjs)
 
 shinyUI(
 
@@ -12,11 +12,15 @@ shinyUI(
     fluidRow(column(3, verbatimTextOutput("value"))),
     hr(),
     fluidRow(
-    actionButton("action", label = "Action"),
+    # actionButton("action", label = "Action"),
     
-    hr(),
-    fluidRow(column(2, verbatimTextOutput("value2"))
-    
-  ))
+      
+
+    useShinyjs(),
+    column(3, actionButton("action", "RUN"))),
+    # column(3,verbatimTextOutput("value2"))),
+    fluidRow(
+    column(3,verbatimTextOutput("ska")))
+  )
   
-))
+)

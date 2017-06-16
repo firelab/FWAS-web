@@ -1,4 +1,5 @@
 library(shiny)
+library(shinyjs)
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
@@ -17,6 +18,18 @@ shinyServer(function(input, output) {
     observeEvent(input$action,{
       write()
     })
-
+    useShinyjs()
+    observe({
+      if(input$action>0)
+      {
+      shinyjs::hide("action")
+      output$ska<-renderPrint("SKA")
+      }
+      
+      if(input$action==0)
+        shinyjs::show("action")
+        # shinyjs::show("ska")
+    })
+    output$value2 <- renderPrint({ input$action })
   
 })
