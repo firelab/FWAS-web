@@ -4,6 +4,9 @@
 Created on Mon May 22 12:03:23 2017
 
 @author: tanner
+
+FWAS Alert Manager: run this As Primary CRONJOB for HRRR & RAWS 
+
 """
 
 import glob
@@ -12,9 +15,11 @@ import calcTime
 import datetime
 import one
 import os
+import HRRR_Fetch
 
 checkTime=datetime.datetime.now()
-cZ=glob.glob('/home/tanner/src/FWAS/ui/thresholds/*.cfg')
+#cZ=glob.glob('/srv/shiny-server/fwas/data/*.cfg')
+cZ=glob.glob('/home/tanner/src/breezy/fwas/data/*.cfg')
 
 def readExpirationDate(cfgLoc):
     """
@@ -39,15 +44,39 @@ def readExpirationDate(cfgLoc):
 #        unitDict[options[i]]=cfg.get(section,options[i])
     return headerDict
 
+def getNewForecasts():
+    """
+    Download new HRRR Data. Runs every Hour
+    """
+    HRRR_Fetch.cleanHRRRDir()
+    HRRR_Fetch.fetchHRRR()     
+        
+#    return hDict
+    
+getNewForecasts()
 for i in range(len(cZ)):
     tExpire=readExpirationDate(cZ[i])
     tTime=calcTime.calcExpirationDate(tExpire['alert_time'],tExpire['expires_after'])
     if tTime>checkTime: #This means the alert has not yet expired and can be used!
-        print "Alert is Valid... Checking Weather..."        
+        print "Alert is Valid... Checking Weather..."
         one.ascertainCfg(cZ[i])
         one.runFWAS()
         print True
     if tTime<checkTime: #This means the Alert Has expired and should be removed!
-        print "Alert has expired... Deleting alert..."        
-        os.remove(cZ[i])        
+        print "Alert has expired... Deleting alert..."
+        os.remove(cZ[i])
         print False
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -3,6 +3,8 @@
 Created on Fri Jul 15 10:53:00 2016
 
 @author: tanner
+
+RAWS FETCHER
 """
 
 import urllib2
