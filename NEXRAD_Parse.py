@@ -17,6 +17,7 @@ import NEXRAD_radarStation
 
 def getDiskFile():
     dZ=glob.glob('/media/tanner/vol2/NEXRAD/*')
+#    dZ=glob.glob('/home/ubuntu/fwas_data/NEXRAD/')
     return dZ
 
 def readRadar(diskFile):

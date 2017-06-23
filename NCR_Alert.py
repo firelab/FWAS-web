@@ -10,19 +10,19 @@ Created on Thu Jun 22 13:16:30 2017
 from HRRR_Alert import getQualRadar
 from NEXRAD_Alert import createHeader
 
-rData=[[8.800755281614371, 29.815845102899264, 'NNE'], 30]
-radarLib={'radar_name': 'KMSX', 'radar_on': '1'}
-headerLib={'alert_name': 'Alert',
- 'alert_time': '2017-06-21 09:26:37',
- 'carrier': 'NaN',
- 'email': 'fsweather1@usa.com',
- 'expires_after': '24',
- 'latitude': '46.92',
- 'limit': '0',
- 'longitude': '-114.1',
- 'phone': 'NaN',
- 'radius': '12',
- 'time_zone': '2'}
+#rData=[[8.800755281614371, 29.815845102899264, 'NNE'], 30]
+#radarLib={'radar_name': 'KMSX', 'radar_on': '1'}
+#headerLib={'alert_name': 'Alert',
+# 'alert_time': '2017-06-21 09:26:37',
+# 'carrier': 'NaN',
+# 'email': 'fsweather1@usa.com',
+# 'expires_after': '24',
+# 'latitude': '46.92',
+# 'limit': '0',
+# 'longitude': '-114.1',
+# 'phone': 'NaN',
+# 'radius': '12',
+# 'time_zone': '2'}
 
 
 def createAlert(rData,radarLib):

@@ -50,6 +50,7 @@ def calcForecastTimes():
     Returns Timelist of forecasts in UTC
     """
     cZ=glob.glob('/home/tanner/src/breezy/HRRR/grib/*.grib2')
+#   cZ=glob.glob('/home/ubuntu/fwas_data/HRRR/grib/*.grib2')
     cZ.sort()
 #    dwnHour=cZ[0][33:35]
     dwnHour=cZ[0][40:42] #Temporary until shit stops httpsing the fan

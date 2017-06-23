@@ -46,6 +46,7 @@ def getRadarCodes():
     cCol=[]
     rN=[]
     cFile='/media/tanner/vol2/NCR/colors.csv'
+#    cFile='/home/ubuntu/src/FWAS/data/colors.csv'
     with open(cFile,'rb') as f:
         reader=csv.reader(f)
         cList=list(reader)

@@ -317,37 +317,37 @@ Current Weather Conditions:\n
 #HRRR_Fetch.fetchHRRR()  #We don't Do this for instant Alerts because it would just destroy everything!
 #
 
-cfgLoc[0]='/home/tanner/src/breezy/fwas/data/threshold-USERNAME-2017-06-21_09-26-37.cfg'
-print 'Reading Thresholds for: '+str(cfgLoc[0])
-thresholds=readThresholds()
-headerLib=thresholds[0]
-thresholdsLib=thresholds[1]
-unitLib=thresholds[2]
-HRRRLib=thresholds[3]
-precipLib=thresholds[4]
-radarLib=thresholds[5]
+#cfgLoc[0]='/home/tanner/src/breezy/fwas/data/threshold-USERNAME-2017-06-21_09-26-37.cfg'
+#print 'Reading Thresholds for: '+str(cfgLoc[0])
+#thresholds=readThresholds()
+#headerLib=thresholds[0]
+#thresholdsLib=thresholds[1]
+#unitLib=thresholds[2]
+#HRRRLib=thresholds[3]
+#precipLib=thresholds[4]
+#radarLib=thresholds[5]
+###
+#print 'Setting Limits...'
+#zoneStr=calcTime.convertTimeZone(float(headerLib['time_zone']))
+#setGlobalVars(float(headerLib['latitude']),float(headerLib['longitude']),float(headerLib['radius']),zoneStr,int(headerLib['limit']))
+#setLimits(float(thresholdsLib['temperature']),float(thresholdsLib['wind_speed']),0,0,float(thresholdsLib['relative_humidity']),float(thresholdsLib['wind_gust']))
+#setLimitUnits(calcUnits.getWindSpdUnits(float(unitLib['wind_speed_units'])),calcUnits.getTempUnits(float(unitLib['temperature_units'])))
+###
+#pUnits=calcUnits.getPrecipUnits(int(precipLib['precip_units']))
+###
+#print 'Fetching RAWS Data...'
+###
+#wxData=getRAWSData(Location[0],Location[1],radius[0],numLimit[0],calcUnits.unitSystemFlag['wind'],calcUnits.unitSystemFlag['temp'])
+###
+#print 'Checking RAWS Data...'
+###
+#wxStationsA=comparator.checkData(wxData,limits,timeZone[0],unitLimits)
+###
+#print 'Cleaning WxStations...'
+###
+#wxStations=comparator.cleanStations(wxStationsA)
 ##
-print 'Setting Limits...'
-zoneStr=calcTime.convertTimeZone(float(headerLib['time_zone']))
-setGlobalVars(float(headerLib['latitude']),float(headerLib['longitude']),float(headerLib['radius']),zoneStr,int(headerLib['limit']))
-setLimits(float(thresholdsLib['temperature']),float(thresholdsLib['wind_speed']),0,0,float(thresholdsLib['relative_humidity']),float(thresholdsLib['wind_gust']))
-setLimitUnits(calcUnits.getWindSpdUnits(float(unitLib['wind_speed_units'])),calcUnits.getTempUnits(float(unitLib['temperature_units'])))
-##
-pUnits=calcUnits.getPrecipUnits(int(precipLib['precip_units']))
-##
-print 'Fetching RAWS Data...'
-##
-wxData=getRAWSData(Location[0],Location[1],radius[0],numLimit[0],calcUnits.unitSystemFlag['wind'],calcUnits.unitSystemFlag['temp'])
-##
-print 'Checking RAWS Data...'
-##
-wxStationsA=comparator.checkData(wxData,limits,timeZone[0],unitLimits)
-##
-print 'Cleaning WxStations...'
-##
-wxStations=comparator.cleanStations(wxStationsA)
-#
-del wxStationsA
+#del wxStationsA
 
 
 

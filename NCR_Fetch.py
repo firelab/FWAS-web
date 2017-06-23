@@ -8,8 +8,9 @@ Created on Thu Jun 22 11:06:14 2017
 import glob
 import urllib2
 
-stid='KLVX'
+#stid='KLVX'
 ncrDir='/media/tanner/vol2/NCR/'
+#ncrDir='/home/ubuntu/fwas_data/NCR/'
 
 def checkforGFW(sid,gfwStr):
     val=False

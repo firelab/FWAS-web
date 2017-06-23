@@ -59,6 +59,7 @@ def getForecast(URL):
     Fetches HRRR data!
     """
     dataDir='/home/tanner/src/breezy/HRRR/grib/'
+#    dataDir='/home/ubuntu/fwas_data/HRRR/grib/'
     forecastFile=dataDir+URL[URL.find("file=")+5:URL.find(".grib2")]+".grib2"
     response=urllib2.urlopen(URL)
     output=open(forecastFile,'wb')
@@ -70,6 +71,7 @@ def backupHRRRDir():
     Backs up data in case we want it, doesn't do anything right now
     """
     gZ=glob.glob('/home/tanner/src/breezy/HRRR/grib/*.grib2')
+#    gZ=glob.glob('/home/ubuntu/fwas_data/HRRR/grib/*.grib2')
     for i in range(len(gZ)):
         os.rename(gZ[i],'/home/tanner/src/breezy/HRRR/past/'+gZ[i][35:]) 
     
@@ -79,6 +81,7 @@ def cleanHRRRDir():
     """
     print "Deleting old HRRR Files..."
     gZ=glob.glob('/home/tanner/src/breezy/HRRR/grib/*.grib2')
+#    gZ=glob.glob('/home/ubuntu/fwas_data/HRRR/grib/*.grib2')
     for i in range(len(gZ)):
         os.remove(gZ[i])
 
