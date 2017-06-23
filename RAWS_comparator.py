@@ -3,6 +3,8 @@
 Created on Mon May 15 10:37:53 2017
 
 @author: tanner
+
+CHECKER FOR RAWS DATA
 """
 
 import station
@@ -47,6 +49,11 @@ def checkData(stationData,limits,timeZone,unitLimits):
     Checks data to see if it exceeds set thresholds
     """
     warn=[]
+    if stationData['SUMMARY']['RESPONSE_MESSAGE']!='OK':
+        print 'no RAWS data in the area, checking HRRR!'
+        return [station.Station()]
+    
+    
     for i in range(len(stationData['STATION'])):
         s1=station.Station()
         stid=stationData['STATION'][i]['STID']

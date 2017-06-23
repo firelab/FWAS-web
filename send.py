@@ -3,6 +3,8 @@
 Created on Fri May 12 11:25:32 2017
 
 @author: tanner
+
+SENDS ALL ALERTS
 """
 
 import smtplib
@@ -16,7 +18,7 @@ def sendEmailAlert(AlertB,To,subject):
     # fi=open('/home/ubuntu/src/FWAS/dump/app.yml')
     # conf=yaml.load(fi)
     email="fireweatheralert@gmail.com"
-    pWord=""
+    pWord="dahomeybenin"
 
     print "sending Alert..."
     fromaddr = str(email)
@@ -27,7 +29,7 @@ def sendEmailAlert(AlertB,To,subject):
 
     # Send text message through SMS gateway of destination number
 
-    messageA = "From: FWAS <barrifle@gmail.com>\nTo: FWAS Client <"+str(To)+">\nSubject: FWAS: "+str(subject)+"\n\n"
+    messageA = "From: FWAS <fireweatheralert@gmail.com>\nTo: FWAS Client <"+str(To)+">\nSubject: FWAS: "+str(subject)+"\n\n"
 
     message=messageA+AlertB
 #    print message

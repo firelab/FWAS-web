@@ -3,6 +3,8 @@
 Created on Fri May 12 09:18:10 2017
 
 @author: tanner
+
+WXSTATION CLASS FOR RAWS STATIONS
 """
 class Station:
     """

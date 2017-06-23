@@ -5,10 +5,8 @@ Created on Thu May 25 09:40:07 2017
 
 @author: tanner
 
-Instant Party!
-
 This file runs when a run is created to establish communication with user
-and give alert, SHOULD DO EVERY ALERT, RAWS HRRR ETC
+and give alert
 """
 
 import one
