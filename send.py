@@ -18,7 +18,7 @@ def sendEmailAlert(AlertB,To,subject):
     # fi=open('/home/ubuntu/src/FWAS/dump/app.yml')
     # conf=yaml.load(fi)
     email="fireweatheralert@gmail.com"
-    pWord="dahomeybenin"
+    pWord=""
 
     print "sending Alert..."
     fromaddr = str(email)

@@ -3,7 +3,9 @@
 #=================================
 
 library(shiny)
+library(shinyjs)
 
+radarData<-read.csv(file="/media/tanner/vol2/NEXRAD_INFO/nexradID.csv",header=FALSE,sep=",")
 
 # From a future version of Shiny
 bindEvent <- function(eventExpr, callback, env=parent.frame(), quoted=FALSE) {
@@ -29,6 +31,7 @@ textInputRow<-function (inputId, label, value = "")
 
 shinyServer(function(input, output, session) {
   
+  stid<-""
   # addRunButton <- reactive({
   #   actionButton('run_wn', label ="Go!")
   # })
@@ -56,6 +59,10 @@ shinyServer(function(input, output, session) {
   # output$runButtonText <- renderUI({
   #   addRunButtonText()
   # })
+  
+  #####
+  #Vary UI based on user requests
+  #####
   output$address <- renderUI({
     if (is.null(input$not_type))
       return()
@@ -77,7 +84,11 @@ shinyServer(function(input, output, session) {
            "text" = selectInput("carrier","Select Carrier",choices=list("AT&T"="att","Verizon"="verizon","Sprint"="sprint","T-Mobile"="tmobile","Virgin Mobile"="virgin"),selected = 1)
     )
   })
-  
+  #######################################
+  #
+  # Checks to make sure stuff is reasonable
+  #
+  #######################################
   latNum<-reactive({
     validate(
       
@@ -123,13 +134,30 @@ shinyServer(function(input, output, session) {
   })
   output$tempVal<-renderPrint({temperatureNum()})
   
+  ###########
+  #
+  # Enable/Disable UI Elements based on User Input
+  #
+  ############
   
+  shinyjs::disable('raws')
+  
+  observeEvent(input$nex,{
+    # shinyjs::disable('radarName')
+    shinyjs::toggleState('radarName')
+    
+  })
+  observeEvent(input$radarName,{
+    nLoc<-match(input$radarName,radarData[[2]])
+    stid<<-radarData[[1]][nLoc]
+  })
   
   writeCfg <- reactive({
     # isolate({
       fileLoc<-paste("threshold-","USERNAME","-",format(Sys.time(),"%Y-%m-%d_%H-%-M-%S"),".cfg",sep="")
-      cfg<-paste("/home/tanner/src/FWAS/ui/thresholds/",fileLoc,sep="")
+      # cfg<-paste("/srv/shiny-server/fwas/data/",fileLoc,sep="")
       # cfg<-"/home/tanner/src/FWAS/ui/thresholds/threshold.cfg"
+      cfg<-paste("/home/tanner/src/breezy/fwas/data/",fileLoc,sep="")
       cat("[FWAS_Threshold_File]\n",file=cfg)
       cat(paste("alert_name = ",input$runName,"\n",collapse=""),file=cfg,append=TRUE)
       cat(paste("latitude = ",input$Lat,"\n",collapse=""),file=cfg,append=TRUE)
@@ -207,13 +235,64 @@ shinyServer(function(input, output, session) {
       {
         cat(paste("temperature_units = ", NaN,"\n",collapse=""),file=cfg,append=TRUE)
       }
+      cat("[HRRR_Options]\n",file=cfg,append=TRUE)
+      if(input$fCast==TRUE)
+      {
+        cat(paste("forecast_on = ",1, "\n", collapse=""), file=cfg,append=TRUE)
+      }
+      if(input$fCast==FALSE)
+      {
+        cat(paste("forecast_on = ",0, "\n", collapse=""), file=cfg,append=TRUE)
+      }
+      cat(paste("forecast_duration = ",6, "\n", collapse=""), file=cfg,append=TRUE)
+      cat("[Precipitation]\n",file=cfg,append=TRUE)
+      if(input$precip==TRUE)
+      {
+        cat(paste("precip_on = ",1,"\n",collapse=""),file=cfg,append=TRUE)
+      }
+      if(input$precip==FALSE)
+      {
+        cat(paste("precip_on = ",0,"\n",collapse=""),file=cfg,append=TRUE)
+      }
+      cat(paste("precip_units = ",input$precip_units, "\n", collapse=""), file=cfg,append=TRUE)
+      cat("[NEXRAD_Options]\n",file=cfg,append=TRUE)
+      if(input$nex==TRUE)
+      {
+        cat(paste("radar_on = ",1,"\n",collapse=""),file=cfg,append=TRUE)
+        cat(paste("radar_name = ",stid,"\n",collapse=""),file=cfg,append=TRUE)
+      }
+      if(input$nex==FALSE)
+      {
+        cat(paste("radar_on = ",0,"\n",collapse=""),file=cfg,append=TRUE)
+        cat(paste("radar_name = ",NaN,"\n",collapse=""),file=cfg,append=TRUE)
+      }
+      
+      return(cfg)
     # })
   })
   # runWN <- reactive({
   #   # if(length(input$run_wn) > 0 && input$run_wn == 1){
+  # observeEvent(input$run_wn,{
+  #   skaCfg<-writeCfg()
+  #   system(paste("/home/tanner/src/breezy/FWAS/instantAlert.py",skaCfg,sep=" "))
+  #   # system(paste("/home/ubuntu/src/FWAS/instantAlert.py",skaCfg,sep=" "))
+  # })
+  useShinyjs()
+  observe({
+    if(input$run_wn>0)
+    {      
+      output$runResult<-renderPrint("Alert Created! Reload the App to create another Alert.")
+      shinyjs::hide("run_wn")
+    }
+    
+    if(input$run_wn==0)
+      shinyjs::show("run_wn")
+    # shinyjs::show("ska")
+  })
   observeEvent(input$run_wn,{
-    writeCfg()
-    # system("/home/tanner/src/FWAS/1.0.py /home/tanner/src/FWAS/ui/thresholds/threshold.cfg")
+    skaCfg<-writeCfg()
+    system(paste("/home/tanner/src/breezy/FWAS/instantAlert.py",skaCfg,sep=" "))
+    # system(paste("/home/ubuntu/src/FWAS/instantAlert.py",skaCfg,sep=" "))
   })
   #     
       # withProgress(session, min=1, max=15, {
