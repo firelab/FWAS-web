@@ -5,7 +5,8 @@
 library(shiny)
 library(shinyjs)
 
-radarData<-read.csv(file="/media/tanner/vol2/NEXRAD_INFO/nexradID.csv",header=FALSE,sep=",")
+#radarData<-read.csv(file="/media/tanner/vol2/NEXRAD_INFO/nexradID.csv",header=FALSE,sep=",")
+radarData<-read.csv(file="/home/ubuntu/src/FWAS/data/nexradID.csv",header=FALSE,sep=",")
 
 # From a future version of Shiny
 bindEvent <- function(eventExpr, callback, env=parent.frame(), quoted=FALSE) {
@@ -63,27 +64,27 @@ shinyServer(function(input, output, session) {
   #####
   #Vary UI based on user requests
   #####
-  output$address <- renderUI({
-    if (is.null(input$not_type))
-      return()
-    
-    # Depending on input$input_type, we'll generate a different
-    # UI component and send it to the client.
-    switch(input$not_type,
-           "email" = textInput("emailAddress", "Enter Notifcation Email Address",
-                               value = "fsweather1@usa.com"),
-           "text" = textInput("textMessage", "Enter Phone Number (no Dashes)",
-                              value = "5556667777")
-    )
-  })
-  output$carrier<-renderUI({
-    if (is.null(input$not_type))
-      return()
-    switch(input$not_type,
-           
-           "text" = selectInput("carrier","Select Carrier",choices=list("AT&T"="att","Verizon"="verizon","Sprint"="sprint","T-Mobile"="tmobile","Virgin Mobile"="virgin"),selected = 1)
-    )
-  })
+#  output$address <- renderUI({
+#    if (is.null(input$not_type))
+#      return()
+#    
+#    # Depending on input$input_type, we'll generate a different
+#    # UI component and send it to the client.
+#    switch(input$not_type,
+#           "email" = textInput("emailAddress", "Enter Notifcation Email Address",
+#                               value = "fsweather1@usa.com"),
+#           "text" = textInput("textMessage", "Enter Phone Number (no Dashes)",
+#                              value = "5556667777")
+#    )
+#  })
+#  output$carrier<-renderUI({
+#    if (is.null(input$not_type))
+#      return()
+#    switch(input$not_type,
+#           
+#           "text" = selectInput("carrier","Select Carrier",choices=list("AT&T"="att","Verizon"="verizon","Sprint"="sprint","T-Mobile"="tmobile","Virgin Mobile"="virgin"),selected = 1)
+#    )
+#  })
   #######################################
   #
   # Checks to make sure stuff is reasonable
@@ -141,7 +142,16 @@ shinyServer(function(input, output, session) {
   ############
   
   shinyjs::disable('raws')
+
+  observeEvent(input$email,{
+    shinyjs::toggleState('emailAddress')
+  })
+  observeEvent(input$nText,{
+    shinyjs::toggleState('textMessage')
+    shinyjs::toggleState('carrier')
+  })
   
+
   observeEvent(input$nex,{
     # shinyjs::disable('radarName')
     shinyjs::toggleState('radarName')
@@ -155,9 +165,9 @@ shinyServer(function(input, output, session) {
   writeCfg <- reactive({
     # isolate({
       fileLoc<-paste("threshold-","USERNAME","-",format(Sys.time(),"%Y-%m-%d_%H-%-M-%S"),".cfg",sep="")
-      # cfg<-paste("/srv/shiny-server/fwas/data/",fileLoc,sep="")
+      cfg<-paste("/srv/shiny-server/fwas/data/",fileLoc,sep="")
       # cfg<-"/home/tanner/src/FWAS/ui/thresholds/threshold.cfg"
-      cfg<-paste("/home/tanner/src/breezy/fwas/data/",fileLoc,sep="")
+      #cfg<-paste("/home/tanner/src/breezy/fwas/data/",fileLoc,sep="")
       cat("[FWAS_Threshold_File]\n",file=cfg)
       cat(paste("alert_name = ",input$runName,"\n",collapse=""),file=cfg,append=TRUE)
       cat(paste("latitude = ",input$Lat,"\n",collapse=""),file=cfg,append=TRUE)
@@ -165,20 +175,38 @@ shinyServer(function(input, output, session) {
       cat(paste("radius = ",input$radius,"\n",collapse=""),file=cfg,append=TRUE)
       cat(paste("limit = ",0,"\n",collapse=""),file=cfg,append=TRUE)
       cat(paste("time_zone = ",input$timeZone,"\n",collapse=""),file=cfg,append=TRUE)
-      if(input$not_type=="email")
+      if (input$email==TRUE)
       {
         cat(paste("email = ",input$emailAddress,"\n",collapse=""),file=cfg,append=TRUE)
-        cat(paste("phone = ",NaN,"\n",collapse=""),file=cfg,append=TRUE)
-        cat(paste("carrier = ",NaN,"\n",collapse=""),file=cfg,append=TRUE)
-        # identifier<-input$emailAddress
       }
-      if(input$not_type=="text")
+      if (input$email==FALSE)
       {
         cat(paste("email = ",NaN,"\n",collapse=""),file=cfg,append=TRUE)
-        cat(paste("phone = ",input$textMessage,"\n",collapse=""),file=cfg,append=TRUE)
-        cat(paste("carrier = ",input$carrier,"\n",collapse=""),file=cfg,append=TRUE)
-        # identifier<-input$textMessage
       }
+      if (input$nText==TRUE)
+      {
+        cat(paste("phone = ",input$textMessage,"\n",collapse=""),file=cfg,append=TRUE)
+        cat(paste("carrier = ",input$carrier,"\n",collapse=""),file=cfg,append=TRUE)      
+      }
+      if (input$nText==FALSE)
+      {
+        cat(paste("phone = ",NaN,"\n",collapse=""),file=cfg,append=TRUE)
+        cat(paste("carrier = ",NaN,"\n",collapse=""),file=cfg,append=TRUE)   
+      }
+#      if(input$not_type=="email")
+#      {
+#        cat(paste("email = ",input$emailAddress,"\n",collapse=""),file=cfg,append=TRUE)
+#        cat(paste("phone = ",NaN,"\n",collapse=""),file=cfg,append=TRUE)
+#        cat(paste("carrier = ",NaN,"\n",collapse=""),file=cfg,append=TRUE)
+#        # identifier<-input$emailAddress
+#      }
+#      if(input$not_type=="text")
+#      {
+#        cat(paste("email = ",NaN,"\n",collapse=""),file=cfg,append=TRUE)
+#        cat(paste("phone = ",input$textMessage,"\n",collapse=""),file=cfg,append=TRUE)
+#        cat(paste("carrier = ",input$carrier,"\n",collapse=""),file=cfg,append=TRUE)
+#        # identifier<-input$textMessage
+#      }
       cat(paste("alert_time = ",Sys.time(),"\n",collapse=""),file=cfg,append=TRUE)
       cat(paste("expires_after = ",input$expire,"\n",collapse=""),file=cfg,append=TRUE)
 
@@ -259,7 +287,7 @@ shinyServer(function(input, output, session) {
       if(input$nex==TRUE)
       {
         cat(paste("radar_on = ",1,"\n",collapse=""),file=cfg,append=TRUE)
-        cat(paste("radar_name = ",stid,"\n",collapse=""),file=cfg,append=TRUE)
+        cat(paste("radar_name = ",NaN,"\n",collapse=""),file=cfg,append=TRUE)
       }
       if(input$nex==FALSE)
       {
@@ -291,8 +319,8 @@ shinyServer(function(input, output, session) {
   })
   observeEvent(input$run_wn,{
     skaCfg<-writeCfg()
-    system(paste("/home/tanner/src/breezy/FWAS/instantAlert.py",skaCfg,sep=" "))
-    # system(paste("/home/ubuntu/src/FWAS/instantAlert.py",skaCfg,sep=" "))
+    #system(paste("/home/tanner/src/breezy/FWAS/instantAlert.py",skaCfg,sep=" "))
+    system(paste("/home/ubuntu/src/FWAS/instantAlert.py",skaCfg,sep=" "))
   })
   #     
       # withProgress(session, min=1, max=15, {

@@ -60,8 +60,8 @@ def getDiskFiles():
     """
     Fetches Grib Files on Disk
     """
-    dZ=glob.glob('/home/tanner/src/breezy/HRRR/grib/*.grib2')
-#    dZ=glob.glob('/home/ubuntu/fwas_data/HRRR/grib/*.grib2')
+#    dZ=glob.glob('/home/tanner/src/breezy/HRRR/grib/*.grib2')
+    dZ=glob.glob('/home/ubuntu/fwas_data/HRRR/grib/*.grib2')
     dZ.sort()
     return dZ
     
@@ -79,8 +79,8 @@ def getDataset(futureTime):
     """
     opens grib file
     """
-    cZ=glob.glob('/home/tanner/src/breezy/HRRR/grib/*.grib2')
-#    cZ=glob.glob('/home/ubuntu/fwas_data/HRRR/grib/*.grib2')
+#    cZ=glob.glob('/home/tanner/src/breezy/HRRR/grib/*.grib2')
+    cZ=glob.glob('/home/ubuntu/fwas_data/HRRR/grib/*.grib2')
     cZ.sort()
     fFile=cZ[futureTime]
 #    print fFile

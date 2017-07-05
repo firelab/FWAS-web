@@ -107,7 +107,7 @@ def getQualRadar(radFloat):
     if radFloat>=30:
         radStr='Light to moderate'
     if radFloat>=35:
-        radStr='Moderate Rain'
+        radStr='Moderate (with Rain)'
     if radFloat>=45:
         radStr='Moderate to heavy'
     if radFloat>=50:
@@ -301,6 +301,7 @@ def createVarAlert(fCast,headerLib,unitLimits,thresholdsLib):
     """
     vList=[[],[],[],[],[],[]]
     localTimeList=getLocalTimes(headerLib)
+    localTimeList.sort()
     for i in range(len(fCast)):
         for j in range(len(fCast[i])):
             if fCast[i][j].limBool==True:
@@ -312,7 +313,7 @@ def createVarAlert(fCast,headerLib,unitLimits,thresholdsLib):
     rhAlert=''
     ltAlert=''
     ppAlert=''
-    
+       
     if any(vList[0]):
         print 'HRRR REFEC Threshold Reached...'
         reflecAlert=createReflecLine(fCast[vList[0][0]:vList[0][-1]+1],localTimeList[vList[0][0]:vList[0][-1]+1])

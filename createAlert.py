@@ -34,7 +34,8 @@ def listSMSGateways():
     """
     provides a list of all SMS Gateways
     """
-    gate={'att':'txt.att.net','verizon':'vtext.com','tmobile':'tmomail.net','virgin':'vmobl.com','sprint':'messaging.sprintpcs.com'}
+#    gate={'att':'txt.att.net','verizon':'vtext.com','tmobile':'tmomail.net','virgin':'vmobl.com','sprint':'messaging.sprintpcs.com'}
+    gate={'att':'txt.att.net','verizon':'vzwpix.com','tmobile':'tmomail.net','virgin':'vmobl.com','sprint':'messaging.sprintpcs.com'}
     return gate
 
 def getSMSGateway(carrier,gateways):
@@ -249,10 +250,22 @@ def createSysAlert(headerLib,thresholdsLib,unitLimits,wxStations,HRRR_Alerts,p_A
     #Part [0] Refec, [1] Temeprature [2] RH,  [3,4] NONE [5] WindSpeed
     
     varList=['temperature','wind_speed','rh']
-    wxList=[]    
-    for j in range(len(varList)):    
-        for i in range(len(wxStations)):
-            wxList.append(createVarAlert(wxStations[i],varList[j]))
+    wxList=[] #Dogshit Idea!
+
+    wxTemp=[]
+    wxSpd=[]
+    wxRh=[]    
+    
+    wxStations.sort()
+#    for j in range(len(varList)):    
+    for i in range(len(wxStations)):
+        wxTemp.append(createVarAlert(wxStations[i],varList[0]))
+        wxSpd.append(createVarAlert(wxStations[i],varList[1]))
+        wxRh.append(createVarAlert(wxStations[i],varList[2]))
+    
+#    return [wxTemp,wxSpd,wxRh]
+        
+        
     
     tSect=''    
     wSpdSect=''
@@ -262,21 +275,25 @@ def createSysAlert(headerLib,thresholdsLib,unitLimits,wxStations,HRRR_Alerts,p_A
     precipSect=''
     
     #Create Temperature Section
-    if any(wxList[0:4]) or HRRR_Alerts[1]:
+#    if any(wxList[0:4]) or HRRR_Alerts[1]: #<----This indexing method was such a bad Idea I can't believe I did this...
+    if any(wxTemp) or HRRR_Alerts[1]:#Superior in every whey...
         tSect='THE TEMPERATURE THRESHOLD HAS BEEN EXCEEDED FROM THE FOLLOWING SOURCES.\n'
-        for x in wxList[0:4]:
+#        for x in wxList[0:4]:
+        for x in wxTemp:
             tSect+=x
         tSect+=HRRR_Alerts[1]+'\n'
     
-    if any(wxList[4:8]) or HRRR_Alerts[5]:
+#    if any(wxList[4:8]) or HRRR_Alerts[5]:
+    if any(wxSpd) or HRRR_Alerts[5]: 
         wSpdSect='THRESHOLDS FOR WIND SPEED HAVE BEEN EXCEEDED FROM THE FOLLOWING SOURCES.\n'
-        for x in wxList[4:8]:
+        for x in wxSpd:
             wSpdSect+=x
         wSpdSect+=HRRR_Alerts[5]+'\n'
     
-    if any(wxList[8:12]) or HRRR_Alerts[2]:
+#    if any(wxList[8:12]) or HRRR_Alerts[2]:
+    if any(wxRh) or HRRR_Alerts[2]: 
         rhSect='THRESHOLDS FOR RELATIVE HUMIDITY HAVE BEEN EXCEEDED FROM THE FOLLOWING SOURCES.\n'
-        for x in wxList[8:12]:
+        for x in wxRh:
             rhSect+=x
         rhSect+=HRRR_Alerts[2]+'\n'
         

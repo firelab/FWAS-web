@@ -76,7 +76,13 @@ def sortData(data,lat,lon,units,timeZone):
     utc=datetime.datetime.utcnow()
     dObj=datetime.timedelta(hours=1)
     
+
+    if data['SUMMARY']['RESPONSE_MESSAGE']!='OK':
+        print 'no RAWS data in the area, checking HRRR!'
+        return []  
+        
     pStations=[]
+
     for i in range(len(data['STATION'])):
        pStat=precip_station()
        dTime=datetime.datetime.strptime(data['STATION'][i]['OBSERVATIONS']['precip_accum_one_hour_value_1']['date_time'],'%Y-%m-%dT%H:%M:%SZ')

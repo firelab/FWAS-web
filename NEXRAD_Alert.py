@@ -36,7 +36,8 @@ def createLocalTime(rS,tz):
     return lTime
 
 def createHeader():
-    line='NEXRAD RADAR ALERT:\n'
+    #line='NEXRAD RADAR ALERT:\n'
+    line='THUNDERSTORM RADAR ALERT:\n'
     return line
 
 

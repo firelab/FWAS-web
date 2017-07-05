@@ -15,9 +15,11 @@ import glob
 import calcDist
 import NEXRAD_radarStation
 
+globalPix=[]
+
 def getDiskFile():
-    dZ=glob.glob('/media/tanner/vol2/NEXRAD/*')
-#    dZ=glob.glob('/home/ubuntu/fwas_data/NEXRAD/')
+#    dZ=glob.glob('/media/tanner/vol2/NEXRAD/*')
+    dZ=glob.glob('/home/ubuntu/fwas_data/NEXRAD/')
     return dZ
 
 def readRadar(diskFile):
@@ -91,6 +93,8 @@ def calcNearestPixel(refl_grid,radar,your_location):
         localMin=dists.argmin()
         pix=[pEx[0][localMin],pEx[1][localMin]]
         nInfo=[dInfo[localMin],refl_grid[pEx[0][localMin]][pEx[1][localMin]],pix]
+        globalPix.append(pix)
+        
         
         rStation=organizeData(nInfo,radar,threshold)
         del dists,dInfo,pEx,exceed,nInfo
@@ -147,12 +151,14 @@ def plotRadar(radar,refl_grid,pix,exceed,general,qualityControl):
 
 #dF=getDiskFile()
 
-def checkRadar(diskFile,viewStation,location):
+def checkRadar(diskFile,viewStation,location,plot):
     radar=readRadar(diskFile)
     grid=getReflectivityPlot(radar)
     rStation=calcNearestPixel(grid,radar,location)
     if viewStation==True:
         NEXRAD_radarStation.viewStation(rStation)
+    if plot==True:
+        plotRadar(radar,grid,globalPix[0],True,True,False)
     return rStation
 
 

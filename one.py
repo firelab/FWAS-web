@@ -146,7 +146,18 @@ def configureNotifications(header):
         sendTo=header['phone']+'@'+gateway
     if header['phone']=='NaN':
         sendTo=header['email']
+    if header['phone']!='NaN' and header['email']!='NaN':
+        gateway=createAlert.getSMSGateway(header['carrier'],valid)
+        sendTo=[str(header['phone']+'@'+gateway),header['email']]
+    if header['phone']=='NaN' and header['email']=='NaN':
+        sendTo='NONE'
     return sendTo
+
+def configureSendMethod(To):
+    if type(To) is list:
+        return 'BOTH'
+    if type(To) is str:
+        return 'REGULAR'
 
 def ascertainCfg(Threshold):
     """
@@ -219,9 +230,11 @@ def runFWAS():
     print 'Creating System Alert...'
     Alert=createAlert.createSysAlert(headerLib,thresholdsLib,unitLimits,wxStations,h_Alert,p_Alert,timeZone[0])
 
+    contact=configureNotifications(headerLib)
+    cMeth=configureSendMethod(contact)
     if wxStations or any(h_Alert):
         print "Thresholds Met!"
-        send.sendEmailAlert(Alert,configureNotifications(headerLib),headerLib['alert_name'])
+        send.sendEmailAlert(Alert,contact,headerLib['alert_name'],cMeth)
     if not wxStations and not any(h_Alert):
         print "No Thresholds Met: Not Sending Alert!"
 
@@ -298,13 +311,15 @@ def runInitialFWAS():
     iniAlert="""You have successfully created a Fire Weather Alert!
 Current Weather Conditions:\n
 """
+    contact=configureNotifications(headerLib)
+    cMeth=configureSendMethod(contact)
     if wxStations or any(h_Alert):
         firstAlert=iniAlert+Alert
-        send.sendEmailAlert(firstAlert,configureNotifications(headerLib),headerLib['alert_name'])
+        send.sendEmailAlert(firstAlert,contact,headerLib['alert_name'],cMeth)
     if not wxStations and not any(h_Alert):
         siniAlert="No Stations Currently Meet Alert Thresholds. Alert has been set and will check hourly!"
         firstAlert=iniAlert+siniAlert
-        send.sendEmailAlert(firstAlert,configureNotifications(headerLib),headerLib['alert_name'])
+        send.sendEmailAlert(firstAlert,contact,headerLib['alert_name'],cMeth)
 """
 ################################################
 #                                              #
@@ -315,73 +330,87 @@ Current Weather Conditions:\n
 
 #HRRR_Fetch.cleanHRRRDir() #We don't Do this for instant Alerts because it would just destroy everything!
 #HRRR_Fetch.fetchHRRR()  #We don't Do this for instant Alerts because it would just destroy everything!
+
+cfgLoc[0]='/home/ubuntu/src/nAlert.cfg'
+print 'Reading Thresholds for: '+str(cfgLoc[0])
+thresholds=readThresholds()
+headerLib=thresholds[0]
+thresholdsLib=thresholds[1]
+unitLib=thresholds[2]
+HRRRLib=thresholds[3]
+precipLib=thresholds[4]
+radarLib=thresholds[5]
+#####
+print 'Setting Limits...'
+zoneStr=calcTime.convertTimeZone(float(headerLib['time_zone']))
+setGlobalVars(float(headerLib['latitude']),float(headerLib['longitude']),float(headerLib['radius']),zoneStr,int(headerLib['limit']))
+setLimits(float(thresholdsLib['temperature']),float(thresholdsLib['wind_speed']),0,0,float(thresholdsLib['relative_humidity']),float(thresholdsLib['wind_gust']))
+setLimitUnits(calcUnits.getWindSpdUnits(float(unitLib['wind_speed_units'])),calcUnits.getTempUnits(float(unitLib['temperature_units'])))
+#####
+pUnits=calcUnits.getPrecipUnits(int(precipLib['precip_units']))
+#####
+print 'Fetching RAWS Data...'
+#####
+wxData=getRAWSData(Location[0],Location[1],radius[0],numLimit[0],calcUnits.unitSystemFlag['wind'],calcUnits.unitSystemFlag['temp'])
+#####
+print 'Checking RAWS Data...'
+####
+wxStationsA=comparator.checkData(wxData,limits,timeZone[0],unitLimits)
+#####
+print 'Cleaning WxStations...'
+#####
+wxStations=comparator.cleanStations(wxStationsA)
+####
+del wxStationsA
 #
-
-#cfgLoc[0]='/home/tanner/src/breezy/fwas/data/threshold-USERNAME-2017-06-21_09-26-37.cfg'
-#print 'Reading Thresholds for: '+str(cfgLoc[0])
-#thresholds=readThresholds()
-#headerLib=thresholds[0]
-#thresholdsLib=thresholds[1]
-#unitLib=thresholds[2]
-#HRRRLib=thresholds[3]
-#precipLib=thresholds[4]
-#radarLib=thresholds[5]
-###
-#print 'Setting Limits...'
-#zoneStr=calcTime.convertTimeZone(float(headerLib['time_zone']))
-#setGlobalVars(float(headerLib['latitude']),float(headerLib['longitude']),float(headerLib['radius']),zoneStr,int(headerLib['limit']))
-#setLimits(float(thresholdsLib['temperature']),float(thresholdsLib['wind_speed']),0,0,float(thresholdsLib['relative_humidity']),float(thresholdsLib['wind_gust']))
-#setLimitUnits(calcUnits.getWindSpdUnits(float(unitLib['wind_speed_units'])),calcUnits.getTempUnits(float(unitLib['temperature_units'])))
-###
-#pUnits=calcUnits.getPrecipUnits(int(precipLib['precip_units']))
-###
-#print 'Fetching RAWS Data...'
-###
-#wxData=getRAWSData(Location[0],Location[1],radius[0],numLimit[0],calcUnits.unitSystemFlag['wind'],calcUnits.unitSystemFlag['temp'])
-###
-#print 'Checking RAWS Data...'
-###
-#wxStationsA=comparator.checkData(wxData,limits,timeZone[0],unitLimits)
-###
-#print 'Cleaning WxStations...'
-###
-#wxStations=comparator.cleanStations(wxStationsA)
-##
-#del wxStationsA
-
-
-
-
-#print 'Checking HRRR Options...'
-#hList=HRRR_Run.forecastOptions(HRRRLib)
-#h_Alert=['','','','','','']
-#if hList[0]==True:
-#    HLib=HRRR_Run.checkForNaN(thresholdsLib)
-#    localUnits=calcUnits.getUnitFlag()
-#    specVals=HRRR_Run.checkUnits(localUnits,HLib)
-#    genVals=HRRR_Run.getRHandReflec(HLib)
-#    print 'Running HRRR Threshold Checks...'
-#    fCastRuns=HRRR_Run.run_HRRR(int(headerLib['radius']),float(headerLib['latitude']),
-#                       float(headerLib['longitude']),float(genVals[0]),
-#                        float(specVals[1]),float(genVals[1]),float(specVals[0]),False)
-#    HRRR_Run.returnUserUnits(fCastRuns,localUnits)
-#    HRRR_Run.returnPrecipUnits(fCastRuns,pUnits)
-###        
-#    print 'Creating HRRR Alert...'
-#    h_Alert=HRRR_Alert.createVarAlert(fCastRuns,headerLib,unitLimits,HLib)
-#    if precipLib['precip_on']=='0':
-#        h_Alert[4]=''
 #
-#p_Alert=''
-#print 'Checking Precip...'
-#if precipLib['precip_on']=='1':
-#    p_Alert=PRECIP_Run.doPrecip(pUnits,headerLib,timeZone[0])
+#
+#
+print 'Checking HRRR Options...'
+hList=HRRR_Run.forecastOptions(HRRRLib)
+h_Alert=['','','','','','']
+if hList[0]==True:
+    HLib=HRRR_Run.checkForNaN(thresholdsLib)
+    localUnits=calcUnits.getUnitFlag()
+    specVals=HRRR_Run.checkUnits(localUnits,HLib)
+    genVals=HRRR_Run.getRHandReflec(HLib)
+    print 'Running HRRR Threshold Checks...'
+    fCastRuns=HRRR_Run.run_HRRR(int(headerLib['radius']),float(headerLib['latitude']),
+                       float(headerLib['longitude']),float(genVals[0]),
+                        float(specVals[1]),float(genVals[1]),float(specVals[0]),False)
+    HRRR_Run.returnUserUnits(fCastRuns,localUnits)
+    HRRR_Run.returnPrecipUnits(fCastRuns,pUnits)
+##        
+    print 'Creating HRRR Alert...'
+    h_Alert=HRRR_Alert.createVarAlert(fCastRuns,headerLib,unitLimits,HLib)
+    if precipLib['precip_on']=='0':
+        h_Alert[4]=''
 ##
-#print 'Locating WxStations...'
+p_Alert=''
+print 'Checking Precip...'
+if precipLib['precip_on']=='1':
+    p_Alert=PRECIP_Run.doPrecip(pUnits,headerLib,timeZone[0])
+###
+print 'Locating WxStations...'
 #wxLoc=createAlert.getStationDirections(Location,wxStations)
-##
-#print 'Creating System Alert...'
+###
+print 'Creating System Alert...'
 #Alert=createAlert.createSysAlert(headerLib,thresholdsLib,unitLimits,wxStations,h_Alert,p_Alert,timeZone[0])
+#
+
+#contact=configureNotifications(headerLib)
+#cMeth=configureSendMethod(contact)
+#if wxStations or any(h_Alert):
+#    print "Thresholds Met!"
+#    send.sendEmailAlert(Alert,contact,headerLib['alert_name'],cMeth)
+#if not wxStations and not any(h_Alert):
+#    print "No Thresholds Met: Not Sending Alert!"
+
+
+
+
+
+
 ##if wxStations or any(h_Alert):
 ##    print "Thresholds Met!"
 ##    send.sendEmailAlert(Alert,configureNotifications(headerLib),headerLib['alert_name'])

@@ -18,8 +18,8 @@ import os
 import HRRR_Fetch
 
 checkTime=datetime.datetime.now()
-#cZ=glob.glob('/srv/shiny-server/fwas/data/*.cfg')
-cZ=glob.glob('/home/tanner/src/breezy/fwas/data/*.cfg')
+cZ=glob.glob('/srv/shiny-server/fwas/data/*.cfg')
+#cZ=glob.glob('/home/tanner/src/breezy/fwas/data/*.cfg')
 
 def readExpirationDate(cfgLoc):
     """
@@ -64,6 +64,7 @@ for i in range(len(cZ)):
         print True
     if tTime<checkTime: #This means the Alert Has expired and should be removed!
         print "Alert has expired... Deleting alert..."
+        print cZ[i]
         os.remove(cZ[i])
         print False
 
