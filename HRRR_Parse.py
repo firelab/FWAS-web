@@ -363,7 +363,8 @@ def checkThresholds(wxInfo,wxData,variable,rasterBands):
     if variable=='RH':
         datVal=getBoxValues(wxInfo,rasterBands[2])
         exceed=numpy.where(datVal<wxData[2].limit)
-        if exceed[0].size==0:
+        
+        if exceed[0].size==0 or not any(exceed[0]):
             datList.append(False)
             return datList
         else:

@@ -52,7 +52,7 @@ def checkData(stationData,limits,timeZone,unitLimits):
     if stationData['SUMMARY']['RESPONSE_MESSAGE']!='OK':
         print 'no RAWS data in the area, checking HRRR!'
         return [station.Station()]
-    
+    timeObj=''
     
     for i in range(len(stationData['STATION'])):
         s1=station.Station()
@@ -106,7 +106,7 @@ def checkData(stationData,limits,timeZone,unitLimits):
             s1.time=localObsT[1]
             s1.utc_offset=localObsT[2]
             s1.is_empty=False
-        if sGust>=limits['gust']:
+        if sGust>=limits['gust'] and timeObj:
             gustTime=getDateTimeObj('wind_gust_value_1',stationData,timeZone,i)
             if gustTime==timeObj:
                 s1.wind_gust=sGust             

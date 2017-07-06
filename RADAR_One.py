@@ -4,6 +4,12 @@
 Created on Wed Jun 28 11:38:41 2017
 
 @author: tanner
+
+This is the alert Manager for Radar Alerts
+It won't delete alerts and relies on the primary alert manager for that
+(alertmanager.py)
+RADAR_One.py is run every 15-20 minutes rather than hourly.
+Alerts are independent of the other ones and send as a separate message
 """
 
 import glob
@@ -18,21 +24,31 @@ import NCR_Run
 import NEXRAD_Run
 #from one import configureNotifications
 
+###############################################################################
+# If we ever decide to use Composite Radar or Level II Products, they exist   #
+# but are disabled                                                            #
+# Eventaully they could be reenabled here.                                    #
+###############################################################################
 radarType='CONUS'
 #radarType='NCR'
 #radarType='NEXRAD'
 
 Threshold=40.0
 
-cfgLoc=['']
+cfgLoc=[''] #The Config File we are reading
 
 checkTime=datetime.datetime.now()
 #cZ=glob.glob('/home/tanner/src/breezy/fwas/data/*.cfg')
 cZ=glob.glob('/srv/shiny-server/fwas/data/*.cfg')
+#cZ=['/srv/`shiny-server/fwas/data/threshold-USERNAME-2017-07-06_18-15-22.cfg']
 #cZ=['/srv/shiny-server/fwas/data/threshold-USERNAME-2017-06-29_17-45-43.cfg']
 #cfgLoc[0]=cZ[0]
 
 def readThresholds():
+    """
+    This is a simpler version of the one found in one.py as it only handles one var
+    rather than 3
+    """
     cfg=ConfigParser.ConfigParser()
     cfg.read(cfgLoc)
     headerDict={}
@@ -54,10 +70,20 @@ def configureNotifications(header):
     """
     sendTo=''
     valid=createAlert.listSMSGateways()
-    if header['email']=='NaN':
+#    if header['email']=='NaN':
+#        gateway=createAlert.getSMSGateway(header['carrier'],valid)
+#        sendTo=header['phone']+'@'+gateway
+#    if header['phone']=='NaN':
+#        sendTo=header['email']
+#    if header['phone']!='NaN' and header['email']!='NaN':
+#        gateway=createAlert.getSMSGateway(header['carrier'],valid)
+#        sendTo=[str(header['phone']+'@'+gateway),header['email']]
+#    if header['phone']=='NaN' and header['email']=='NaN':
+#        sendTo='NONE'
+    if header['email']=='NaN' and header['carrier']!='NaN':
         gateway=createAlert.getSMSGateway(header['carrier'],valid)
         sendTo=header['phone']+'@'+gateway
-    if header['phone']=='NaN':
+    if header['phone']=='NaN' and header['email']!='NaN':
         sendTo=header['email']
     if header['phone']!='NaN' and header['email']!='NaN':
         gateway=createAlert.getSMSGateway(header['carrier'],valid)
@@ -67,11 +93,17 @@ def configureNotifications(header):
     return sendTo
 
 def configureSendMethod(To):
+    """
+    If they user wants both text and email alerts
+    """
+    if To=='NONE':
+        return 'NONE'
     if type(To) is list:
         return 'BOTH'
     if type(To) is str:
         return 'REGULAR'
-    
+
+#Below is what runs
 for i in range(len(cZ)):
     print 'Reading Radar Thresholds for',cZ[i],'...'
     cfgLoc[0]=cZ[i]
