@@ -29,13 +29,27 @@ def getBearing(lat1,lon1,lat2,lon2):
     if brng < 0:
        brng+= 360
     return brng
-    
+
 def listSMSGateways():
     """
-    provides a list of all SMS Gateways
+    provides a list of all SMS Gateways (Acutally we are using MMS due to message sizes)
     """
 #    gate={'att':'txt.att.net','verizon':'vtext.com','tmobile':'tmomail.net','virgin':'vmobl.com','sprint':'messaging.sprintpcs.com'}
-    gate={'att':'txt.att.net','verizon':'vzwpix.com','tmobile':'tmomail.net','virgin':'vmobl.com','sprint':'messaging.sprintpcs.com'}
+    #Old SMS Gateways
+    # gate={'att':'sms.att.net',
+    # 'verizon':'vtext.com',
+    # 'tmobile':'tmomail.net',
+    # 'virgin':'vmobl.com',
+    # 'sprint':'messaging.sprintpcs.com'}
+    #MMS Gateways
+    gate={'att':'mms.att.net',
+    'verizon':'vzwpix.com',
+    'tmobile':'tmomail.net',
+    'virgin':'vmpix.com',
+    'sprint':'pm.sprint.com',
+    'boost':'myboostmobile.com',
+    'uscellular':'mms.uscc.net',
+    'metro':'mymetropcs.com'}
     return gate
 
 def getSMSGateway(carrier,gateways):
@@ -65,7 +79,7 @@ def getSpatial(location,Station):
     distance=great_circle([lat1,lon1],[lat2,lon2]).miles #Miles is harded coded for the moment
     bearing=getBearing(lat1,lon1,lat2,lon2)
     cardinal=degToCompass(bearing)
-    return [distance,bearing,cardinal]    
+    return [distance,bearing,cardinal]
 
 def getStationDirections(location,listStations):
     """
@@ -106,7 +120,7 @@ def headerThresh(thresholds,units):
 #            print thStr
     headerB="Set thresholds are:\n"+thStr+"\n"
     return headerB
-    
+
 def createHeader(thresholds,units,listStations):
     """
     OLD! DONT USE creates the Header for the Alert
@@ -114,11 +128,11 @@ def createHeader(thresholds,units,listStations):
     stids=""
 #    thStr=""
     for i in range(len(listStations)):
-        stids=stids+str(listStations[i].stid)+" "   
+        stids=stids+str(listStations[i].stid)+" "
 #    for i in range(len(thresholds)):
 #        thStr=thStr+thresholds.keys()[i]+": "+thresholds[thresholds.keys()[i]]+" "
 
-    title="Fire Weather Alert:\n\n"    
+    title="Fire Weather Alert:\n\n"
     headerA="The Following Stations have exceeded set thresholds: "+stids+".\n"
     headerB=headerThresh(thresholds,units)
 #    headerB="Set thresholds are:\n"+thStr+"\n"
@@ -154,7 +168,7 @@ def createLine(wxStation,Units):
         tList.append('temperature of:')
         tList.append(str(wxStation.temperature))
         tList.append(str(wxStation.temperature_units))
-        
+
     rhStr=' '.join(rhList)+";"
     spdStr=' '.join(spdList)+' '.join(gustList)+" at "+' '.join(dirList)+' degrees;'
     tStr=' '.join(tList)+"."
@@ -164,20 +178,20 @@ def createLine(wxStation,Units):
         spdStr=' '
     if tStr==';':
         tStr=' '
-    
+
 #   l3="Recorded at: "+s1.date+"_"+s1.time+" UTC "+s1.utc_offset
     dateStr=" Observations Recorded at: "+wxStation.date+"_"+wxStation.time+" UTC"+wxStation.utc_offset
-    
+
     line="Station "+str(wxStation.stid)+", "+str(round(wxStation.distance_from_point,1))+" miles at "+str(round(wxStation.bearing,1))+" degrees "
     line2=str(wxStation.cardinal)+" from your location has a "+rhStr+" "+spdStr+" "+tStr+dateStr+"\n\n"
-    return line+line2    
-    
+    return line+line2
+
 def makeSystemAlert(thresholds,units,wxStations):
     """
     OLD: DON'T USE! Makes the Alert
     """
     fullAlert=[]
-    
+
     header=createHeader(thresholds,units,wxStations)
     stationLines=[]
     for i in range(len(wxStations)):
@@ -185,7 +199,7 @@ def makeSystemAlert(thresholds,units,wxStations):
         stationLines.append(stationLine)
     fullAlert=header+''.join(stationLines) #Possibly reverse these/swtich them around
     return fullAlert
-    
+
 """
 Much of the above code is now deprecated!
 """
@@ -229,8 +243,8 @@ def createVarAlert(wxStation,var):
         vDat.append('temperature')
         vDat.append(wxStation.temperature)
         vDat.append(wxStation.temperature_units)
-    
-#    if str(vDat[1])!=str(numpy.nan): 
+
+#    if str(vDat[1])!=str(numpy.nan):
     if numpy.isfinite(vDat[1]):
         line="Station "+str(wxStation.stid)+", "+str(round(wxStation.distance_from_point,1))+" miles at "+str(round(wxStation.bearing,1))+\
         " degrees "+str(wxStation.cardinal)+" from your location reported a "+str(vDat[0])+\
@@ -246,34 +260,34 @@ def createSysAlert(headerLib,thresholdsLib,unitLimits,wxStations,HRRR_Alerts,p_A
     header='Fire Weather Alert:\n\nThe following thresholds have been reached. All observations were taken within a '+\
     str(headerLib['radius'])+' mile radius of your location, All times are: '+str(timeZone)+'.\n\n'
     footer=headerThresh(thresholdsLib,unitLimits)
-    
+
     #Part [0] Refec, [1] Temeprature [2] RH,  [3,4] NONE [5] WindSpeed
-    
+
     varList=['temperature','wind_speed','rh']
     wxList=[] #Dogshit Idea!
 
     wxTemp=[]
     wxSpd=[]
-    wxRh=[]    
-    
+    wxRh=[]
+
     wxStations.sort()
-#    for j in range(len(varList)):    
+#    for j in range(len(varList)):
     for i in range(len(wxStations)):
         wxTemp.append(createVarAlert(wxStations[i],varList[0]))
         wxSpd.append(createVarAlert(wxStations[i],varList[1]))
         wxRh.append(createVarAlert(wxStations[i],varList[2]))
-    
+
 #    return [wxTemp,wxSpd,wxRh]
-        
-        
-    
-    tSect=''    
+
+
+
+    tSect=''
     wSpdSect=''
-    rhSect=''    
+    rhSect=''
     refecSect=''
     ltngSect=''
     precipSect=''
-    
+
     #Create Temperature Section
 #    if any(wxList[0:4]) or HRRR_Alerts[1]: #<----This indexing method was such a bad Idea I can't believe I did this...
     if any(wxTemp) or HRRR_Alerts[1]:#Superior in every whey...
@@ -282,64 +296,30 @@ def createSysAlert(headerLib,thresholdsLib,unitLimits,wxStations,HRRR_Alerts,p_A
         for x in wxTemp:
             tSect+=x
         tSect+=HRRR_Alerts[1]+'\n'
-    
+
 #    if any(wxList[4:8]) or HRRR_Alerts[5]:
-    if any(wxSpd) or HRRR_Alerts[5]: 
+    if any(wxSpd) or HRRR_Alerts[5]:
         wSpdSect='THRESHOLDS FOR WIND SPEED HAVE BEEN EXCEEDED FROM THE FOLLOWING SOURCES.\n'
         for x in wxSpd:
             wSpdSect+=x
         wSpdSect+=HRRR_Alerts[5]+'\n'
-    
+
 #    if any(wxList[8:12]) or HRRR_Alerts[2]:
-    if any(wxRh) or HRRR_Alerts[2]: 
+    if any(wxRh) or HRRR_Alerts[2]:
         rhSect='THRESHOLDS FOR RELATIVE HUMIDITY HAVE BEEN EXCEEDED FROM THE FOLLOWING SOURCES.\n'
         for x in wxRh:
             rhSect+=x
         rhSect+=HRRR_Alerts[2]+'\n'
-        
+
     if HRRR_Alerts[0]:
         refecSect='HRRR RADAR FORECAST:\n'+HRRR_Alerts[0]+'\n'
-        
+
     if HRRR_Alerts[4]:
         precipSect='HRRR PRECIP FORECAST:\n'+HRRR_Alerts[4]+'\n'
-    
-    if HRRR_Alerts[3]:
-        ltngSect='HRRR LIGHTNING ALERT:\n'+HRRR_Alerts[3]+'\n'    
-    
-    wxAlert=header+tSect+wSpdSect+rhSect+refecSect+precipSect+ltngSect+p_Alert+footer
-        
-    return wxAlert
-    
-    
-    
-    
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    if HRRR_Alerts[3]:
+        ltngSect='HRRR LIGHTNING ALERT:\n'+HRRR_Alerts[3]+'\n'
+
+    wxAlert=header+tSect+wSpdSect+rhSect+refecSect+precipSect+ltngSect+p_Alert+footer
+
+    return wxAlert
