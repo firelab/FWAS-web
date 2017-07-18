@@ -49,7 +49,9 @@ def listSMSGateways():
     'sprint':'pm.sprint.com',
     'boost':'myboostmobile.com',
     'uscellular':'mms.uscc.net',
-    'metro':'mymetropcs.com'}
+    'metro':'mymetropcs.com',
+    'cricket':'mms.cricketwireless.net',
+    'projectfi':'msg.fi.google.com'}
     return gate
 
 def getSMSGateway(carrier,gateways):

@@ -183,6 +183,7 @@ def runFWAS():
     unitLib=thresholds[2]
     HRRRLib=thresholds[3]
     precipLib=thresholds[4]
+    print 'Alert Name: '+str(headerLib['alert_name'])
 
     print 'Setting Limits...'
     zoneStr=calcTime.convertTimeZone(float(headerLib['time_zone']))
@@ -232,12 +233,14 @@ def runFWAS():
 
     print 'Creating System Alert...'
     Alert=createAlert.createSysAlert(headerLib,thresholdsLib,unitLimits,wxStations,h_Alert,p_Alert,timeZone[0])
+    
+    endAlert="\nThis alert can be stopped by replying: stop "+headerLib['alert_name']+"\n"
 
     contact=configureNotifications(headerLib)
     cMeth=configureSendMethod(contact)
     if wxStations or any(h_Alert):
         print "Thresholds Met!"
-        send.sendEmailAlert(Alert,contact,headerLib['alert_name'],cMeth)
+        send.sendEmailAlert(Alert+endAlert,contact,headerLib['alert_name'],cMeth)
     if not wxStations and not any(h_Alert):
         print "No Thresholds Met: Not Sending Alert!"
 
@@ -312,17 +315,18 @@ def runInitialFWAS():
 #    Alert=createAlert.makeSystemAlert(thresholdsLib,unitLimits,wxStations)
 
     iniAlert="""You have successfully created a Fire Weather Alert!\n\n"""
+    endIniAlert="\nThis alert can be stopped by replying: stop "+headerLib['alert_name']+"\n"
 #    iniAlert="""You have successfully created a Fire Weather Alert!
 #Current Weather Conditions:\n
 #"""
     contact=configureNotifications(headerLib)
     cMeth=configureSendMethod(contact)
     if wxStations or any(h_Alert):
-        firstAlert=iniAlert+Alert
+        firstAlert=iniAlert+Alert+endIniAlert
         send.sendEmailAlert(firstAlert,contact,headerLib['alert_name'],cMeth)
     if not wxStations and not any(h_Alert):
         siniAlert="No Stations Currently Meet Alert Thresholds. Alert has been set and will check hourly!"
-        firstAlert=iniAlert+siniAlert
+        firstAlert=iniAlert+siniAlert+endIniAlert
         send.sendEmailAlert(firstAlert,contact,headerLib['alert_name'],cMeth)
 """
 ################################################
