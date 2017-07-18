@@ -7,6 +7,8 @@ library(shinyjs)
 
 #radarData<-read.csv(file="/media/tanner/vol2/NEXRAD_INFO/nexradID.csv",header=FALSE,sep=",")
 radarData<-read.csv(file="/home/ubuntu/src/FWAS/data/nexradID.csv",header=FALSE,sep=",")
+# dupePath<-"/home/tanner/src/breezy/checkForDupe.py"
+dupePath<-"/home/ubuntu/src/FWAS/checkForDupe.py"
 
 # From a future version of Shiny
 bindEvent <- function(eventExpr, callback, env=parent.frame(), quoted=FALSE) {
@@ -151,6 +153,40 @@ shinyServer(function(input, output, session) {
     shinyjs::toggleState('carrier')
   })
   
+  duplicate_name<-reactive({
+    email_arg="_"
+    text_arg="_"
+    
+    if (input$email==TRUE)
+    {
+      email_arg<-input$emailAddress
+    }
+    if (input$email==FALSE)
+    {
+      email_arg<-"_"
+    }
+    if (input$nText==TRUE)
+    {
+      text_arg<-input$textMessage
+    }
+    if (input$nText==FALSE)
+    {
+      text_arg<-"_"
+    }
+    
+    name_arg<-input$runName
+
+    gArgs=paste(name_arg,email_arg,text_arg,sep=" ")
+    
+    dupeCheck<-system2(command=dupePath,args=gArgs,stdout=TRUE)
+    validate(
+      need(dupeCheck!='TrueBoth',paste("WARNING! Alert Name:",input$runName,"Already exists for",input$emailAddress,"and",input$textMessage,"Please Choose Another Alert Name.",sep=" ")),
+      need(dupeCheck!='TrueEmail',paste("WARNING! Alert Name:",input$runName,"Already exists for",input$emailAddress,"Please Choose Another Name.",sep=" ")),
+      need(dupeCheck!='TruePhone',paste("WARNING! Alert Name:",input$runName,"Already exists for",input$textMessage,"Please Choose Another Name.",sep=" "))
+      
+      )   
+  })
+  output$dupe<-renderPrint({duplicate_name()})
 
   observeEvent(input$nex,{
     # shinyjs::disable('radarName')

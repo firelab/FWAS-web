@@ -61,7 +61,7 @@ shinyUI(fluidPage(
 
     ),
     fluidRow(
-      column(12,h3("Select Notifcation Type"))
+      column(12,h3("Select Notifcation Type"),            verbatimTextOutput("dupe"))
       ),
     hr(),
   wellPanel(
@@ -77,7 +77,7 @@ shinyUI(fluidPage(
       column(7,
              checkboxInput("nText",label=("Enable Text Message Notifications")),
              column(8,textInput("textMessage", "Enter Phone Number (no Dashes)", value = "5556667777")),
-             column(4,selectInput("carrier","Select Carrier",choices=list("AT&T"="att","Verizon"="verizon","Sprint"="sprint","T-Mobile"="tmobile","Virgin Mobile"="virgin"),selected = 1)
+             column(4,selectInput("carrier","Select Carrier",choices=list("AT&T"="att","Verizon"="verizon","Sprint"="sprint","T-Mobile"="tmobile","Virgin Mobile"="virgin","Boost Mobile"="boost","U.S. Cellular"="uscellular","Metro PCS"="metro","Cricket Wireless"="cricket","Project Fi"="projectfi"),selected = 1)
              
              
              )
@@ -96,8 +96,8 @@ shinyUI(fluidPage(
   fluidRow(
     column(12,
            h3('Select Data Sources'),
-           ('RAWS Fetching is currently required, HRRR Forecasts are optional. Enabling HRRR also enables forecasted lightning and storm alerts')
-           # ('RAWS fetching is enabled by default, Short term weather forecasts can be enabled via the HRRR.')
+           ('RAWS Fetching is currently required, HRRR Forecasts are optional. Enabling HRRR also enables forecasted lightning and storm alerts. HRRR data is currently only available for the continential United States.')
+           # ('RAWS fetching is enabled by continental, Short term weather forecasts can be enabled via the HRRR.')
            )
 ),  
   hr(),    
@@ -134,7 +134,7 @@ shinyUI(fluidPage(
              br(),
              a('National Radar Mosaic',href="http://www.weather.gov/Radar",target="_blank")
              ),
-      column(4,('Radar Alerts will update every 20 minutes. Data is acquired from the CONUS Base Reflectivity Radar Mosaic.'))
+      column(4,('Radar Alerts will update every 20 minutes. Data is acquired from the CONUS Base Reflectivity Radar Mosaic. Radar Data is currently only available for the continental United States.'))
       
       
     )
@@ -231,9 +231,9 @@ shinyUI(fluidPage(
       br()
     ),
     fluidRow( 
-      column(4,tags$p("Data Sources"),	tags$a(href="https://synopticlabs.org/api/mesonet/",tags$img(src = "https://scs.synopticlabs.net/images/services/meso-api-logo-dark.png", width = "292px", height = "50px"))),
-      column(5,br(),tags$a(href="https://rapidrefresh.noaa.gov/hrrr/",tags$img(src = "https://rapidrefresh.noaa.gov/images/hrrr.jpg", width = "388px", height = "55px"))),
-      column(3,tags$a(href="https://radar.weather.gov/",tags$img(src = "http://www.nssl.noaa.gov/img/social/noaa-logo-960x962.png", width = "100px", height = "100px")))
+      column(4,tags$p("Data Sources"),	tags$a(href="https://synopticlabs.org/api/mesonet/",tags$img(src = "/ninja/fwas_images/meso-api-logo-dark.png", width = "292px", height = "50px"))),
+      column(5,br(),tags$a(href="https://rapidrefresh.noaa.gov/hrrr/",tags$img(src = "/ninja/fwas_images/hrrr.jpg", width = "388px", height = "55px"))),
+      column(3,tags$a(href="https://radar.weather.gov/",tags$img(src = "/ninja/fwas_images/noaa-logo-960x962.png", width = "100px", height = "100px")))
               
               ),
     # fluidRow(
@@ -241,7 +241,7 @@ shinyUI(fluidPage(
     # ),
     fluidRow(
       column(5,br()),
-      column(3,tags$a(href="https://firelab.org",tags$img(src = "https://avatars1.githubusercontent.com/u/3028309?v=3&s=200", width = "200px", height = "200px")))
+      column(3,tags$a(href="https://firelab.org",tags$img(src = "/ninja/fwas_images/3028309.png", width = "200px", height = "200px")))
     ),
     br()
 ))
