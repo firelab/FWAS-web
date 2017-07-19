@@ -4,6 +4,12 @@
 Created on Mon Jul 17 15:51:01 2017
 
 @author: tanner
+
+This File Reads Email and then deletes alerts based on emails send to the email address
+
+This File Comports FWAS with Zawinski's Law:
+Every program attempts to expand until it can read mail. 
+Those programs which cannot so expand are replaced by ones which can.
 """
 
 import platform
@@ -25,7 +31,7 @@ cZ=glob.glob('/srv/shiny-server/fwas/data/*.cfg')
 
 def readHeaderFiles(cfgLoc):
     """
-    reads first part of config file to see if alert is expired
+    reads first part of config file
     """
     cfg=ConfigParser.ConfigParser()
     cfg.read(cfgLoc)

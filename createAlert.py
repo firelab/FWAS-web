@@ -69,6 +69,15 @@ def degToCompass(num):
     arr=["N","NNE","NE","ENE","E","ESE", "SE", "SSE","S","SSW","SW","WSW","W","WNW","NW","NNW"]
 #    print arr[(val % 16)]
     return arr[(val % 16)]
+    
+#def longDegToCompass(num):
+#    """
+#    converts Degrees to long cardinal directions ie NORTH vs N
+#    """
+#    val=int((num/22.5)+.5)
+#    arr=["North","North,Northeast","NE","ENE","E","ESE", "SE", "SSE","S","SSW","SW","WSW","W","WNW","NW","NNW"]
+##    print arr[(val % 16)]
+#    return arr[(val % 16)]
 
 def getSpatial(location,Station):
     """
@@ -240,7 +249,7 @@ def createVarAlert(wxStation,var):
         vDat.append(wxStation.wind_speed)
         vDat.append(wxStation.wind_speed_units)
         if numpy.isfinite(wxStation.wind_gust):
-            gustStr=' G '+str(round(wxStation.wind_gust,1))
+            gustStr=' G '+str(int(round(wxStation.wind_gust,0))) #Coarsen the Precision
     if var=='temperature':
         vDat.append('temperature')
         vDat.append(wxStation.temperature)
@@ -248,9 +257,13 @@ def createVarAlert(wxStation,var):
 
 #    if str(vDat[1])!=str(numpy.nan):
     if numpy.isfinite(vDat[1]):
-        line="Station "+str(wxStation.stid)+", "+str(round(wxStation.distance_from_point,1))+" miles at "+str(round(wxStation.bearing,1))+\
-        " degrees "+str(wxStation.cardinal)+" from your location reported a "+str(vDat[0])+\
-        " of "+str(round(vDat[1],1))+gustStr+' '+str(vDat[2])+' at '+wxStation.time[:5]+" "+wxStation.date+" UTC"+wxStation.utc_offset+'\n'
+        #"Station"+....
+#        line=str(wxStation.name.upper())+", "+str(round(wxStation.distance_from_point,1))+" miles at "+str(round(wxStation.bearing,1))+\
+#        " degrees "+str(wxStation.cardinal)+" from your location reported a "+str(vDat[0])+\
+#        " of "+str(round(vDat[1],0))+gustStr+' '+str(vDat[2])+' at '+wxStation.time[:5]+" "+wxStation.date+" UTC"+wxStation.utc_offset+'\n'
+        line=str(wxStation.name.upper())+", "+str(round(wxStation.distance_from_point,1))+" miles "+\
+        ""+str(wxStation.cardinal)+" of your location reported a "+str(vDat[0])+\
+        " of "+str(int(round(vDat[1],0)))+gustStr+' '+str(vDat[2])+' at '+wxStation.time[:5]+" "+wxStation.date+" UTC"+wxStation.utc_offset+'\n'  
     else:
         line=''
     return line
@@ -293,7 +306,8 @@ def createSysAlert(headerLib,thresholdsLib,unitLimits,wxStations,HRRR_Alerts,p_A
     #Create Temperature Section
 #    if any(wxList[0:4]) or HRRR_Alerts[1]: #<----This indexing method was such a bad Idea I can't believe I did this...
     if any(wxTemp) or HRRR_Alerts[1]:#Superior in every whey...
-        tSect='THE TEMPERATURE THRESHOLD HAS BEEN EXCEEDED FROM THE FOLLOWING SOURCES.\n'
+#        tSect='THE TEMPERATURE THRESHOLD HAS BEEN EXCEEDED FROM THE FOLLOWING SOURCES.\n'
+        tSect='TEMPERATURE THRESHOLD EXCEEDED:\n'
 #        for x in wxList[0:4]:
         for x in wxTemp:
             tSect+=x
@@ -301,14 +315,16 @@ def createSysAlert(headerLib,thresholdsLib,unitLimits,wxStations,HRRR_Alerts,p_A
 
 #    if any(wxList[4:8]) or HRRR_Alerts[5]:
     if any(wxSpd) or HRRR_Alerts[5]:
-        wSpdSect='THRESHOLDS FOR WIND SPEED HAVE BEEN EXCEEDED FROM THE FOLLOWING SOURCES.\n'
+        wSpdSect='WIND SPEED THRESHOLD EXCEEDED:\n'
+#        wSpdSect='THRESHOLDS FOR WIND SPEED HAVE BEEN EXCEEDED FROM THE FOLLOWING SOURCES.\n'
         for x in wxSpd:
             wSpdSect+=x
         wSpdSect+=HRRR_Alerts[5]+'\n'
 
 #    if any(wxList[8:12]) or HRRR_Alerts[2]:
     if any(wxRh) or HRRR_Alerts[2]:
-        rhSect='THRESHOLDS FOR RELATIVE HUMIDITY HAVE BEEN EXCEEDED FROM THE FOLLOWING SOURCES.\n'
+        rhSect='RELATIVE HUMIDITY THRESHOLD EXCEEDED:\n'
+#        rhSect='THRESHOLDS FOR RELATIVE HUMIDITY HAVE BEEN EXCEEDED FROM THE FOLLOWING SOURCES.\n'
         for x in wxRh:
             rhSect+=x
         rhSect+=HRRR_Alerts[2]+'\n'

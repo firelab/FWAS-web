@@ -4,6 +4,9 @@
 Created on Mon Jul 17 15:58:01 2017
 
 @author: tanner
+
+Checks for Duplicates, integrated into the GUI and not called as part of the FWAS
+Backend
 """
 
 import glob
@@ -22,6 +25,9 @@ cZ=glob.glob('/srv/shiny-server/fwas/data/*.cfg')
 #cZ=glob.glob('/home/tanner/src/breezy/cfgLoc/*.cfg')
 
 class basicInfo:
+    """
+    Class That describes the most essential contact info in an Alert
+    """
     alert_name=''
     contact=''
     email=''
@@ -30,7 +36,7 @@ class basicInfo:
 
 def readHeaderFiles(cfgLoc):
     """
-    reads first part of config file to see if alert is expired
+    reads first part of config 
     """
     cfg=ConfigParser.ConfigParser()
     cfg.read(cfgLoc)
@@ -52,6 +58,13 @@ def readHeaderFiles(cfgLoc):
     return headerDict
 
 def checkForDuplicates(name_arg,email_arg,cell_arg):
+    """
+    checks to see if what the user provides in the FWAS UI is identical to a previous
+    alert that they already created with their email/phone number.
+    
+    This is important because If two identical alerts exist, then they both will be deleted 
+    if the user wants to delete an annoying alert.
+    """
     hList=[]
     for i in range(len(cZ)):
         bI=basicInfo()

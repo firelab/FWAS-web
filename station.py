@@ -27,6 +27,8 @@ class Station:
     date=''
     time=''
     utc_offset=''
+    name=''
+    mnet_id=''
     is_empty=True
 
 def printStation(station):
@@ -45,3 +47,5 @@ def printStation(station):
     print "TMP: ", station.temperature," ",station.temperature_units
     print "DATE: ", station.date
     print "TIME: ", station.time
+    print "NAME: ", station.name
+    print "MNET_ID: ", station.mnet_id

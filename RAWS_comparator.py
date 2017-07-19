@@ -42,7 +42,17 @@ def getDateTimeObj(obs,data,timezone,i):
     utc=utc.replace(tzinfo=from_zone)
     local=utc.astimezone(to_zone)
     return local
-    
+
+def getReadableDates(date_str):
+    """
+    Takes 2017-07-19 and turns it into 07-19-2017
+    """
+    year=date_str[:4]
+    month=date_str[5:7]
+    day=date_str[8:]
+    newDate=month+'-'+day+'-'+year    
+#    print newDate
+    return newDate
     
 def checkData(stationData,limits,timeZone,unitLimits):
     """
@@ -71,11 +81,13 @@ def checkData(stationData,limits,timeZone,unitLimits):
             s1.lat=float(stationData['STATION'][i]['LATITUDE'])
             s1.lon=float(stationData['STATION'][i]['LONGITUDE'])
             s1.stid=stid
+            s1.name=stationData['STATION'][i]['NAME']
+            s1.mnet_id=stationData['STATION'][i]['MNET_ID']
             s1.rh=sRH
             s1.rh_units='%'
             localObsT=getObsTime('relative_humidity_value_1',stationData,timeZone,i)
             timeObj=getDateTimeObj('relative_humidity_value_1',stationData,timeZone,i)            
-            s1.date=localObsT[0]
+            s1.date=getReadableDates(localObsT[0])
             s1.time=localObsT[1]
             s1.utc_offset=localObsT[2]
             s1.is_empty=False
@@ -84,12 +96,14 @@ def checkData(stationData,limits,timeZone,unitLimits):
             s1.lat=float(stationData['STATION'][i]['LATITUDE'])
             s1.lon=float(stationData['STATION'][i]['LONGITUDE'])
             s1.stid=stid
+            s1.name=stationData['STATION'][i]['NAME']
+            s1.mnet_id=stationData['STATION'][i]['MNET_ID']
             s1.wind_speed=sSpd
             s1.wind_speed_units=unitLimits['spdABV']
             s1.wind_direction=sDir
             localObsT=getObsTime('wind_speed_value_1',stationData,timeZone,i)
             timeObj=getDateTimeObj('wind_speed_value_1',stationData,timeZone,i)            
-            s1.date=localObsT[0]
+            s1.date=getReadableDates(localObsT[0])
             s1.time=localObsT[1]
             s1.utc_offset=localObsT[2]
             s1.is_empty=False            
@@ -98,11 +112,13 @@ def checkData(stationData,limits,timeZone,unitLimits):
             s1.lat=float(stationData['STATION'][i]['LATITUDE'])
             s1.lon=float(stationData['STATION'][i]['LONGITUDE'])
             s1.stid=stid
+            s1.name=stationData['STATION'][i]['NAME']
+            s1.mnet_id=stationData['STATION'][i]['MNET_ID']
             s1.temperature=sTmp
             s1.temperature_units=unitLimits['tempABV']
             localObsT=getObsTime('air_temp_value_1',stationData,timeZone,i)
             timeObj=getDateTimeObj('air_temp_value_1',stationData,timeZone,i)            
-            s1.date=localObsT[0]
+            s1.date=getReadableDates(localObsT[0])
             s1.time=localObsT[1]
             s1.utc_offset=localObsT[2]
             s1.is_empty=False

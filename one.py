@@ -338,8 +338,8 @@ def runInitialFWAS():
 #Don't uncomment these two lines unless you really really really really know what you are doing
 ##########HRRR_Fetch.cleanHRRRDir() #We don't Do this for instant Alerts because it would just destroy everything!
 ##########HRRR_Fetch.fetchHRRR()  #We don't Do this for instant Alerts because it would just destroy everything!
-
-#cfgLoc[0]='/srv/shiny-server/fwas/data/threshold-USERNAME-2017-07-06_18-18-10.cfg'
+#
+#cfgLoc[0]='/home/tanner/src/breezy/cfg_loc2/threshold-USERNAME-2017-07-17_16-29-55.cfg'
 #print 'Reading Thresholds for: '+str(cfgLoc[0])
 #thresholds=readThresholds()
 #headerLib=thresholds[0]
@@ -356,17 +356,17 @@ def runInitialFWAS():
 #setLimitUnits(calcUnits.getWindSpdUnits(float(unitLib['wind_speed_units'])),calcUnits.getTempUnits(float(unitLib['temperature_units'])))
 #######
 #pUnits=calcUnits.getPrecipUnits(int(precipLib['precip_units']))
-#######
+########
 #print 'Fetching RAWS Data...'
-#######
+########
 #wxData=getRAWSData(Location[0],Location[1],radius[0],numLimit[0],calcUnits.unitSystemFlag['wind'],calcUnits.unitSystemFlag['temp'])
-#######
+########
 #print 'Checking RAWS Data...'
-######
-#wxStationsA=comparator.checkData(wxData,limits,timeZone[0],unitLimits)
-######
-#print 'Cleaning WxStations...'
 #######
+#wxStationsA=comparator.checkData(wxData,limits,timeZone[0],unitLimits)
+#######
+#print 'Cleaning WxStations...'
+######
 #wxStations=comparator.cleanStations(wxStationsA)
 ######
 #del wxStationsA

@@ -238,9 +238,9 @@ def createReflecLine(fCasts,tList):
     refecSing=''
     befecSing=''
     
-    refecSing=qA+' from '+tList[0].strftime('%H:%M, %Y-%m-%d')+' to '+tList[-1].strftime('%H:%M, %Y-%m-%d')+'\n'
+    refecSing=qA+' from '+tList[0].strftime('%H:%M, %Y-%m-%d')+' to at least '+tList[-1].strftime('%H:%M, %Y-%m-%d')+'\n'
 #    refecSing=qAv[0]+' at '+tList[0].strftime('%H:%M, %Y-%m-%d')+' to '+qAv[-1]+' at '+tList[-1].strftime('%H:%M, %Y-%m-%d')+'\n'
-    befecSing=qS+' from '+tList[0].strftime('%H:%M, %Y-%m-%d')+' to '+tList[-1].strftime('%H:%M, %Y-%m-%d')+'\n'
+    befecSing=qS+' from '+tList[0].strftime('%H:%M, %Y-%m-%d')+' to at least '+tList[-1].strftime('%H:%M, %Y-%m-%d')+'\n'
     return aReflec+refecSing+bReflec+befecSing
 
 def createLtngLine(fCast,tList):
@@ -255,7 +255,7 @@ def createLtngLine(fCast,tList):
     vMin=numpy.min(dist[numpy.nonzero(dist)])
     aMin=numpy.argmin(dist[numpy.nonzero(dist)])
     
-    line='FORECASTED Strong Chance of Lightning from '+tList[0].strftime('%H:%M, %Y-%m-%d')+' to '+tList[-1].strftime('%H:%M, %Y-%m-%d')+'\n'
+    line='FORECASTED Strong Chance of Lightning from '+tList[0].strftime('%H:%M, %Y-%m-%d')+' to at least '+tList[-1].strftime('%H:%M, %Y-%m-%d')+'\n'
     cLine='Closest Strikes to Your Location: '+str(round(vMin,1))+' miles '+str(fCast[aMin][3].fBear)+' at '+tList[aMin].strftime('%H:%M, %Y-%m-%d')+'\n'
     return line+cLine
 
@@ -271,33 +271,44 @@ def createPrecipLine(fCast,tList):
 #    dist=numpy.array(dist)
     n=numpy.array(n)
     nMin=numpy.average(n[numpy.nonzero(n)])       
-    line='Precipitation in the general area is FORECASTED to be greater than '+str(round(nMin,2))+' '+fCast[0][4].units+' from '+tList[0].strftime('%H:%M, %Y-%m-%d')+' to '+tList[-1].strftime('%H:%M, %Y-%m-%d')+'\n'
+    line='Precipitation in the general area is FORECASTED to be greater than '+str(round(nMin,2))+' '+fCast[0][4].units+' from '+tList[0].strftime('%H:%M, %Y-%m-%d')+' to at least '+tList[-1].strftime('%H:%M, %Y-%m-%d')+'\n'
     return line    
     
 def createTempLine(thresholdsLib,fCasts,tList):
     """
     Creates HRRR Temperature Alert, reports general info about temp
     """
-    line='The temperature is FORECASTED to exceed '+str(thresholdsLib['temperature'])+' '+str(fCasts[0][1].units)+' from '+tList[0].strftime('%H:%M, %Y-%m-%d')+' to '+tList[-1].strftime('%H:%M, %Y-%m-%d')+'\n'
+    line='The temperature is FORECASTED to exceed '+str(thresholdsLib['temperature'])+' '+str(fCasts[0][1].units)+' from '+tList[0].strftime('%H:%M, %Y-%m-%d')+' to at least '+tList[-1].strftime('%H:%M, %Y-%m-%d')+'\n'
     return line
 
 def createSpeedLine(thresholdsLib,fCasts,tList):
     """
     Reports general info about Wind speed
     """
-    line='The wind speed is FORECASTED to exceed '+str(thresholdsLib['wind_speed'])+' '+str(fCasts[0][5].units)+' from '+tList[0].strftime('%H:%M, %Y-%m-%d')+' to '+tList[-1].strftime('%H:%M, %Y-%m-%d')+'\n'
+    line='The wind speed is FORECASTED to exceed '+str(thresholdsLib['wind_speed'])+' '+str(fCasts[0][5].units)+' from '+tList[0].strftime('%H:%M, %Y-%m-%d')+' to at least '+tList[-1].strftime('%H:%M, %Y-%m-%d')+'\n'
     return line
 
 def createRHLine(thresholdsLib,fCasts,tList):
     """
     Creates Relative Humidity alert, general info only
     """
-    line='The relative humidity is FORECASTED to be less than '+str(thresholdsLib['relative_humidity'])+' '+str(fCasts[0][2].units)+' from '+tList[0].strftime('%H:%M, %Y-%m-%d')+' to '+tList[-1].strftime('%H:%M, %Y-%m-%d')+'\n'
+    line='The relative humidity is FORECASTED to be less than '+str(thresholdsLib['relative_humidity'])+' '+str(fCasts[0][2].units)+' from '+tList[0].strftime('%H:%M, %Y-%m-%d')+' to at least '+tList[-1].strftime('%H:%M, %Y-%m-%d')+'\n'
     return line
 
 def createVarAlert(fCast,headerLib,unitLimits,thresholdsLib):
     """
     Compiles above alerts into one list and figures out local Times
+    
+    It does this by appending all gathered data into a "super list".
+    Times are then appended to their corresponding variable
+    This all could be a tad bit cleaner....
+    Indecies correspond to variable:
+    0 is Reflectivity
+    1 is Temperature
+    2 is Relative Humidity
+    3 is Lightning
+    4 is Precipitation Rate
+    5 is Wind Speed
     """
     vList=[[],[],[],[],[],[]]
     localTimeList=getLocalTimes(headerLib)
