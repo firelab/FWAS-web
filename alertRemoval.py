@@ -98,8 +98,22 @@ for j in datList:
 #        print '--------------------------'
 #        print 'Reading Message No: ',j
         if d==-1 and e==-1:
+            print '--Cell Phone based Alert--(or possibly nothing...)'
             send_id=sendFrom[:b]
-            msg_body=msg.get_payload(i=0) #We Can't Decode Text messages without summoning demons... So instead we manually parse it!
+            print 'try: get_payload(i=0)...'
+            try:
+                msg_body=msg.get_payload(i=0) #We Can't Decode Text messages without summoning demons... So instead we manually parse it!
+            except:
+                print 'get_payload(i=0) Failed... Try: get_payload(decode=True)...'
+                pass
+                try:
+                    msg_body=msg.get_payload(decode=True)
+                except:
+                    print 'get_payload failed on both counts...'
+                    print 'Servicing Required!'
+                    raise
+            
+            print 'Soemthing Worked!, proceeding...'
             msg_body=str(msg_body)
             valLoc=msg_body.find((val+' '+hName))
             if valLoc==-1:
@@ -107,15 +121,30 @@ for j in datList:
             sendType[0]=1
                 
         else:
+            print '--Email Based Alert--'
             send_id=sendFrom[d+1:e]
-            msg_body=msg.get_payload(decode=True)
+            try:
+#                msg_body=msg.get_payload(decode=True)
+                msg_body=msg.get_payload(i=0)
+                msg_body=msg_body.get_payload()
+            except:
+                print 'decode=True Failed...Try: i=0'
+                pass
+                try:
+                    msg_body=msg.get_payload(decode=True)
+                except:
+                    print 'get_payload failed on both counts...'
+                    print 'Servicing Required!'
+                    raise
+            
+            print 'Something Worked!, proceeding...'
             valLoc=msg_body.find((val+' '+hName))
             if valLoc==-1:
                 valLoc=msg_body.find((val.capitalize()+' '+hName))
             sendType[0]=0
         
         localContact=''
-        
+        send_id=send_id.lower()
         if sendType[0]==0:
             if send_id==hList['email']:
                 localContact=hList['email']
@@ -126,7 +155,7 @@ for j in datList:
                 localContact=hList['phone']
 #                rm_cZ.append(cZ[i])
 #                rm_em.append(j)
-                
+          
         if localContact!=send_id:
             problems.append('localContact!=send_id') #This prevents one users from deleting another users Alert         
        
@@ -141,6 +170,8 @@ for j in datList:
             print 'message:',msg_body[valLoc:valLoc+len(tVal)]
             print 'alert_name:',hList['alert_name']
             print cZ[i]
+            print '---------------------------'
+
             
             rm_cZ.append(cZ[i])
             rm_em.append(j)
@@ -173,7 +204,7 @@ if not any(rm_cZ) and not any(rm_em):
     print 'Exiting'
     exit
 
-
+#
 for i in range(len(rm_cZ)):
     print 'Removing Alert:',rm_cZ[i]
     os.remove(rm_cZ[i])

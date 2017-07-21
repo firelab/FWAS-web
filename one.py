@@ -340,7 +340,7 @@ def runInitialFWAS():
 ##########HRRR_Fetch.fetchHRRR()  #We don't Do this for instant Alerts because it would just destroy everything!
 #
 #cfgLoc[0]='/home/tanner/src/breezy/cfg_loc2/threshold-USERNAME-2017-07-17_16-29-55.cfg'
-#print 'Reading Thresholds for: '+str(cfgLoc[0])
+##print 'Reading Thresholds for: '+str(cfgLoc[0])
 #thresholds=readThresholds()
 #headerLib=thresholds[0]
 #thresholdsLib=thresholds[1]
