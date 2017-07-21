@@ -1,0 +1,72 @@
+BZ,Blizzard
+WS,Winter Storm
+WW,Winter Weather
+SN,Snow
+HS,Heavy Snow
+LE,Lake Effect Snow
+LB,Lake Effect Snow & Blowing Snow
+BS,Blowing/Drifting Snow
+SB,Snow & Blowing Snow
+IP,Sleet
+HP,Heavy Sleet
+ZR,Freezing Rain
+IS,Ice Storm
+FZ,Freeze
+ZF,Freezing Fog
+FR,Frost
+WC,Wind Chill
+EC,Extreme Cold
+WI,Wind
+HW,High Wind
+LW,Lake Wind
+FG,Dense Fog
+SM,Dense Smoke
+HT,Heat
+EH,Excessive Heat
+DU,Blowing Dust
+DS,Dust Storm
+FL,Flood
+FF,Flash Flood
+SV,Severe Thunderstorm
+TO,Tornado
+FW,Fire Weather
+RH,Radiological Hazard
+VO,Volcano
+AF,Volcanic Ashfall
+AS,Air Stagnation
+AV,Avalanche
+TS,Tsunami
+MA,Marine
+SC,Small Craft
+GL,Gale
+SR,Storm
+HF,Hurricane Force Wind
+TR,Tropical Storm
+HU,Hurricane
+TY,Typhoon
+TI,Inland Tropical Storm Wind
+HI,Inland Hurricane Wind
+LS,Lakeshore Flood
+CF,Coastal Flood
+UP,Ice Accretion
+LO,Low Water
+SU,High Surf
+FA,Areal Flood
+BH,Beach Hazard
+ZY,Freezing Spray
+UP,Heavy Freezing Spray
+SI,Small Craft for Winds
+SW,Small Craft for Hazardous Seas
+RB,Small Craf for Rough Bar
+BW,Brisk Wind
+SE,Hazardous Seas
+MH,Rip Current Risk
+RP,Rip Current Risk
+SS,Storm Surge
+EW,Extreme Wind
+DF,Debris Flow
+HY,Hydrologic
+HZ,Hard Freeze
+MF,Dense Fog (marine)
+MS,Dense Smoke (marine)
+SQ,Snow Squall
