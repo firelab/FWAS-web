@@ -22,23 +22,31 @@ rTime=hDir+'rTimes.txt'
 
 
 
-def getRadarAlerts(headerLib,radarLib,plot_on,threshold):
+def getRadarAlerts(headerLib,radarLib,plot_on,threshold,precip_on,precip_threshold):
     CONUS_RADAR_Fetch.fetchRadar(False)
     location=[float(headerLib['latitude']),float(headerLib['longitude'])]
     rData=CONUS_RADAR_Parse.runRadarCheck(location,float(headerLib['radius']),plot_on,threshold)
-    
+
     tZ=calcTime.convertTimeZone(int(headerLib['time_zone']))
     fFile=open(rTime,'r')
     lastTime=fFile.read().splitlines()[-1]
     fFile.close()
     utc=datetime.datetime.strptime(lastTime[:8]+'_'+lastTime[9:13],'%Y%m%d_%H%M')
     local=calcTime.utcToLocal(utc,tZ)
-    nAlert=NCR_Alert.createCONUSAlert(rData,local)
+#    print local.strftime('%H:%M, %Y-%m-%d')
+    nAlert=NCR_Alert.createCONUSAlert(rData,local.strftime('%H:%M, %m-%d-%Y'))
+    pAlert=''
+    if precip_on==True:
+        pData=CONUS_RADAR_Parse.runRadarCheck(location,float(headerLib['radius']),plot_on,precip_threshold)  
+        pAlert=NCR_Alert.createPRECIPAlert(pData,local.strftime('%H:%M, %m-%d-%Y'))
+    nAlert+=pAlert
     return nAlert
+    
+    
 
 
 def runDemo():
-    threshold=50
+    threshold=30
     radarLib={'radar_name': 'KMSX', 'radar_on': '1'}
     headerLib={'alert_name': 'Alert',
  'alert_time': '2017-06-29 17:45:43',

@@ -35,7 +35,7 @@ import numpy
 # 'temperature': '1',
 # 'wind_speed': '1'}
 
-#unitFlag={'wind':False,'temp':False}
+unitFlag={'wind':False,'temp':False}
 
 def run_HRRR(radius,lat,lon,reflec,temp,rh,wind,sanityCheck):
     """
@@ -79,7 +79,7 @@ def getRHandReflec(thresholdsLib):
     """
     Sets variables for Reflectivity and RH, rh is user set, REFLECTIVITY IS SET HERE AND CAN BE CHANGED HERE!
     """
-    refec=20 #Hard Coded for now
+    refec=30 #Hard Coded for now
     rh=thresholdsLib['relative_humidity']
     return [refec,rh]
 
@@ -93,23 +93,27 @@ def returnUserUnits(fCast,unitsFlag):
             MCtmp=calcUnits.tempMTE(fCast[i][1].eVal)
             MAtmp=calcUnits.tempMTE(fCast[i][1].average)
             MStmp=calcUnits.tempMTE(fCast[i][1].stDev)
+            MDtmp=calcUnits.tempMTE(fCast[i][1].obs_max)
 #            print fCast[i][1].average,MAtmp
             fCast[i][1].limit=MBtmp
             fCast[i][1].eVal=MCtmp
             fCast[i][1].units='F'
             fCast[i][1].average=MAtmp
             fCast[i][1].stDev=MStmp      
+            fCast[i][1].obs_max=MDtmp
         if unitsFlag['wind']==True: #User Wants English 
             MAwSpd=calcUnits.windSpeedMTE(fCast[i][5].average)
             MSwSpd=calcUnits.windSpeedMTE(fCast[i][5].stDev)
             MBwSpd=calcUnits.windSpeedMTE(fCast[i][5].limit)
             MCwSpd=calcUnits.windSpeedMTE(fCast[i][5].eVal)
+            MDwSpd=calcUnits.windSpeedMTE(fCast[i][5].obs_max)
             
             fCast[i][5].units='mph'
             fCast[i][5].average=MAwSpd
             fCast[i][5].stDev=MSwSpd
             fCast[i][5].limit=MBwSpd
             fCast[i][5].eVal=MCwSpd
+            fCast[i][5].obs_max=MDwSpd
         
 #        print fCast[i][1].units,fCast[i][5].units
 #    return fCast
@@ -149,10 +153,8 @@ def forecastOptions(fCastLib):
 #HLib=checkForNaN(thresholdsLib)
 #specVals=checkUnits(unitFlag,HLib)
 #genVals=getRHandReflec(HLib)
-#
-#fCastRuns=run_HRRR(int(headerLib['radius']),float(headerLib['latitude']),
-#                   float(headerLib['longitude']),float(genVals[0]),
-#                    float(specVals[1]),float(genVals[1]),float(specVals[0]),False)
+##
+#fCastRuns=run_HRRR(int(headerLib['radius']),float(headerLib['latitude']),float(headerLib['longitude']),float(genVals[0]),float(specVals[1]),float(genVals[1]),float(specVals[0]),False)
 #                    
 #returnUserUnits(fCastRuns,unitFlag)
                     

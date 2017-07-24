@@ -40,6 +40,9 @@ def createHeader():
     line='THUNDERSTORM RADAR ALERT:\n'
     return line
 
+def createPrecipHeader():
+    line='PRECIPITATION RADAR ALERT:\n'
+    return line
 
 def createAlert(rS,rLib,tz):
     if rS.is_empty==True:

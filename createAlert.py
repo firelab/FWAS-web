@@ -263,7 +263,7 @@ def createVarAlert(wxStation,var):
 #        " of "+str(round(vDat[1],0))+gustStr+' '+str(vDat[2])+' at '+wxStation.time[:5]+" "+wxStation.date+" UTC"+wxStation.utc_offset+'\n'
         line=str(wxStation.name.upper())+", "+str(round(wxStation.distance_from_point,1))+" miles "+\
         ""+str(wxStation.cardinal)+" of your location reported a "+str(vDat[0])+\
-        " of "+str(int(round(vDat[1],0)))+gustStr+' '+str(vDat[2])+' at '+wxStation.time[:5]+" "+wxStation.date+" UTC"+wxStation.utc_offset+'\n'  
+        " of "+str(int(round(vDat[1],0)))+gustStr+' '+str(vDat[2])+' at '+wxStation.time[:5]+" "+wxStation.date+"\n"#+" UTC"+wxStation.utc_offset+'\n'  
     else:
         line=''
     return line
@@ -330,14 +330,14 @@ def createSysAlert(headerLib,thresholdsLib,unitLimits,wxStations,HRRR_Alerts,p_A
         rhSect+=HRRR_Alerts[2]+'\n'
 
     if HRRR_Alerts[0]:
-        refecSect='HRRR RADAR FORECAST:\n'+HRRR_Alerts[0]+'\n'
+        refecSect='HRRR THUNDERSTORM FORECAST:\n'+HRRR_Alerts[0]+'\n'
 
-    if HRRR_Alerts[4]:
-        precipSect='HRRR PRECIP FORECAST:\n'+HRRR_Alerts[4]+'\n'
+    if HRRR_Alerts[4] or p_Alert:
+        precipSect='PRECIP ALERT:\n'+HRRR_Alerts[4]
 
     if HRRR_Alerts[3]:
         ltngSect='HRRR LIGHTNING ALERT:\n'+HRRR_Alerts[3]+'\n'
 
-    wxAlert=header+tSect+wSpdSect+rhSect+refecSect+precipSect+ltngSect+p_Alert+footer
+    wxAlert=header+tSect+wSpdSect+rhSect+refecSect+precipSect+p_Alert+'\n'+ltngSect+footer
 
     return wxAlert

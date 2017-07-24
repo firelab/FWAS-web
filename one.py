@@ -339,8 +339,8 @@ def runInitialFWAS():
 ##########HRRR_Fetch.cleanHRRRDir() #We don't Do this for instant Alerts because it would just destroy everything!
 ##########HRRR_Fetch.fetchHRRR()  #We don't Do this for instant Alerts because it would just destroy everything!
 #
-#cfgLoc[0]='/home/tanner/src/breezy/cfg_loc2/threshold-USERNAME-2017-07-17_16-29-55.cfg'
-##print 'Reading Thresholds for: '+str(cfgLoc[0])
+#cfgLoc[0]='/home/tanner/src/breezy/cfgLoc/threshold-USERNAME-2017-07-24_15-48-52.cfg'
+#print 'Reading Thresholds for: '+str(cfgLoc[0])
 #thresholds=readThresholds()
 #headerLib=thresholds[0]
 #thresholdsLib=thresholds[1]
@@ -348,32 +348,32 @@ def runInitialFWAS():
 #HRRRLib=thresholds[3]
 #precipLib=thresholds[4]
 #radarLib=thresholds[5]
-########
+#########
 #print 'Setting Limits...'
 #zoneStr=calcTime.convertTimeZone(float(headerLib['time_zone']))
 #setGlobalVars(float(headerLib['latitude']),float(headerLib['longitude']),float(headerLib['radius']),zoneStr,int(headerLib['limit']))
 #setLimits(float(thresholdsLib['temperature']),float(thresholdsLib['wind_speed']),0,0,float(thresholdsLib['relative_humidity']),float(thresholdsLib['wind_gust']))
 #setLimitUnits(calcUnits.getWindSpdUnits(float(unitLib['wind_speed_units'])),calcUnits.getTempUnits(float(unitLib['temperature_units'])))
-#######
+########
 #pUnits=calcUnits.getPrecipUnits(int(precipLib['precip_units']))
-########
+#########
 #print 'Fetching RAWS Data...'
-########
+#########
 #wxData=getRAWSData(Location[0],Location[1],radius[0],numLimit[0],calcUnits.unitSystemFlag['wind'],calcUnits.unitSystemFlag['temp'])
-########
+#########
 #print 'Checking RAWS Data...'
-#######
+########
 #wxStationsA=comparator.checkData(wxData,limits,timeZone[0],unitLimits)
-#######
+########
 #print 'Cleaning WxStations...'
-######
+#######
 #wxStations=comparator.cleanStations(wxStationsA)
-######
+#######
 #del wxStationsA
-###
-###
-###
-###
+####
+####
+####
+####
 #print 'Checking HRRR Options...'
 #hList=HRRR_Run.forecastOptions(HRRRLib)
 #h_Alert=['','','','','','']
@@ -393,7 +393,7 @@ def runInitialFWAS():
 #    h_Alert=HRRR_Alert.createVarAlert(fCastRuns,headerLib,unitLimits,HLib)
 #    if precipLib['precip_on']=='0':
 #        h_Alert[4]=''
-####
+#####
 #p_Alert=''
 #print 'Checking Precip...'
 #if precipLib['precip_on']=='1':

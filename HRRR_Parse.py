@@ -334,6 +334,7 @@ def thresholdsII(wxInfo,wxData,variable,genInt,genVar,rasterBands):
         wxData[genInt].pctCovered=calcPercentCovered(wxInfo,datList,rasterBands[genInt])    
         wxData[genInt].eDist,wxData[genInt].eBearing,wxData[genInt].eVal=getClosestPixel(wxInfo,exceed,datVal)
         wxData[genInt].fBear=degToCompass(wxData[genInt].eBearing)
+        wxData[genInt].obs_max=max(datList)
         
 def checkThresholds(wxInfo,wxData,variable,rasterBands):
     """
@@ -381,6 +382,7 @@ def checkThresholds(wxInfo,wxData,variable,rasterBands):
             wxData[2].check=True
             wxData[2].eDist,wxData[2].eBearing,wxData[2].eVal=getClosestPixel(wxInfo,exceed,datVal)
             wxData[2].fBear=degToCompass(wxData[2].eBearing)
+            wxData[2].obs_min=min(datList)
 
 #            wxData[2].eVal=            
             

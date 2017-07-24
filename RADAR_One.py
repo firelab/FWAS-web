@@ -27,7 +27,7 @@ import NEXRAD_Run
 ###############################################################################
 # If we ever decide to use Composite Radar or Level II Products, they exist   #
 # but are disabled                                                            #
-# Eventaully they could be reenabled here.                                    #
+# Eventually they could be reenabled here. With Some Work...                  #
 ###############################################################################
 radarType='CONUS'
 #radarType='NCR'
@@ -36,10 +36,12 @@ radarType='CONUS'
 Threshold=40.0
 
 cfgLoc=[''] #The Config File we are reading
+#cfgLoc[0]='/home/tanner/src/breezy/cfgLoc/threshold-USERNAME-2017-07-24_15-48-52.cfg'
 
 checkTime=datetime.datetime.now()
 #cZ=glob.glob('/home/tanner/src/breezy/fwas/data/*.cfg')
 cZ=glob.glob('/srv/shiny-server/fwas/data/*.cfg')
+#cZ=[cfgLoc[0]]
 #cZ=['/srv/`shiny-server/fwas/data/threshold-USERNAME-2017-07-06_18-15-22.cfg']
 #cZ=['/srv/shiny-server/fwas/data/threshold-USERNAME-2017-06-29_17-45-43.cfg']
 #cfgLoc[0]=cZ[0]
@@ -61,7 +63,6 @@ def readThresholds():
     section=cfg.sections()[5]
     for i in range(len(options)):
         radarDict[options[i]]=cfg.get(section,options[i])
-    
     return [headerDict,radarDict]
 
 def configureNotifications(header):
@@ -108,11 +109,14 @@ for i in range(len(cZ)):
     print 'Reading Radar Thresholds for',cZ[i],'...'
     cfgLoc[0]=cZ[i]
     headerLib,radarLib=readThresholds()
+    if radarLib['radar_on']=='0':
+        continue
+    
     alert=''
     if radarType=='CONUS':
         print 'Using Default...'
         print 'Checking CONUS Base Reflectivity...'
-        alert=CONUS_RADAR_Run.getRadarAlerts(headerLib,radarLib,False,Threshold)
+        alert=CONUS_RADAR_Run.getRadarAlerts(headerLib,radarLib,False,Threshold,True,20)
     if radarType=='NCR':
         print 'Using Composite Reflectivity...'
         print 'Checking...'

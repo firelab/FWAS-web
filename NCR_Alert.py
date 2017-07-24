@@ -9,7 +9,9 @@ Created on Thu Jun 22 13:16:30 2017
 #import calcTime
 #The Hey Rube! of cross import
 from HRRR_Alert import getQualRadar
+from HRRR_Alert import getStormRadar
 from NEXRAD_Alert import createHeader
+from NEXRAD_Alert import createPrecipHeader
 
 #rData=[[8.800755281614371, 29.815845102899264, 'NNE'], 30]
 #radarLib={'radar_name': 'KMSX', 'radar_on': '1'}
@@ -37,11 +39,21 @@ def createAlert(rData,radarLib):
 def createCONUSAlert(rData,time):
     if not any(rData):
         return ''
-    line='Potential storm conditions of: '+\
-    ''+str(getQualRadar(rData[1]))+' detected. dBZ greater than: '+str(rData[1])+'. at: '+str(round(rData[0][0],1))+\
-    ' miles '+str(rData[0][2])+' at: '+str(time)+'\n'
+    conditions=getStormRadar(rData[1])
+    if conditions=='NaN':
+        return ''
+    line='Potential '+\
+    ''+str(conditions)+' detected. dBZ greater than: '+str(rData[1])+'. at: '+str(round(rData[0][0],1))+\
+    ' miles '+str(rData[0][2])+' at: '+str(time)+'\n\n'
     return createHeader()+line
-    
+
+def createPRECIPAlert(rData,time):
+    if not any(rData):
+        return ''
+    line='Potential '+\
+    ''+str(getQualRadar(rData[1]))+' Precipitation detected. dBZ greater than: '+str(rData[1])+'. at: '+str(round(rData[0][0],1))+\
+    ' miles '+str(rData[0][2])+' at: '+str(time)+'\n'
+    return createPrecipHeader()+line
 
 
 
