@@ -13,6 +13,7 @@ and give alert, SHOULD DO EVERY ALERT, RAWS HRRR ETC
 
 import one
 import sys
+import instantWWA
 
 print "Running FWAS instant!"
 
@@ -20,3 +21,5 @@ argFile=str(sys.argv[1])
 
 one.ascertainCfg(argFile)
 one.runInitialFWAS()
+instantWWA.runInitialWWA(argFile)
+
