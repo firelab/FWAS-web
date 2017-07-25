@@ -79,6 +79,7 @@ for j in datList:
         #print sendFrom
         
         hList=readHeaderFiles(cZ[i])
+        hList['phone']=hList['phone'].translate(None,'()[] -.{}/')
         
         hName=hList['alert_name']
         
@@ -115,6 +116,7 @@ for j in datList:
             
             print 'Soemthing Worked!, proceeding...'
             msg_body=str(msg_body)
+            print msg_body
             valLoc=msg_body.find((val+' '+hName))
             if valLoc==-1:
                 valLoc=msg_body.find((val.capitalize()+' '+hName))

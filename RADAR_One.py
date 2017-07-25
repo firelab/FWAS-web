@@ -116,7 +116,7 @@ for i in range(len(cZ)):
     if radarType=='CONUS':
         print 'Using Default...'
         print 'Checking CONUS Base Reflectivity...'
-        alert=CONUS_RADAR_Run.getRadarAlerts(headerLib,radarLib,False,Threshold,True,20)
+        alert=CONUS_RADAR_Run.getRadarAlerts(headerLib,radarLib,False,Threshold,True,40)
     if radarType=='NCR':
         print 'Using Composite Reflectivity...'
         print 'Checking...'

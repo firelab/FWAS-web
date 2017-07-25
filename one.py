@@ -184,6 +184,8 @@ def runFWAS():
     HRRRLib=thresholds[3]
     precipLib=thresholds[4]
     print 'Alert Name: '+str(headerLib['alert_name'])
+    
+    headerLib['phone']=headerLib['phone'].translate(None,'()[] -.{}/')
 
     print 'Setting Limits...'
     zoneStr=calcTime.convertTimeZone(float(headerLib['time_zone']))
@@ -267,6 +269,7 @@ def runInitialFWAS():
     precipLib=thresholds[4]
     radarLib=thresholds[5]
 
+    headerLib['phone']=headerLib['phone'].translate(None,'()[] -.{}/')
 
     zoneStr=calcTime.convertTimeZone(float(headerLib['time_zone']))
     setGlobalVars(float(headerLib['latitude']),float(headerLib['longitude']),float(headerLib['radius']),zoneStr,int(headerLib['limit']))
@@ -341,6 +344,8 @@ def runInitialFWAS():
 #
 #cfgLoc[0]='/home/tanner/src/breezy/cfgLoc/threshold-USERNAME-2017-07-24_15-48-52.cfg'
 #print 'Reading Thresholds for: '+str(cfgLoc[0])
+
+#headerLib['phone']=headerLib['phone'].translate(None,'()[] -.{}/')
 #thresholds=readThresholds()
 #headerLib=thresholds[0]
 #thresholdsLib=thresholds[1]

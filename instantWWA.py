@@ -45,7 +45,7 @@ def configureNotifications(header):
 #        sendTo=header['email']
 #    if header['phone']!='NaN' and header['email']!='NaN':
 #        gateway=createAlert.getSMSGateway(header['carrier'],valid)
-#        sendTo=[str(header['phone']+'@'+gateway),header['email']]
+#     FORECASTED MAX wind speed: 15 mph at 02:00 PM, 07-25-2017   sendTo=[str(header['phone']+'@'+gateway),header['email']]
 #    if header['phone']=='NaN' and header['email']=='NaN':
 #        sendTo='NONE'
     if header['email']=='NaN' and header['carrier']!='NaN':
@@ -77,7 +77,6 @@ def runInitialWWA(cfg):
     cfgLoc[0]=cfg
     headerLib,wwaLib=readThresholds()
     if wwaLib['wwa_on']=='1':
-#        x+=1
         tz=calcTime.convertTimeZone(int(headerLib['time_zone']))
         alert=WWA_Run.runInitialWWA(headerLib,tz,False,True)
         if alert:
@@ -91,5 +90,4 @@ def runInitialWWA(cfg):
             print 'No WWA Found...'
     else:
         print 'WWA Turned off for',cfg
-#        y+=1   
 #            continue
