@@ -143,7 +143,7 @@ shinyServer(function(input, output, session) {
   #
   ############
   
-  shinyjs::disable('raws')
+#   shinyjs::disable('tStorm')
 
   observeEvent(input$email,{
     shinyjs::toggleState('emailAddress')
@@ -300,14 +300,14 @@ shinyServer(function(input, output, session) {
         cat(paste("temperature_units = ", NaN,"\n",collapse=""),file=cfg,append=TRUE)
       }
       cat("[HRRR_Options]\n",file=cfg,append=TRUE)
-      if(input$fCast==TRUE)
-      {
-        cat(paste("forecast_on = ",1, "\n", collapse=""), file=cfg,append=TRUE)
-      }
-      if(input$fCast==FALSE)
-      {
-        cat(paste("forecast_on = ",0, "\n", collapse=""), file=cfg,append=TRUE)
-      }
+#       if(input$fCast==TRUE)
+#       {
+      cat(paste("forecast_on = ",1, "\n", collapse=""), file=cfg,append=TRUE)
+#       }
+#       if(input$fCast==FALSE)
+#       {
+#         cat(paste("forecast_on = ",0, "\n", collapse=""), file=cfg,append=TRUE)
+#       }
       cat(paste("forecast_duration = ",6, "\n", collapse=""), file=cfg,append=TRUE)
       cat("[Precipitation]\n",file=cfg,append=TRUE)
       if(input$precip==TRUE)
@@ -320,16 +320,44 @@ shinyServer(function(input, output, session) {
       }
       cat(paste("precip_units = ",input$precip_units, "\n", collapse=""), file=cfg,append=TRUE)
       cat("[NEXRAD_Options]\n",file=cfg,append=TRUE)
-      if(input$nex==TRUE)
+      if(input$tStorm==TRUE)
       {
         cat(paste("radar_on = ",1,"\n",collapse=""),file=cfg,append=TRUE)
-        cat(paste("radar_name = ",NaN,"\n",collapse=""),file=cfg,append=TRUE)
       }
-      if(input$nex==FALSE)
+      if(input$tStorm==FALSE)
       {
         cat(paste("radar_on = ",0,"\n",collapse=""),file=cfg,append=TRUE)
-        cat(paste("radar_name = ",NaN,"\n",collapse=""),file=cfg,append=TRUE)
       }
+      cat(paste("radar_name = ",NaN,"\n",collapse=""),file=cfg,append=TRUE)
+      
+      cat("[WWA_Options]\n",file=cfg,append=TRUE)
+      if(input$wwa==TRUE)
+      {
+        cat(paste("wwa_on = ",1,"\n",collapse=""),file=cfg,append=TRUE)
+      }
+      if(input$wwa==FALSE)
+      {
+        cat(paste("wwa_on = ",0,"\n",collapse=""),file=cfg,append=TRUE)
+      }
+      cat("[THUNDERSTORM_Options]\n",file=cfg,append=TRUE)
+      if(input$tStorm==TRUE)
+      {
+        cat(paste("thunderstorm_on = ",1,"\n",collapse=""),file=cfg,append=TRUE)
+      }
+      if(input$tStorm==FALSE)
+      {
+        cat(paste("thunderstorm_on = ",0,"\n",collapse=""),file=cfg,append=TRUE)
+      }
+
+#       if(input$nex==TRUE)
+#       {
+   
+#       }
+#       if(input$nex==FALSE)
+#       {
+#         cat(paste("radar_on = ",0,"\n",collapse=""),file=cfg,append=TRUE)
+#         cat(paste("radar_name = ",NaN,"\n",collapse=""),file=cfg,append=TRUE)
+#       }
       
       return(cfg)
     # })

@@ -93,52 +93,52 @@ shinyUI(fluidPage(
 #      column(3,                
 #             uiOutput("carrier"))
 #             )),
-  fluidRow(
-    column(12,
-           h3('Select Data Sources'),
-           ('RAWS Fetching is currently required, HRRR Forecasts are optional. Enabling HRRR also enables forecasted lightning and storm alerts. HRRR data is currently only available for the continential United States.')
-           # ('RAWS fetching is enabled by continental, Short term weather forecasts can be enabled via the HRRR.')
-           )
-),  
-  hr(),    
-  wellPanel(
-  fluidRow(
-    column(4,
-           checkboxInput("raws",label = "Fetch Real Time RAWS Data",value = TRUE)
-           
-           
-           ),
-    column(4,
-           # wellPanel(
-             checkboxInput("fCast",label="Short Term Weather Forecasts (HRRR)", value=TRUE)
-             # sliderInput("fDur", label = ("Forecast Duration (hours)"), min = 1, 
-             #             max = 6, value = 1)
-           )
-
-    )
-  ),
-  wellPanel(
-    fluidRow(
-      column(2,
-             checkboxInput("nex",label="Radar (NEXRAD)",value=FALSE)
-      ),
-      # verbatimTextOutput('radarNameOut'),
-      # verbatimTextOutput('radarID'),
-      # column(4,
-      #          selectInput('radarName', 'Select Radar Station', c(Choose='', radarData[2]), selectize=TRUE)
-      # ),
-      column(4,
-             ('Enable NEXRAD for storm alerts. Radar stations update every 15 minutes, and have a maximum range of 145 miles (230km).'),
-             br(), 
-             a('Radar Coverage Maps',href="https://www.roc.noaa.gov/WSR88D/Maps.aspx",target="_blank"),
-             br(),
-             a('National Radar Mosaic',href="http://www.weather.gov/Radar",target="_blank")
-             ),
-      column(4,('Radar Alerts will update every 20 minutes. Data is acquired from the CONUS Base Reflectivity Radar Mosaic. Radar Data is currently only available for the continental United States.'))
-      
-      
-    )
-  ),
+#   fluidRow(
+#     column(12,
+#            h3('Select Data Sources'),
+#            ('RAWS Fetching is currently required, HRRR Forecasts are optional. Enabling HRRR also enables forecasted lightning and storm alerts. HRRR data is currently only available for the continential United States.')
+#            ('RAWS fetching is enabled by continental, Short term weather forecasts can be enabled via the HRRR.')
+#            )
+# ),  
+#   hr(),    
+#   wellPanel(
+#   fluidRow(
+#     column(4,
+#            checkboxInput("raws",label = "Fetch Real Time RAWS Data",value = TRUE)
+#            
+#            
+#            ),
+#     column(4,
+#            wellPanel(
+#              checkboxInput("fCast",label="Short Term Weather Forecasts (HRRR)", value=TRUE)
+#              sliderInput("fDur", label = ("Forecast Duration (hours)"), min = 1, 
+#                          max = 6, value = 1)
+#            )
+# 
+#     )
+#   ),
+#   wellPanel(
+#     fluidRow(
+#       column(2,
+#              checkboxInput("nex",label="Radar (NEXRAD)",value=FALSE)
+#       ),
+#       verbatimTextOutput('radarNameOut'),
+#       verbatimTextOutput('radarID'),
+#       column(4,
+#                selectInput('radarName', 'Select Radar Station', c(Choose='', radarData[2]), selectize=TRUE)
+#       ),
+#       column(4,
+#              ('Enable NEXRAD for storm alerts. Radar stations update every 15 minutes, and have a maximum range of 145 miles (230km).'),
+#              br(), 
+#              a('Radar Coverage Maps',href="https://www.roc.noaa.gov/WSR88D/Maps.aspx",target="_blank"),
+#              br(),
+#              a('National Radar Mosaic',href="http://www.weather.gov/Radar",target="_blank")
+#              ),
+#       column(4,('Radar Alerts will update every 20 minutes. Data is acquired from the CONUS Base Reflectivity Radar Mosaic. Radar Data is currently only available for the continental United States.'))
+#       
+#       
+#     )
+#   ),
 #  wellPanel(
 #    fluidRow(
 #      column(2,
@@ -187,7 +187,10 @@ shinyUI(fluidPage(
              verbatimTextOutput("gustVal"),
              selectInput("wind_speed_units", label = ("Wind Speed Units"), 
                          choices = list("meters per second (mps)" = 1, "miles per hour (mph)" = 2), 
-                         selected = 2))
+                         selected = 2)),
+            wellPanel(checkboxInput("wwa",label="National Weather Service Watches Warnings and Advisories",value=FALSE),
+            ("Enable to receive Watches Warnings and Advisories from the National Weather Service. You will recieve an alert every 3 hours."),br(),a('Map of Active WWA',href='http://www.weather.gov/',target="_blank"))
+
              # textInput("wind_direction", label = ("Enter Change in Wind Direction"), value = 180),
 
 
@@ -204,13 +207,21 @@ shinyUI(fluidPage(
             # ('Enable HRRR to monitor weather forecasts for set thresholds.'),
             # hr()
             wellPanel(
-              checkboxInput("precip",label="Precipitation", value=FALSE),
+              checkboxInput("precip",label="Precipitation", value=TRUE),
               ('Enable for forecasted rain and recorded RAWS station precip.'),
               selectInput("precip_units", label = ("Precip Units"), 
                           choices = list("millimeters (mm)" = 1, "inches (in)" = 2), 
-                          selected = 2))
-            )
+                          selected = 2)),
             
+            wellPanel(
+                checkboxInput("tStorm",label="Thunderstorms",value=TRUE),
+                ('Radar detected thunderstorms.\nRadar Detected Precip will Also be reported.'),
+                br(),
+                a('Radar Coverage Maps',href="https://www.roc.noaa.gov/WSR88D/Maps.aspx",target="_blank"),
+                br(),
+                a('National Radar Mosaic',href="http://www.weather.gov/Radar",target="_blank")
+                )
+            )
 
     ),
     fluidRow(
@@ -236,6 +247,13 @@ shinyUI(fluidPage(
       column(3,tags$a(href="https://radar.weather.gov/",tags$img(src = "/ninja/fwas_images/noaa-logo-960x962.png", width = "100px", height = "100px")))
               
               ),
+    fluidRow(
+        column(1,tags$a(href="https://mesonet.agron.iastate.edu/request/gis/watchwarn.phtml",tags$img(src="/ninja/fwas_images/ia_iem_logo.png",width = "100px", height = "55px"))
+                ),
+        column(4,tags$a(href="http://www.weather.gov/",tags$img(src="/ninja/fwas_images/nws_logo.png",width = "100px", height = "100px"))
+                )
+        
+    ),
     # fluidRow(
     #     column(5,'UI made with Shiny')
     # ),
