@@ -205,10 +205,10 @@ def runFWAS():
     wxStations=comparator.cleanStations(wxStationsA)
     
     print 'Checking HRRR Options...'
+    HLib=HRRR_Run.checkForNaN(thresholdsLib)
     hList=HRRR_Run.forecastOptions(HRRRLib)
     h_Alert=['','','','','','']
     if hList[0]==True:
-        HLib=HRRR_Run.checkForNaN(thresholdsLib)
         localUnits=calcUnits.getUnitFlag()
         specVals=HRRR_Run.checkUnits(localUnits,HLib)
         genVals=HRRR_Run.getRHandReflec(HLib)
@@ -287,11 +287,11 @@ def runInitialFWAS():
     print 'Checking HRRR Options...'
     hList=HRRR_Run.forecastOptions(HRRRLib)
     h_Alert=['','','','','','']
+    HLib=HRRR_Run.checkForNaN(thresholdsLib)
     if hList[0]==True:
 #        HRRR_Fetch.cleanHRRRDir() #We don't Do this for instant Alerts because it would just destroy everything!
 #        HRRR_Fetch.fetchHRRR()  #We don't Do this for instant Alerts because it would just destroy everything!
     #    HRRR_Fetch.runFetchHRRR(HRRR_Fetch.sixHourTimeList)
-        HLib=HRRR_Run.checkForNaN(thresholdsLib)
         localUnits=calcUnits.getUnitFlag()
         specVals=HRRR_Run.checkUnits(localUnits,HLib)
         genVals=HRRR_Run.getRHandReflec(HLib)
@@ -326,11 +326,11 @@ def runInitialFWAS():
     cMeth=configureSendMethod(contact)
     if wxStations or any(h_Alert):
         firstAlert=iniAlert+Alert+endIniAlert
-        send.sendEmailAlert(firstAlert,contact,headerLib['alert_name'],cMeth)
+#        send.sendEmailAlert(firstAlert,contact,headerLib['alert_name'],cMeth)
     if not wxStations and not any(h_Alert):
         siniAlert="No Stations Currently Meet Alert Thresholds. Alert has been set and will check hourly!"
         firstAlert=iniAlert+siniAlert+endIniAlert
-        send.sendEmailAlert(firstAlert,contact,headerLib['alert_name'],cMeth)
+#        send.sendEmailAlert(firstAlert,contact,headerLib['alert_name'],cMeth)
 """
 ################################################
 #                                              #

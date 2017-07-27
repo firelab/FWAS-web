@@ -54,16 +54,26 @@ def readThresholds():
     cfg=ConfigParser.ConfigParser()
     cfg.read(cfgLoc)
     headerDict={}
+    precipDict={}
     radarDict={}
+    tStormDict={}
     options=cfg.options(cfg.sections()[0])
     section=cfg.sections()[0]
     for i in range(len(options)):
         headerDict[options[i]]=cfg.get(section,options[i])
+    options=cfg.options(cfg.sections()[4])
+    section=cfg.sections()[4]
+    for i in range(len(options)):
+        precipDict[options[i]]=cfg.get(section,options[i])
     options=cfg.options(cfg.sections()[5])
     section=cfg.sections()[5]
     for i in range(len(options)):
         radarDict[options[i]]=cfg.get(section,options[i])
-    return [headerDict,radarDict]
+    options=cfg.options(cfg.sections()[7])
+    section=cfg.sections()[7]
+    for i in range(len(options)):
+        tStormDict[options[i]]=cfg.get(section,options[i])
+    return [headerDict,precipDict,radarDict,tStormDict]
 
 def configureNotifications(header):
     """
@@ -104,19 +114,34 @@ def configureSendMethod(To):
     if type(To) is str:
         return 'REGULAR'
 
+def setVars(tStormLib,precipLib):
+    stormBool=False #stool
+    precipBool=False #pool
+    if tStormLib['thunderstorm_on']=='1':
+        stormBool=True
+    if precipLib['precip_on']=='1':
+        precipBool=True
+    
+    return [stormBool,precipBool]
+
 #Below is what runs
 for i in range(len(cZ)):
     print 'Reading Radar Thresholds for',cZ[i],'...'
     cfgLoc[0]=cZ[i]
-    headerLib,radarLib=readThresholds()
+    headerLib,precipLib,radarLib,tStormLib=readThresholds()
     if radarLib['radar_on']=='0':
+        continue
+    
+    aVars=setVars(tStormLib,precipLib)
+    if aVars[0]==False and aVars[1]==False:
+        print 'User',headerLib['email'],headerLib['phone'],'does not want radar data... o_O'        
         continue
     
     alert=''
     if radarType=='CONUS':
         print 'Using Default...'
         print 'Checking CONUS Base Reflectivity...'
-        alert=CONUS_RADAR_Run.getRadarAlerts(headerLib,radarLib,False,Threshold,True,40)
+        alert=CONUS_RADAR_Run.getRadarAlerts(aVars[0],headerLib,radarLib,False,Threshold,aVars[1],40)
     if radarType=='NCR':
         print 'Using Composite Reflectivity...'
         print 'Checking...'
@@ -131,7 +156,10 @@ for i in range(len(cZ)):
         contact=configureNotifications(headerLib)
         cMeth=configureSendMethod(contact)
         print "Radar Threshold Met!"
-        subj='Radar Alert: '+headerLib['alert_name']
+        subj=headerLib['alert_name']
+        endAlert="\nThis alert can be stopped by replying: stop "+headerLib['alert_name']+"\n"
+        alert=alert+endAlert
+#        print alert
         send.sendEmailAlert(alert,contact,subj,cMeth)
     if not alert:
         print "No RADAR Found, Checking again in 15..."

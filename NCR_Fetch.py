@@ -13,6 +13,9 @@ import urllib2
 ncrDir='/home/ubuntu/fwas_data/NCR/'
 
 def checkforGFW(sid,gfwStr):
+    """
+    Checks to see if we have a gfw for the station provided
+    """
     val=False
     cZ=glob.glob(str(ncrDir+'*.gfw'))
 #    print cZ
@@ -23,6 +26,9 @@ def checkforGFW(sid,gfwStr):
     return val
 
 def fetchRadar(stid):
+    """
+    fetches the gif and possibly gfw from radar.weather.gov
+    """
     #Need to Fetch both gif and gfw!
     baseurl='https://radar.weather.gov/ridge/RadarImg/NCR/'
     sid=stid[1:]

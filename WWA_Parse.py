@@ -12,8 +12,8 @@ import datetime
 import dateutil
 import dateutil.tz
 
-#vtec_Path='/home/ubuntu/fwas_data/WWA/vtec/'
-vtec_Path='/home/tanner/vol2/WWA/vtec/'
+vtec_Path='/home/ubuntu/fwas_data/WWA/vtec/'
+#vtec_Path='/home/tanner/vol2/WWA/vtec/'
 aaa='vtec_aaa.csv'
 k='vtec_k.csv'
 pp='vtec_pp.csv'

@@ -99,9 +99,11 @@ def runFetchHRRR(tList,recent):
     """
     print "Fetching HRRR grib files...."
     #get pretty close to most recent simulation time for now
-    simHour=str(datetime.datetime.utcnow().hour-recent)   
+    simHour=str(datetime.datetime.utcnow().hour-recent)
+    simHour=simHour.zfill(2)
     for time in tList:
         url = buildURL(simHour,time)
+#	print url
         getForecast(url)
         print "Forecast Acquired, downloading..."
 
@@ -131,3 +133,6 @@ def fetchHRRR():
 #cleanHRRRDir()
 #fetchHRRR()
 
+
+simHour=str(datetime.datetime.utcnow().hour-1)   
+print simHour

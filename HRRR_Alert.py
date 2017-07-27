@@ -130,9 +130,9 @@ def getStormRadar(radFloat):
     if radFloat<35:
         radStr='NaN'
     if radFloat>=35:
-        radStr='Very Small Thunderstorms'
+        radStr='Very Mild Thunderstorms'
     if radFloat>=45:
-        radStr='Small Thunderstorms'
+        radStr='Mild Thunderstorms'
     if radFloat>=50:
         radStr='Moderate Thunderstorms'
     if radFloat>=55:

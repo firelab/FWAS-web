@@ -32,10 +32,20 @@ gifName=hDir+'conus_radar.gif'
 rTime=hDir+'rTimes.txt'
 
 def openDataset(dsPath):
+    """
+    Opens a a gif with its gfw which makes it something GDAL can read and parse!
+    """
     ds=gdal.Open(dsPath)
     return ds
 
 def projToPix(ds,coords):
+    """
+    Takes coordinate system NAD83/WGS84 (very similar) and turns it into pixels
+    needs GDAL
+    
+    Note that these are floating point numbers, not integers. Some Image parsers
+    will get pissed...
+    """
     x=coords[1]
     y=coords[0]
     gt=ds.GetGeoTransform()
@@ -44,12 +54,20 @@ def projToPix(ds,coords):
     return[px,py]
 
 def pixToProj(ds,pLoc):
+    """
+    Turns a Pixel into its nearest Lat/Lon coordinate. This works pretty well
+    if they are floats and not ints
+    """
     gt=ds.GetGeoTransform()
     lon=pLoc[0]*gt[1]+gt[0]
     lat=pLoc[1]*gt[5]+gt[3]
     return [lat,lon]
 
 def getRadarCodes():
+    """
+    Radar Codes are essentially just RGB colors that indicate weather severity
+    This fetches and parses them
+    """
     cCol=[]
     rN=[]
 #    cFile='/media/tanner/vol2/NCR/colors.csv'
@@ -64,12 +82,18 @@ def getRadarCodes():
     return [cCol,rN]
 
 def openImage(iLoc):
+    """
+    opens the gif with the python image library
+    """
     img=Image.open(iLoc)
     return img
     
 def checkColors(img,cCol,rN,threshold):
+    """
+    Checks all available colors in the image to see if any exceed the threshold
+    """
     bigVal=[]
-#    threshold=30.0 #This is where we set the threshold!
+#    threshold=30.0 #This is where we set the threshold! (not anymore)
     pix=img.load()
     col=img.convert('RGB')    
     
@@ -87,6 +111,9 @@ def checkColors(img,cCol,rN,threshold):
     return bigVal   
     
 def plotRadar(iLoc,img,plotColor,colorData,yLoc,zoom,buff):
+    """
+    This plots the radar, it isn't used except for debugging
+    """
     pyplot.figure(0)
     pyplot.title('CONUS Base RADAR')
     pCol=img.getcolors()
@@ -125,6 +152,9 @@ def plotRadar(iLoc,img,plotColor,colorData,yLoc,zoom,buff):
         pyplot.gca().invert_yaxis()
     
 def calcBuffer(origin,boundary):
+    """
+    Creates a Buffer around the specified location
+    """
     origin=numpy.array(origin)
     boundary=numpy.array(boundary)
     ob=origin-boundary
@@ -134,11 +164,17 @@ def calcBuffer(origin,boundary):
 
 
 def getPointBuffer(loc,radius):
+    """
+    Creates the Radius
+    """
     origin=geopy.Point(loc[0],loc[1])
     newPt=geopy.distance.VincentyDistance(miles=int(radius)).destination(origin,180)
     return newPt
 
 def getBufferRegion(pLoc,buff):
+    """
+    Math for buffer
+    """
 #    buff=100 # For no good reason
     
     bA=pLoc[0]-buff
@@ -148,6 +184,9 @@ def getBufferRegion(pLoc,buff):
     return [int(bA),int(bB),int(bC),int(bD)]
 
 def createRadiusBuffer(dataset,pLoc,location,radius):
+    """
+    Pulls all of the above functions together to create a buffer
+    """
     print 'Creating',radius,'mile buffer...'
     point=getPointBuffer(location,radius)
     pPoint=projToPix(dataset,[point[0],point[1]])
@@ -158,6 +197,9 @@ def createRadiusBuffer(dataset,pLoc,location,radius):
 
 
 def plotAreaOfInterest(region,img,buff):
+    """
+    Localized Plotter to make sure that we are in the right area
+    """
     pyplot.figure(1)
     pyplot.title('RADAR AREA OF INTEREST')
     ix2=img.crop((region[0],region[1],region[2],region[3]))
@@ -172,10 +214,16 @@ def plotAreaOfInterest(region,img,buff):
 #    pyplot.plot(buff,buff,'mo')
 
 def getRadarSubset(img,region):
+    """
+    Crops big image for additional checks and makes it less resource intensive
+    """
     ix2=img.crop((region[0],region[1],region[2],region[3]))
     return ix2
 
 def getClosestPixel(img,colorData,dataset,location,aOF):
+    """
+    Based on colors, finds the closest pixel that exceeds the threshold
+    """
     pCol=img.getcolors()
     pCol.sort()
     pix=img.load()
@@ -200,6 +248,9 @@ def getClosestPixel(img,colorData,dataset,location,aOF):
     return [gSpatial[gDist.argmin()],XY[gDist.argmin()],UV[gDist.argmin()]]
 
 def checkRadarLevels(img,colors,dataset,location,radius,aOF):
+    """
+    Checks various radar levels starting at highest and working its way down
+    """
     for i in range(len(colors)):
         print 'checking radar Level: ', colors[i][0]
         cVal=getClosestPixel(img,colors[i][2],dataset,location,aOF)
@@ -213,6 +264,11 @@ def checkRadarLevels(img,colors,dataset,location,radius,aOF):
             continue
 
 def runRadarCheck(location,radius,plot_on,threshold):
+    """
+    Master Run Function, does checks to make sure data is good and sorted
+    Also will double radius, if the radius is smaller than 45 miles to make
+    sure no storms are lurking just outside of the users area
+    """
 
 #    threshold=30.0
     

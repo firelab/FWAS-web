@@ -14,8 +14,8 @@ import subprocess
 
 URL='https://mesonet.agron.iastate.edu/data/gis/shape/4326/us/current_ww.zip'
 
-#datDir='/home/ubuntu/fwas_data/WWA/'
-datDir='/home/tanner/vol2/WWA/'
+datDir='/home/ubuntu/fwas_data/WWA/'
+#datDir='/home/tanner/vol2/WWA/'
 fFile=datDir+'current_ww.zip'
 zDir=datDir+'current_ww/'
 

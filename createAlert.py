@@ -124,7 +124,8 @@ def headerThresh(thresholds,units):
     """
     thStr=""
     for i in range(len(thresholds)):
-        if thresholds[thresholds.keys()[i]]!='NaN':
+#        if thresholds[thresholds.keys()[i]]!='NaN':
+        if numpy.isfinite(float(thresholds[thresholds.keys()[i]])):
             thStr=thStr+thresholds.keys()[i]+\
             ": "+thresholds[thresholds.keys()[i]]+\
             " "+getThresholdUnits(thresholds.keys()[i],units)+". "

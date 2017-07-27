@@ -90,7 +90,7 @@ for i in range(len(cZ)):
             contact=configureNotifications(headerLib)
             cMeth=configureSendMethod(contact)
             print 'WWA Found...'
-            subj='NWS WWA: '+headerLib['alert_name']
+            subj=headerLib['alert_name']
             send.sendEmailAlert(alert,contact,subj,cMeth)
         if not alert:
             print 'No WWA Found...'

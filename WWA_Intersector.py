@@ -15,8 +15,8 @@ from geopy.distance import great_circle
 import WWA_Parse
 
 
-fLoc='/media/tanner/vol2/WWA/current_ww/current.geojson'
-#fLoc='/home/ubuntu/fwas_data/WWA/current_ww/current.geojson'
+#fLoc='/media/tanner/vol2/WWA/current_ww/current.geojson'
+fLoc='/home/ubuntu/fwas_data/WWA/current_ww/current.geojson'
 
 def getLoc(headerLib):
     loc=[]

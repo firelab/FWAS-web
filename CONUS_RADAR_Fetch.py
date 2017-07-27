@@ -12,6 +12,10 @@ import urllib2
 hDir='/home/ubuntu/fwas_data/CONUS_RADAR/'
 
 def fetchRadar(fetchGFW):
+    """
+    Fetches CONUS Base Reflectivity Data as a gif. If for some reason we don't have a gfw
+    it can get that too.
+    """
     print 'Fetching CONUS RADAR and TimeList...'
     gfwRadar='https://radar.weather.gov/ridge/Conus/RadarImg/latest_radaronly.gfw'
     gifRadar='https://radar.weather.gov/ridge/Conus/RadarImg/latest_radaronly.gif'

@@ -42,7 +42,7 @@ def getDateTimeObj(obs,data,timezone,i):
     utc=utc.replace(tzinfo=from_zone)
     local=utc.astimezone(to_zone)
     return local
-
+    
 def getReadableDates(date_str):
     """
     Takes 2017-07-19 and turns it into 07-19-2017
