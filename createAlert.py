@@ -240,6 +240,7 @@ def createVarAlert(wxStation,var):
     new Single Line Alert Maker for RAWS
     """
     vDat=[]
+    wind_flag=[False]
     gustStr=''
     wind_card=''
     wind_dir=''
@@ -256,13 +257,14 @@ def createVarAlert(wxStation,var):
             wind_dir=str(int(round(wxStation.wind_direction,0)))
         if numpy.isfinite(wxStation.wind_gust):
             gustStr=' G '+str(int(round(wxStation.wind_gust,0))) #Coarsen the Precision
+        wind_flag[0]=True
     if var=='temperature':
         vDat.append('temperature')
         vDat.append(wxStation.temperature)
         vDat.append(wxStation.temperature_units)
 
 #    if str(vDat[1])!=str(numpy.nan):
-    if numpy.isfinite(vDat[1]):
+    if numpy.isfinite(vDat[1]) and wind_flag[0]==False:
         #"Station"+....
 #        line=str(wxStation.name.upper())+", "+str(round(wxStation.distance_from_point,1))+" miles at "+str(round(wxStation.bearing,1))+\
 #        " degrees "+str(wxStation.cardinal)+" from your location reported a "+str(vDat[0])+\
@@ -270,13 +272,15 @@ def createVarAlert(wxStation,var):
         line=str(wxStation.name.upper())+", "+str(round(wxStation.distance_from_point,1))+" miles "+\
         ""+str(wxStation.cardinal)+" of your location reported a "+str(vDat[0])+\
         " of "+str(int(round(vDat[1],0)))+gustStr+' '+str(vDat[2])+' at '+wxStation.time[:5]+" "+wxStation.date+"\n"#+" UTC"+wxStation.utc_offset+'\n'  
-    if wind_card and wind_dir and numpy.isfinite(vDat[1]):
+        return line
+    if numpy.isfinite(vDat[1]) and wind_flag[0]==True:
         line=str(wxStation.name.upper())+", "+str(round(wxStation.distance_from_point,1))+" miles "+\
         ""+str(wxStation.cardinal)+" of your location reported a "+str(vDat[0])+\
         " of "+str(int(round(vDat[1],0)))+gustStr+' '+str(vDat[2])+' at '+wind_dir+' degrees '+wind_card+' at '+wxStation.time[:5]+" "+wxStation.date+"\n"#+" UTC"+wxStation.utc_offset+'\n'       
+        return line
     else:
         line=''
-    return line
+        return line
 
 def createSysAlert(headerLib,thresholdsLib,unitLimits,wxStations,HRRR_Alerts,p_Alert,timeZone):
     """

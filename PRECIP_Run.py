@@ -78,7 +78,7 @@ def sortData(data,lat,lon,units,timeZone):
     
 
     if data['SUMMARY']['RESPONSE_MESSAGE']!='OK':
-        print 'no RAWS data in the area, checking HRRR!'
+        print 'no RAWS PRECIP data in the area, checking HRRR!'
         return []  
         
     pStations=[]

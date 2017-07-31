@@ -276,6 +276,8 @@ def runInitialFWAS():
     setLimits(float(thresholdsLib['temperature']),float(thresholdsLib['wind_speed']),0,0,float(thresholdsLib['relative_humidity']),float(thresholdsLib['wind_gust']))
     setLimitUnits(calcUnits.getWindSpdUnits(float(unitLib['wind_speed_units'])),calcUnits.getTempUnits(float(unitLib['temperature_units'])))
 
+    print 'INSTANT RAWS SECTION...'
+
     pUnits=calcUnits.getPrecipUnits(int(precipLib['precip_units']))
 
     wxData=getRAWSData(Location[0],Location[1],radius[0],numLimit[0],calcUnits.unitSystemFlag['wind'],calcUnits.unitSystemFlag['temp'])

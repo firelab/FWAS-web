@@ -48,12 +48,12 @@ def getDateTimeObj(obs,data,timezone,i):
     
 def getReadableDates(date_str):
     """
-    Takes 2017-07-19 and turns it into 07.19.2017
+    Takes 2017-07-19 and turns it into 07/19/2017
     """
     year=date_str[:4]
     month=date_str[5:7]
     day=date_str[8:]
-    newDate=month+'.'+day+'.'+year    
+    newDate=month+'/'+day+'/'+year    
 #    print newDate
     return newDate
     
@@ -150,6 +150,8 @@ def cleanStations(uncleanWx):
             wxS[i].temperature=numpy.nan
         if wxS[i].wind_gust==0:
             wxS[i].wind_gust=numpy.nan
+        if wxS[i].mnet_id=='2':
+            wxS[i].name+=' RAWS'
             
     return wxS
 
