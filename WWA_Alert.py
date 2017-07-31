@@ -43,6 +43,9 @@ import csv
 #print '-------------'
 
 def createHead(headerLib,tz):
+    """
+    Writes Head of Alert
+    """
     head="THE FOLLOWING WATCHES WARNINGS AND ADVISORIES ARE IN EFFECT FOR YOUR AREA\n"+\
     "All observations were taken within a "+headerLib['radius']+\
     " mile radius of your location. All times are: "+tz+".\n\n"
@@ -52,6 +55,11 @@ def createHead(headerLib,tz):
 #def getLocation(dat):
 
 def createLine(dat,region):
+    """
+    Creates a Line for the alert which has all the important info:
+    Type, significance, Weather Forecasting OFfice (WFO) start and end time 
+    and the region for which it was issued
+    """
     line='A '+dat.hType+' '+dat.hSig+' issued by: '+dat.wfo+' is in effect'+\
     ' from '+dat.start_time.strftime('%I:%M %p %m-%d-%Y')+\
     ' until '+dat.end_time.strftime('%I:%M %p %m-%d-%Y')+\
@@ -62,6 +70,9 @@ def createLine(dat,region):
 #    WWA_Parse.printWWA(dat[i])
 
 def createBody(dat):
+    """
+    Adds all the Lines and header together
+    """
     print 'Creating Body of Alerts...'
     sData=[]
     for i in range(len(dat)):
@@ -101,6 +112,9 @@ def createBody(dat):
         
     
 def createAlert(dat,headerLib,tz):
+    """
+    Creates full Alert and has check to make sure there actually is an alert
+    """
     print 'Creating WWA Alert...'
 #    dat=WWA_Intersector.findIntersections(headerLib,tz,False,True)
     sBody=createBody(dat)

@@ -3,6 +3,8 @@
 Created on Thu Jul 20 14:41:14 2017
 
 @author: tanner
+
+Simplifies code by unifying everything, also good for debugging.
 """
 
 import WWA_Fetch
@@ -40,12 +42,18 @@ import WWA_Alert
 #print alert
 
 def runWWA(headerLib,tz,plot,optPrint):
+    """
+    Runs regular WWA called from WWA_One.py
+    """
     WWA_Fetch.FetchWWA()
     dat=WWA_Intersector.findIntersections(headerLib,tz,plot,optPrint)
     alert=WWA_Alert.createAlert(dat,headerLib,tz)
     return alert
 
 def runInitialWWA(headerLib,tz,plot,optPrint):
+    """
+    Initial Run, called by instantAlert.py
+    """
 #    WWA_Fetch.FetchWWA()
     dat=WWA_Intersector.findIntersections(headerLib,tz,plot,optPrint)
     alert=WWA_Alert.createAlert(dat,headerLib,tz)

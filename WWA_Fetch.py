@@ -20,6 +20,9 @@ fFile=datDir+'current_ww.zip'
 zDir=datDir+'current_ww/'
 
 def fetchZip(URL):
+    """
+    Fetches new WWA Alerts
+    """
     print 'Fetching wwa from iastate.edu...'
     response=urllib2.urlopen(URL)
     output=open(fFile,'wb')
@@ -27,11 +30,18 @@ def fetchZip(URL):
     output.close()
     
 def extractZip():
+    """
+    IA state keeps everything as a shp file in a zip file, here
+    is where it is extracted
+    """
     print 'extracting WWA...'
     with zipfile.ZipFile(fFile,'r') as z:
         z.extractall(zDir)
 
 def runOGR2OGR():
+    """
+    Converts SHP to GeoJSON, which is very useful
+    """
     print 'Running ogr2ogr: Convert shp to geoJSON...'
     cmd=['/usr/local/bin/ogr2ogr',
     '-f','GeoJSON','-t_srs','crs:84',
@@ -40,6 +50,9 @@ def runOGR2OGR():
     subprocess.check_call(cmd)
     
 def FetchWWA():
+    """
+    Runs everything above
+    """
     fetchZip(URL)
     extractZip()
     runOGR2OGR()

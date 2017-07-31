@@ -15,6 +15,7 @@ Alerts are independent of the other ones and send as a separate message
 import glob
 import ConfigParser
 import datetime
+import time
 
 import send
 import createAlert
@@ -34,7 +35,8 @@ radarType='CONUS'
 #radarType='NEXRAD'
 
 Threshold=40.0
-
+nowTime=time.time()
+hourLen=3600.0 #Seconds
 cfgLoc=[''] #The Config File we are reading
 #cfgLoc[0]='/home/tanner/src/breezy/cfgLoc/threshold-USERNAME-2017-07-24_15-48-52.cfg'
 
@@ -115,6 +117,9 @@ def configureSendMethod(To):
         return 'REGULAR'
 
 def setVars(tStormLib,precipLib):
+    """
+    Does simple conversion from Str to Bool if user wants Thunderstorms, precip or both from Radar
+    """
     stormBool=False #stool
     precipBool=False #pool
     if tStormLib['thunderstorm_on']=='1':
@@ -123,6 +128,21 @@ def setVars(tStormLib,precipLib):
         precipBool=True
     
     return [stormBool,precipBool]
+    
+def writeRadarTime(cfgLoc,utime):
+    """
+    Writes a time to their config file, so that alerts only go out once
+    every hour after the first alert was sent. This is cool because
+    it checks for the first storm, finds it, sends it and then essentially
+    sleeps for 1 hour.
+    """
+    cfg=ConfigParser.ConfigParser()
+    cfg.read(cfgLoc)
+    options=cfg.options(cfg.sections()[5])
+    section=cfg.sections()[5]
+    cfg.set(section,options[2],str(utime))
+    with open(cfgLoc,'w') as nCfg:
+        cfg.write(nCfg)
 
 #Below is what runs
 for i in range(len(cZ)):
@@ -132,37 +152,47 @@ for i in range(len(cZ)):
     if radarLib['radar_on']=='0':
         continue
     
+    time_diff=nowTime-float(radarLib['radar_time'])
+        
     aVars=setVars(tStormLib,precipLib)
     if aVars[0]==False and aVars[1]==False:
         print 'User',headerLib['email'],headerLib['phone'],'does not want radar data... o_O'        
         continue
-    
     alert=''
-    if radarType=='CONUS':
-        print 'Using Default...'
-        print 'Checking CONUS Base Reflectivity...'
-        alert=CONUS_RADAR_Run.getRadarAlerts(aVars[0],headerLib,radarLib,False,Threshold,aVars[1],40)
-    if radarType=='NCR':
-        print 'Using Composite Reflectivity...'
-        print 'Checking...'
-        alert=NCR_Run.getRadarAlerts(headerLib,radarLib,False,Threshold)
-    if radarType=='NEXRAD':
-        print 'Using Level II Product...'
-        print 'WARNING: may be very slow...'
-        print 'checking...'
-        alert=NEXRAD_Run.runNEXRAD(headerLib,radarLib,'America/Denver',False)  
+    if time_diff>=hourLen:
+        print 'More Than One Hour Has Passed since last radar check, checking Radar...'
+        print 'Time Since last Alert: ',time_diff,'seconds'        
+        if radarType=='CONUS':
+            print 'Using Default...'
+            print 'Checking CONUS Base Reflectivity...'
+            alert=CONUS_RADAR_Run.getRadarAlerts(aVars[0],headerLib,radarLib,False,Threshold,aVars[1],40)
+        if radarType=='NCR':
+            print 'Using Composite Reflectivity...'
+            print 'Checking...'
+            alert=NCR_Run.getRadarAlerts(headerLib,radarLib,False,Threshold)
+        if radarType=='NEXRAD':
+            print 'Using Level II Product...'
+            print 'WARNING: may be very slow...'
+            print 'checking...'
+            alert=NEXRAD_Run.runNEXRAD(headerLib,radarLib,'America/Denver',False)  
+            
+        if alert:
+            contact=configureNotifications(headerLib)
+            cMeth=configureSendMethod(contact)
+            print "Radar Threshold Met!"
+            subj=headerLib['alert_name']
+            endAlert="\nThis alert can be stopped by replying: stop "+headerLib['alert_name']+"\n"
+            alert=alert+endAlert
+    #        print alert
+            send.sendEmailAlert(alert,contact,subj,cMeth)
+            writeRadarTime(cZ[i],time.time())
+        if not alert:
+            print "No RADAR Found, Checking again in 15..."
         
-    if alert:
-        contact=configureNotifications(headerLib)
-        cMeth=configureSendMethod(contact)
-        print "Radar Threshold Met!"
-        subj=headerLib['alert_name']
-        endAlert="\nThis alert can be stopped by replying: stop "+headerLib['alert_name']+"\n"
-        alert=alert+endAlert
-#        print alert
-        send.sendEmailAlert(alert,contact,subj,cMeth)
-    if not alert:
-        print "No RADAR Found, Checking again in 15..."
+    if time_diff<hourLen:
+        print 'Less than one Hour has passed since last radar alert...'
+        print 'Waiting',hourLen-time_diff,'seconds...'
+        continue
     
     
     

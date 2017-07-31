@@ -80,7 +80,7 @@ class RH:
     eBearing=0.0
     fBear=''    
     eVal=0.0
-    obs_min=0.0
+    obs_min=500.0
     time_min=0.0
 
 class Wind:

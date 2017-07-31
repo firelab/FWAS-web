@@ -10,6 +10,20 @@ This File Reads Email and then deletes alerts based on emails send to the email 
 This File Comports FWAS with Zawinski's Law:
 Every program attempts to expand until it can read mail. 
 Those programs which cannot so expand are replaced by ones which can.
+
+There are still some problems with this removal system which 
+need to be worked on
+Also most of the Platforms are not yet tested.
+------------------
+TESTED PLATFORMS:
+ATT
+VERIZON
+EMAIL
+T-MOBILE
+------------------
+UNTESTED PLATFORMS:
+everything else
+------------------
 """
 
 import platform
@@ -19,6 +33,7 @@ import datetime
 import glob
 import ConfigParser
 import os
+import base64
 
 print '==========================='
 print 'Alert Removal System     '
@@ -98,7 +113,22 @@ for j in datList:
         
 #        print '--------------------------'
 #        print 'Reading Message No: ',j
-        if d==-1 and e==-1:
+        if hList['carrier']=='tmobile' and d==-1 and e==-1:
+            print 'Tmobile'
+            #We Got a Runner...
+            send_id=sendFrom[:b][2:]
+            send_tmob=send_id[2:]
+            msg_body=str(msg.get_payload(i=1))
+            locLen=len('base64\n')
+            b64Loc=str(msg_body.find('base64\n'))
+            b64Part=msg_body[int(b64Loc)+locLen:]
+            decode=base64.b64decode(b64Part)
+            valLoc=decode.find((val+' '+hName))
+            if valLoc==-1:
+                valLoc=decode.find((val.capitalize()+' '+hName))
+            sendType[0]=1
+            
+        if d==-1 and e==-1 and hList['carrier']!='tmobile':
             print '--Cell Phone based Alert--(or possibly nothing...)'
             send_id=sendFrom[:b]
             print 'try: get_payload(i=0)...'
@@ -116,13 +146,13 @@ for j in datList:
             
             print 'Soemthing Worked!, proceeding...'
             msg_body=str(msg_body)
-            print msg_body
+#            print msg_body
             valLoc=msg_body.find((val+' '+hName))
             if valLoc==-1:
                 valLoc=msg_body.find((val.capitalize()+' '+hName))
             sendType[0]=1
                 
-        else:
+        if d!=-1 and e!=-1:
             print '--Email Based Alert--'
             send_id=sendFrom[d+1:e]
             try:

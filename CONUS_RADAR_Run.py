@@ -23,6 +23,9 @@ rTime=hDir+'rTimes.txt'
 
 
 def getRadarAlerts(storm_on,headerLib,radarLib,plot_on,threshold,precip_on,precip_threshold):
+    """
+    Delegates out radar checks...
+    """
     CONUS_RADAR_Fetch.fetchRadar(False)
     location=[float(headerLib['latitude']),float(headerLib['longitude'])]
     nAlert=''            
@@ -36,11 +39,11 @@ def getRadarAlerts(storm_on,headerLib,radarLib,plot_on,threshold,precip_on,preci
     nAlert=''                
     if storm_on==True:   
         rData=CONUS_RADAR_Parse.runRadarCheck(location,float(headerLib['radius']),plot_on,threshold)
-        nAlert=NCR_Alert.createCONUSAlert(rData,local.strftime('%H:%M, %m-%d-%Y'))
+        nAlert=NCR_Alert.createCONUSAlert(rData,local.strftime('%H:%M, %m/%d/%Y'))
     pAlert=''
     if precip_on==True:
         pData=CONUS_RADAR_Parse.runRadarCheck(location,float(headerLib['radius']),plot_on,precip_threshold)  
-        pAlert=NCR_Alert.createPRECIPAlert(pData,local.strftime('%H:%M, %m-%d-%Y'))
+        pAlert=NCR_Alert.createPRECIPAlert(pData,local.strftime('%H:%M, %m/%d/%Y'))
     nAlert+=pAlert
     return nAlert
     

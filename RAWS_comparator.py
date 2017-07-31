@@ -33,6 +33,9 @@ def getObsTime(obs,data,timezone,i):
     return [localD,localT,localOffset]
     
 def getDateTimeObj(obs,data,timezone,i):
+    """
+    Parses the string from the mesonet and returns as local time object
+    """
     obsTime=data['STATION'][i]['OBSERVATIONS'][obs]['date_time']
     obsD=obsTime[0:10]
     obsT=obsTime[11:19]
@@ -45,12 +48,12 @@ def getDateTimeObj(obs,data,timezone,i):
     
 def getReadableDates(date_str):
     """
-    Takes 2017-07-19 and turns it into 07-19-2017
+    Takes 2017-07-19 and turns it into 07.19.2017
     """
     year=date_str[:4]
     month=date_str[5:7]
     day=date_str[8:]
-    newDate=month+'-'+day+'-'+year    
+    newDate=month+'.'+day+'.'+year    
 #    print newDate
     return newDate
     

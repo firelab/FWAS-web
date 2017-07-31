@@ -19,6 +19,9 @@ import WWA_Parse
 fLoc='/home/ubuntu/fwas_data/WWA/current_ww/current.geojson'
 
 def getLoc(headerLib):
+    """
+    Gets Location from Header Lib which comes from CFG file
+    """
     loc=[]
     loc.append(float(headerLib['latitude']))
     loc.append(float(headerLib['longitude']))
@@ -26,12 +29,21 @@ def getLoc(headerLib):
     return loc,rad
     
 def getPointBuffer(loc,radius,direction):
+    """
+    Based on Radius and Direction, calculates a new Lat/Lon
+    to build a square
+    """
     origin=geopy.Point(loc[0],loc[1])
     newPt=geopy.distance.VincentyDistance(miles=int(radius)).destination(origin,int(direction))
     return newPt    
     
     
 def findIntersections(headerLib,tz,plot_on,print_wwa):
+    """
+    Builds a Square around a point, and then overlays all of the NWS
+    Polygons to see if there is an intersection, using Pythons Shapely 
+    Library, we find it and report it back.
+    """
     loc,rad=getLoc(headerLib)
     print 'Radius set to:',rad,'mi'
     print 'Location set:',loc

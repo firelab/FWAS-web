@@ -4,6 +4,9 @@
 Created on Fri Jul 21 21:33:11 2017
 
 @author: tanner
+
+This is the Master Run Script for NWS WWA Alerts. Aside from Instant Alerts, 
+this is the file executed or run via cron.
 """
 
 import send

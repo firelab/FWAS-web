@@ -73,6 +73,9 @@ def configureSendMethod(To):
         
 #/srv/shiny-server/fwas/data/threshold-USERNAME-2017-07-24_15-48-52.cfg
 def runInitialWWA(cfg):
+    """
+    Runs WWA when instantAlert.py is called from the UI (shiny)
+    """
     print 'Reading wWA Thresolds for',cfg,'...'
     cfgLoc[0]=cfg
     headerLib,wwaLib=readThresholds()

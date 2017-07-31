@@ -326,11 +326,11 @@ def runInitialFWAS():
     cMeth=configureSendMethod(contact)
     if wxStations or any(h_Alert):
         firstAlert=iniAlert+Alert+endIniAlert
-#        send.sendEmailAlert(firstAlert,contact,headerLib['alert_name'],cMeth)
+        send.sendEmailAlert(firstAlert,contact,headerLib['alert_name'],cMeth)
     if not wxStations and not any(h_Alert):
         siniAlert="No Stations Currently Meet Alert Thresholds. Alert has been set and will check hourly!"
         firstAlert=iniAlert+siniAlert+endIniAlert
-#        send.sendEmailAlert(firstAlert,contact,headerLib['alert_name'],cMeth)
+        send.sendEmailAlert(firstAlert,contact,headerLib['alert_name'],cMeth)
 """
 ################################################
 #                                              #

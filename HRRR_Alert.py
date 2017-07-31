@@ -130,11 +130,11 @@ def getStormRadar(radFloat):
     if radFloat<35:
         radStr='NaN'
     if radFloat>=35:
-        radStr='Very Mild Thunderstorms'
+        radStr='Thunderstorms'
     if radFloat>=45:
-        radStr='Mild Thunderstorms'
+        radStr='Thunderstorms'
     if radFloat>=50:
-        radStr='Moderate Thunderstorms'
+        radStr='Thunderstorms'
     if radFloat>=55:
         radStr='Moderate to Large Thunderstorms'
     if radFloat>=60:
@@ -292,7 +292,7 @@ def createReflecLine(fCasts,tList):
     refecSing=''
 #    befecSing=''
     
-    refecSing=qA+' from '+tList[0].strftime('%H:%M, %m-%d-%Y')+' to at least '+tList[-1].strftime('%H:%M, %m-%d-%Y')+'\n'
+    refecSing=qA+' from '+tList[0].strftime('%H:%M, %m/%d/%Y')+' to at least '+tList[-1].strftime('%H:%M, %m/%d/%Y')+'\n'
 #    refecSing=qAv[0]+' at '+tList[0].strftime('%H:%M, %Y-%m-%d')+' to '+qAv[-1]+' at '+tList[-1].strftime('%H:%M, %Y-%m-%d')+'\n'
 #    befecSing=qS+' from '+tList[0].strftime('%H:%M, %Y-%m-%d')+' to at least '+tList[-1].strftime('%H:%M, %Y-%m-%d')+'\n'
     return refecSing
@@ -349,8 +349,8 @@ def createLtngLine(fCast,tList):
     vMin=numpy.min(dist[numpy.nonzero(dist)])
     aMin=numpy.argmin(dist[numpy.nonzero(dist)])
     
-    line='FORECASTED Strong Chance of Lightning from '+tList[0].strftime('%H:%M, %m-%d-%Y')+' to at least '+tList[-1].strftime('%H:%M, %m-%d-%Y')+'\n'
-    cLine='Closest Strikes to Your Location: '+str(round(vMin,1))+' miles '+str(fCast[aMin][3].fBear)+' at '+tList[aMin].strftime('%H:%M, %m-%d-%Y')+'\n'
+    line='FORECAST Strong Chance of Lightning from '+tList[0].strftime('%H:%M, %m/%d/%Y')+' to at least '+tList[-1].strftime('%H:%M, %m/%d/%Y')+'\n'
+    cLine='Closest Strikes to Your Location: '+str(round(vMin,1))+' miles '+str(fCast[aMin][3].fBear)+' at '+tList[aMin].strftime('%H:%M, %m/%d/%Y')+'\n'
     return line+cLine
 
 def createPrecipLine(fCast,tList):
@@ -365,32 +365,45 @@ def createPrecipLine(fCast,tList):
 #    dist=numpy.array(dist)
     n=numpy.array(n)
     nMin=numpy.average(n[numpy.nonzero(n)])       
-#    line='Precipitation in the general area is FORECASTED to be greater than '+str(round(nMin,2))+' '+fCast[0][4].units+' from '+tList[0].strftime('%I:%M %p, %m-%d-%Y')+' to at least '+tList[-1].strftime('%I:%M %p, %m-%d-%Y')+'\n'
+#    line='Precipitation in the general area is FORECASTED to be greater than '+str(round(nMin,2))+' '+fCast[0][4].units+' from '+tList[0].strftime('%I:%M %p, %m/%d/%Y')+' to at least '+tList[-1].strftime('%I:%M %p, %m/%d/%Y')+'\n'
     return [str(round(nMin,2)),tList[0],tList[-1],fCast[0][4].units]   
     
 def createTempLine(thresholdsLib,fCasts,tList,t_max):
     """
     Creates HRRR Temperature Alert, reports general info about temp
     """
-    line='The temperature is FORECASTED to exceed '+str(thresholdsLib['temperature'])+' '+str(fCasts[0][1].units)+' from '+tList[0].strftime('%I:%M %p, %m-%d-%Y')+' to at least '+tList[-1].strftime('%I:%M %p, %m-%d-%Y')+'\n'
-    line2='FORECASTED MAX temperature: '+str(int(round(t_max[0][0],0)))+' '+str(fCasts[0][1].units)+' at '+t_max[0][2].strftime('%I:%M %p, %m-%d-%Y')+'\n'
+    line='The temperature is FORECAST to exceed '+str(thresholdsLib['temperature'])+' '+str(fCasts[0][1].units)+' from '+tList[0].strftime('%I:%M %p, %m/%d/%Y')+' to at least '+tList[-1].strftime('%I:%M %p, %m/%d/%Y')+'\n'
+    line2='FORECASTED MAX temperature: '+str(int(round(t_max[0][0],0)))+' '+str(fCasts[0][1].units)+' at '+t_max[0][2].strftime('%I:%M %p, %m/%d/%Y')+'\n'
     return line+line2
 
 def createSpeedLine(thresholdsLib,fCasts,tList,s_max):
     """
     Reports general info about Wind speed
     """
-    line='The wind speed is FORECASTED to exceed '+str(thresholdsLib['wind_speed'])+' '+str(fCasts[0][5].units)+' from '+tList[0].strftime('%I:%M %p, %m-%d-%Y')+' to at least '+tList[-1].strftime('%I:%M %p, %m-%d-%Y')+'\n'
-    line2='FORECASTED MAX wind speed: '+str(int(round(s_max[0][0],0)))+' '+str(fCasts[0][5].units)+' at '+s_max[0][2].strftime('%I:%M %p, %m-%d-%Y')+'\n'    
+    line='The wind speed is FORECAST to exceed '+str(thresholdsLib['wind_speed'])+' '+str(fCasts[0][5].units)+' from '+tList[0].strftime('%I:%M %p, %m/%d/%Y')+' to at least '+tList[-1].strftime('%I:%M %p, %m/%d/%Y')+'\n'
+    line2='FORECASTED MAX wind speed: '+str(int(round(s_max[0][0],0)))+' '+str(fCasts[0][5].units)+' at '+s_max[0][2].strftime('%I:%M %p, %m/%d/%Y')+'\n'    
     return line+line2
 
 def createRHLine(thresholdsLib,fCasts,tList,r_min):
     """
     Creates Relative Humidity alert, general info only
     """
-    line='The relative humidity is FORECASTED to be less than '+str(thresholdsLib['relative_humidity'])+' '+str(fCasts[0][2].units)+' from '+tList[0].strftime('%I:%M %p, %m-%d-%Y')+' to at least '+tList[-1].strftime('%I:%M %p, %m-%d-%Y')+'\n'
-    line2='FORECASTED MIN relative humidity: '+str(int(round(r_min[0][0],0)))+' '+str(fCasts[0][2].units)+' at '+r_min[0][2].strftime('%I:%M %p, %m-%d-%Y')+'\n'        
+#    line='The relative humidity is FORECASTED to be less than '+str(thresholdsLib['relative_humidity'])+' '+str(fCasts[0][2].units)+' from '+tList[0].strftime('%I:%M %p, %m/%d/%Y')+' to at least '+tList[-1].strftime('%I:%M %p, %m/%d/%Y')+'\n'
+#    line2='FORECASTED MIN relative humidity: '+str(int(round(r_min[0][0],0)))+' '+str(fCasts[0][2].units)+' at '+r_min[0][2].strftime('%I:%M %p, %m/%d/%Y')+'\n'        
+#    return line+line2
+    line2=''
+    if numpy.isnan(r_min[0][0]):
+        line2=''
+    else:
+        line2='FORECASTED MIN relative humidity: '+str(int(round(r_min[0][0],0)))+' '+str(fCasts[0][2].units)+' at '+r_min[0][2].strftime('%I:%M %p, %m/%d/%Y')+'\n'        
+    line='The relative humidity is FORECAST to be less than '+str(thresholdsLib['relative_humidity'])+' '+str(fCasts[0][2].units)+' from '+tList[0].strftime('%I:%M %p, %m/%d/%Y')+' to at least '+tList[-1].strftime('%I:%M %p, %m/%d/%Y')+'\n'
+    if r_min[0][0]==500.0: #Check to make sure that the new value is good.... Last line of defense!
+        return ''
+        
     return line+line2
+
+
+
 
 def createUnifiedPrecipLine(ppAlert,poAlert):
     """
@@ -400,12 +413,12 @@ def createUnifiedPrecipLine(ppAlert,poAlert):
     if not poAlert and ppAlert:
         start=ppAlert[1]
         stop=ppAlert[2]
-        line='FORECASTED RAIN RATE greater than '+ppAlert[0]+' '+ppAlert[3]+' from '+start.strftime('%I:%M %p, %m-%d-%Y')+' to at least '+stop.strftime('%I:%M %p, %m-%d-%Y')+'\n'
+        line='FORECAST RAIN RATE greater than '+ppAlert[0]+' '+ppAlert[3]+' from '+start.strftime('%I:%M %p, %m/%d/%Y')+' to at least '+stop.strftime('%I:%M %p, %m/%d/%Y')+'\n'
     
     if not ppAlert and poAlert:
         start=poAlert[1]
         stop=poAlert[2]
-        line='FORCEASTED '+poAlert[0]+' Precipitation from '+start.strftime('%I:%M %p, %m-%d-%Y')+' to at least '+stop.strftime('%I:%M %p, %m-%d-%Y')+'\n'
+        line='FORCEASTED '+poAlert[0]+' Precipitation from '+start.strftime('%I:%M %p, %m/%d/%Y')+' to at least '+stop.strftime('%I:%M %p, %m/%d/%Y')+'\n'
     
     if not ppAlert and not poAlert:
         return ''
@@ -413,7 +426,7 @@ def createUnifiedPrecipLine(ppAlert,poAlert):
     if ppAlert and poAlert:
         start=min([ppAlert[1],poAlert[1]])
         stop=max([ppAlert[2],poAlert[2]])
-        line='FORECASTED '+poAlert[0]+' Precipitation, RAIN RATE greater than '+ppAlert[0]+' '+ppAlert[3]+' from '+start.strftime('%I:%M %p, %m-%d-%Y')+' to at least '+stop.strftime('%I:%M %p, %m-%d-%Y')+'\n'
+        line='FORECAST '+poAlert[0]+' Precipitation, RAIN RATE greater than '+ppAlert[0]+' '+ppAlert[3]+' from '+start.strftime('%I:%M %p, %m/%d/%Y')+' to at least '+stop.strftime('%I:%M %p, %m/%d/%Y')+'\n'
     
     return line
 

@@ -60,8 +60,13 @@ for i in range(len(cZ)):
     if tTime>checkTime: #This means the alert has not yet expired and can be used!
         print "Alert is Valid... Checking Weather..."
         one.ascertainCfg(cZ[i])
-        one.runFWAS()
-        print True
+        try:
+            one.runFWAS()
+            print True
+        except:
+            print 'Could not Generate Alert for',cZ[i],'Something is wrong...'
+            print False
+            pass
     if tTime<checkTime: #This means the Alert Has expired and should be removed!
         print "Alert has expired... Deleting alert..."
         print cZ[i]
