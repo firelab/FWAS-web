@@ -98,7 +98,7 @@ for i in range(len(cZ)):
     print 'Reading wWA Thresolds for',cZ[i],'...'
     cfgLoc[0]=cZ[i]
     headerLib,wwaLib=readThresholds()
-    
+    print 'Alert Name:',headerLib['alert_name']
     time_diff=nowTime-float(wwaLib['wwa_time'])
     if time_diff>=hourLen:   
         print 'More Than 3 Hours have Passed Since Last WWA Check...'

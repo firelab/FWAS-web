@@ -151,7 +151,7 @@ for i in range(len(cZ)):
     headerLib,precipLib,radarLib,tStormLib=readThresholds()
     if radarLib['radar_on']=='0':
         continue
-    
+    print 'Alert Name:',headerLib['alert_name']
     time_diff=nowTime-float(radarLib['radar_time'])
         
     aVars=setVars(tStormLib,precipLib)
