@@ -1,0 +1,70 @@
+ 	PKZ011 	Glacier Bay
+atom 	PKZ012 	Northern Lynn Canal
+atom 	PKZ013 	Southern Lynn Canal
+atom 	PKZ021 	Icy Strait
+atom 	PKZ022 	Cross Sound
+atom 	PKZ031 	Stephens Passage
+atom 	PKZ032 	Northern Chatham Strait
+atom 	PKZ033 	Southern Chatham Strait
+atom 	PKZ034 	Frederick Sound
+atom 	PKZ035 	Sumner Strait
+atom 	PKZ036 	Clarence Strait
+atom 	PKZ041 	Dixon Entrance to Cape Decision
+atom 	PKZ042 	Cape Decision to Cape Edgecumbe
+atom 	PKZ043 	Southeast Alaska Outside Waters From Cape Edgecumbe to Cape Fairweather
+atom 	PKZ051 	Cape Fairweather to Icy Cape
+atom 	PKZ052 	Icy Cape to Cape Suckling
+atom 	PKZ053 	Yakutat Bay
+atom 	PKZ119 	Cape Suckling to Cape Cleare
+atom 	PKZ120 	Cape Cleare to Gore Point
+atom 	PKZ121 	Resurrection Bay
+atom 	PKZ125 	Prince William Sound
+atom 	PKZ126 	Port of Valdez
+atom 	PKZ127 	Valdez Narrows
+atom 	PKZ128 	Valdez Arm
+atom 	PKZ129 	Western Prince William Sound
+atom 	PKZ130 	West of Barren Islands Including Kamishak Bay
+atom 	PKZ131 	Barren Islands East
+atom 	PKZ132 	Shuyak Island To Sitkinak
+atom 	PKZ136 	Chiniak Bay
+atom 	PKZ137 	Marmot Bay
+atom 	PKZ138 	Shelikof Strait
+atom 	PKZ139 	Cook Inlet Kalgin Island to Point Bede
+atom 	PKZ140 	Cook Inlet North Kalgin Island
+atom 	PKZ141 	Kachemak Bay
+atom 	PKZ150 	Sitkinak to Castle Cape
+atom 	PKZ155 	Castle Cape to Cape Sarichef
+atom 	PKZ160 	Bristol Bay
+atom 	PKZ165 	Port Heiden to Cape Sarichef
+atom 	PKZ170 	Cape Sarichef to Nikoski Bering Side
+atom 	PKZ171 	Unalaska Bay
+atom 	PKZ172 	Cape Sarichef to Nikoski Pacific Side
+atom 	PKZ173 	Nikolski to Seguam Bering Side
+atom 	PKZ174 	Nikolski to Seguam Pacific Side
+atom 	PKZ175 	Seguam to Adak Bering Side
+atom 	PKZ176 	Seguam to Adak Pacific Side
+atom 	PKZ177 	Adak to Kiska
+atom 	PKZ178 	Kiska to Attu
+atom 	PKZ179 	Pribilof Islands Nearshore Waters
+atom 	PKZ180 	Kuskokwim Delta and Etolin Strait
+atom 	PKZ181 	North and West of Nunivak Island
+atom 	PKZ185 	St Matthew Island Waters
+atom 	PKZ200 	Norton Sound
+atom 	PKZ210 	Dall Point to Wales
+atom 	PKZ215 	Kotzebue Sound
+atom 	PKZ220 	Wales to Cape Thompson
+atom 	PKZ225 	Cape Thompson to Cape Beaufort
+atom 	PKZ230 	Cape Beaufort to Point Franklin
+atom 	PKZ235 	Point Franklin to Cape Halkett
+atom 	PKZ240 	Cape Halkett to Flaxman Island
+atom 	PKZ245 	Flaxman Island to Demarcation Point
+atom 	PKZ310 	Gulf of Alaska North of 55 Degrees North and East of 144 W
+atom 	PKZ351 	Gulf of Alaska Offshore North of 57N and West of 144W
+atom 	PKZ352 	Gulf of Alaska Offshore South of 57N North of 55N and West of 144W
+atom 	PKZ411 	Bering Sea Offshore West of 180 and East of the International Date Line
+atom 	PKZ412 	Bering Sea Offshore 171W to 180 and North of 56N
+atom 	PKZ413 	Bering Sea Offshore 171W to 180 and South of 56N
+atom 	PKZ414 	Bering Sea Offshore East of 171W
+atom 	PKZ500 	Western US Arctic Offshore
+atom 	PKZ505 	Central US Arctic Offshore
+atom 	PKZ510 	Eastern US Arctic Offshore

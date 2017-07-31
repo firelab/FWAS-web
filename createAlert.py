@@ -241,6 +241,8 @@ def createVarAlert(wxStation,var):
     """
     vDat=[]
     gustStr=''
+    wind_card=''
+    wind_dir=''
     if var=='rh':
         vDat.append('relative humidity')
         vDat.append(wxStation.rh)
@@ -249,6 +251,9 @@ def createVarAlert(wxStation,var):
         vDat.append('wind speed')
         vDat.append(wxStation.wind_speed)
         vDat.append(wxStation.wind_speed_units)
+        if numpy.isnan(wxStation.wind_direction)==False:
+            wind_card=degToCompass(wxStation.wind_direction)
+            wind_dir=str(int(round(wxStation.wind_direction,0)))
         if numpy.isfinite(wxStation.wind_gust):
             gustStr=' G '+str(int(round(wxStation.wind_gust,0))) #Coarsen the Precision
     if var=='temperature':
@@ -265,6 +270,10 @@ def createVarAlert(wxStation,var):
         line=str(wxStation.name.upper())+", "+str(round(wxStation.distance_from_point,1))+" miles "+\
         ""+str(wxStation.cardinal)+" of your location reported a "+str(vDat[0])+\
         " of "+str(int(round(vDat[1],0)))+gustStr+' '+str(vDat[2])+' at '+wxStation.time[:5]+" "+wxStation.date+"\n"#+" UTC"+wxStation.utc_offset+'\n'  
+    if wind_card and wind_dir and numpy.isfinite(vDat[1]):
+        line=str(wxStation.name.upper())+", "+str(round(wxStation.distance_from_point,1))+" miles "+\
+        ""+str(wxStation.cardinal)+" of your location reported a "+str(vDat[0])+\
+        " of "+str(int(round(vDat[1],0)))+gustStr+' '+str(vDat[2])+' at '+wind_dir+' degrees '+wind_card+' at '+wxStation.time[:5]+" "+wxStation.date+"\n"#+" UTC"+wxStation.utc_offset+'\n'       
     else:
         line=''
     return line

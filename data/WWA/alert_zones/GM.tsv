@@ -1,0 +1,92 @@
+ 	GMZ011 	NW Gulf including Stetson Bank
+atom 	GMZ013 	N Central Gulf including Flower Garden Banks Marine Sanctuary
+atom 	GMZ015 	NE Gulf N of 25N E of 87W
+atom 	GMZ017 	W Central Gulf from 22N to 26N W of 94W
+atom 	GMZ019 	Central Gulf from 22N to 26N between 87W and 94W
+atom 	GMZ021 	E Gulf from 22N to 25N E of 87W including Straits of Florida
+atom 	GMZ023 	SW Gulf S of 22N W of 94W
+atom 	GMZ025 	E Bay of Campeche including Campeche Bank
+atom 	GMZ031 	Florida Bay including Barnes Sound, Blackwater Sound, and Buttonwood Sound
+atom 	GMZ032 	Bayside and Gulf side from Craig Key to West End of Seven Mile Bridge
+atom 	GMZ033 	Gulf waters from East Cape Sable to Chokoloskee 20 to 60 NM out and beyond 5 fathoms
+atom 	GMZ034 	Gulf of Mexico including Dry Tortugas and Rebecca Shoal Channel
+atom 	GMZ035 	Gulf of Mexico from West End of Seven Mile Bridge to Halfmoon Shoal out to 5 Fathoms
+atom 	GMZ042 	Hawk Channel from Ocean Reef to Craig Key out to the reef
+atom 	GMZ043 	Hawk Channel from Craig Key to west end of Seven Mile Bridge out to the reef
+atom 	GMZ044 	Hawk Channel from west end of Seven Mile Bridge to Halfmoon Shoal out to the reef
+atom 	GMZ052 	Straits of Florida from Ocean Reef to Craig Key out 20 NM
+atom 	GMZ053 	Straits of Florida from Craig Key to west end of Seven Mile Bridge out 20 NM
+atom 	GMZ054 	Straits of Florida from west end of Seven Mile Bridge to south of Halfmoon Shoal out 20 NM
+atom 	GMZ055 	Straits of Florida from Halfmoon Shoal to 20 NM west of Dry Tortugas out 20 NM
+atom 	GMZ072 	Straits of Florida from Ocean Reef to Craig Key 20 to 60 NM out
+atom 	GMZ073 	Straits of Florida from Craig Key to west end of Seven Mile Bridge 20 to 60 NM out
+atom 	GMZ074 	Straits of Florida from west end of Seven Mile Bridge to south of Halfmoon Shoal 20 to 60 NM out
+atom 	GMZ075 	Straits of Florida from Halfmoon Shoal to 20 NM west of Dry Tortugas 20 to 60 NM out
+atom 	GMZ130 	Laguna Madre From the Port Of Brownsville to the Arroyo Colorado
+atom 	GMZ132 	Laguna Madre From The Arroyo Coloardo To 5 NM North Of Port Mansfield TX
+atom 	GMZ135 	Laguna Madre From 5 nm North Of Port Mansfield To Baffin Bay TX
+atom 	GMZ150 	Coastal waters from Port Mansfield TX to the Rio Grande River out 20 NM
+atom 	GMZ155 	Coastal waters from Baffin Bay to Port Mansfield TX out 20 NM
+atom 	GMZ170 	Waters from Port Mansfield TX to the Rio Grande River from 20 to 60 NM
+atom 	GMZ175 	Waters from Baffin Bay to Port Mansfield TX from 20 to 60 NM
+atom 	GMZ230 	Bays and Waterways from Baffin Bay to Port Aransas
+atom 	GMZ235 	Bays and Waterways from Port Aransas to Port O'Connor
+atom 	GMZ250 	Coastal waters from Baffin Bay to Port Aransas out 20 NM
+atom 	GMZ255 	Coastal waters from Port Aransas to Matagorda Ship Channel out 20 NM
+atom 	GMZ270 	Waters from Baffin Bay to Port Aransas from 20 to 60 NM
+atom 	GMZ275 	Waters from Port Aransas to Matagorda Ship Channel from 20 to 60 NM
+atom 	GMZ330 	Matagorda Bay
+atom 	GMZ335 	Galveston Bay
+atom 	GMZ350 	Coastal waters from Freeport to Matagorda Ship Channel TX out 20 NM
+atom 	GMZ355 	Coastal waters from High Island to Freeport TX out 20 NM
+atom 	GMZ370 	Waters from Freeport to Matagorda Ship Channel TX from 20 to 60 NM
+atom 	GMZ375 	Waters from High Island to Freeport TX from 20 to 60 NM
+atom 	GMZ430 	Sabine Lake
+atom 	GMZ432 	Calcasieu Lake
+atom 	GMZ435 	Vermilion Bay
+atom 	GMZ450 	Coastal waters from Cameron LA to High Island TX out 20 NM
+atom 	GMZ452 	Coastal waters from Intracoastal City to Cameron LA out 20 NM
+atom 	GMZ455 	Coastal waters from Lower Atchafalaya River to Intracoastal City LA out 20 NM
+atom 	GMZ470 	Waters from Cameron LA to High Island TX from 20 to 60 NM
+atom 	GMZ472 	Waters from Intracoastal City to Cameron LA from 20 to 60 NM
+atom 	GMZ475 	Waters from Lower Atchafalaya River to Intracoastal City LA from 20 to 60 NM
+atom 	GMZ530 	Lake Pontchartrain and Lake Maurepas
+atom 	GMZ532 	Mississippi Sound
+atom 	GMZ534 	Lake Borgne
+atom 	GMZ536 	Chandeleur Sound
+atom 	GMZ538 	Breton Sound
+atom 	GMZ550 	Coastal Waters from Port Fourchon LA to Lower Atchafalaya River LA out 20 nm
+atom 	GMZ552 	Coastal waters from the Southwest Pass of the Mississippi River to Port Fourchon Louisiana out 20 NM
+atom 	GMZ555 	Coastal Waters from Boothville LA to Southwest Pass of the Mississippi River out 20 nm
+atom 	GMZ557 	Coastal waters from Pascagoula Mississippi to Stake Island out 20 NM
+atom 	GMZ570 	Coastal waters from Port Fourchon Louisiana to Lower Atchafalaya River LA from 20 to 60 NM
+atom 	GMZ572 	Coastal waters from Southwest Pass of the Mississippi River to Port Fourchon Louisiana from 20 to 60 NM
+atom 	GMZ575 	Coastal Waters from Stake Island LA to Southwest Pass of the Mississippi River from 20 to 60 nm
+atom 	GMZ577 	Coastal waters from Pascagoula Mississippi to Stake Island Louisiana out 20 to 60 NM
+atom 	GMZ630 	North Mobile Bay
+atom 	GMZ631 	South Mobile Bay
+atom 	GMZ632 	Mississippi Sound
+atom 	GMZ633 	Perdido Bay Area
+atom 	GMZ634 	Pensacola Bay Area
+atom 	GMZ635 	Choctawhatchee Bay
+atom 	GMZ650 	Coastal waters from Pensacola FL to Pascagoula MS out 20 NM
+atom 	GMZ655 	Coastal waters from Destin to Pensacola FL out 20 NM
+atom 	GMZ656 	Coastal waters from Chokoloskee to Bonita Beach FL out 20 NM
+atom 	GMZ657 	Coastal waters from East Cape Sable to Chokoloskee FL out 20 NM
+atom 	GMZ670 	Waters from Pensacola FL to Pascagoula MS from 20 to 60 NM
+atom 	GMZ675 	Waters from Destin to Pensacola FL from 20 to 60 NM
+atom 	GMZ676 	Waters from Chokoloskee to Bonita Beach FL from 20 to 60 NM
+atom 	GMZ730 	Apalachee Bay or Coastal Waters From Keaton Beach to Ochlockonee River Fl out to 20 Nm
+atom 	GMZ750 	Coastal waters from Apalachicola to Destin FL out 20 NM
+atom 	GMZ755 	Coastal Waters From Ochlockonee River to Apalachicola Fl out to 20 Nm
+atom 	GMZ765 	Coastal waters from Suwannee River to Keaton Beach out 20 NM
+atom 	GMZ770 	Waters from Apalachicola to Destin FL from 20 to 60 NM
+atom 	GMZ775 	Waters from Suwannee River to Apalachicola FL from 20 to 60 NM
+atom 	GMZ830 	Tampa Bay waters
+atom 	GMZ836 	Charlotte Harbor and Pine Island Sound
+atom 	GMZ850 	Coastal waters from Tarpon Springs to Suwannee River FL out 20 NM
+atom 	GMZ853 	Coastal waters from Englewood to Tarpon Springs FL out 20 NM
+atom 	GMZ856 	Coastal waters from Bonita Beach to Englewood FL out 20 NM
+atom 	GMZ870 	Waters from Tarpon Springs to Suwannee River FL out 20 to 60 NM
+atom 	GMZ873 	Waters from Englewood to Tarpon Springs FL out 20 to 60 NM
+atom 	GMZ876 	Waters from Bonita Beach to Englewood FL out 20 to 60 NM

@@ -14,8 +14,12 @@ import glob
 import ConfigParser
 import calcTime
 import createAlert
+import time
 
 import WWA_Run
+
+nowTime=time.time()
+hourLen=10800.0 #3 Hours in seconds!
 
 cfgLoc=['']
 
@@ -79,28 +83,47 @@ def configureSendMethod(To):
     if type(To) is str:
         return 'REGULAR'
 
+def writeWWATime(cfgLoc,uTime):
+    cfg=ConfigParser.ConfigParser()
+    cfg.read(cfgLoc)
+    options=cfg.options(cfg.sections()[6])
+    section=cfg.sections()[6]
+    cfg.set(section,options[1],str(uTime))
+    with open(cfgLoc,'w') as nCfg:
+        cfg.write(nCfg)
+
 x=0
 y=0
 for i in range(len(cZ)):
     print 'Reading wWA Thresolds for',cZ[i],'...'
     cfgLoc[0]=cZ[i]
     headerLib,wwaLib=readThresholds()
-    if wwaLib['wwa_on']=='1':
-        x+=1
-        tz=calcTime.convertTimeZone(int(headerLib['time_zone']))
-        alert=WWA_Run.runWWA(headerLib,tz,False,True)
-        if alert:
-            contact=configureNotifications(headerLib)
-            cMeth=configureSendMethod(contact)
-            print 'WWA Found...'
-            subj=headerLib['alert_name']
-            send.sendEmailAlert(alert,contact,subj,cMeth)
-        if not alert:
-            print 'No WWA Found...'
-    else:
-        print 'WWA Turned off for',cZ[i]
-        y+=1   
-#        continue
+    
+    time_diff=nowTime-float(wwaLib['wwa_time'])
+    if time_diff>=hourLen:   
+        print 'More Than 3 Hours have Passed Since Last WWA Check...'
+        print 'Time Since Last Alert:',time_diff,'Seconds'
+        if wwaLib['wwa_on']=='1':
+            x+=1
+            tz=calcTime.convertTimeZone(int(headerLib['time_zone']))
+            alert=WWA_Run.runWWA(headerLib,tz,False,True)
+            if alert:
+                contact=configureNotifications(headerLib)
+                cMeth=configureSendMethod(contact)
+                print 'WWA Found...'
+                subj=headerLib['alert_name']
+                send.sendEmailAlert(alert,contact,subj,cMeth)
+                writeWWATime(cZ[i],time.time())
+            if not alert:
+                print 'No WWA Found...'
+        else:
+            print 'WWA Turned off for',cZ[i]
+            y+=1   
+    #        continue
+    if time_diff<hourLen:
+        print 'Less than Three Hours have passed since last WWA Alert...'
+        print 'Waiting',hourLen-time_diff,'seconds...'
+        continue
 
     
 #def runInitialWWA(cfg):

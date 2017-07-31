@@ -1,0 +1,133 @@
+ 	LCZ422 	St. Clair River
+atom 	LCZ423 	Detroit River
+atom 	LCZ460 	Lake St. Clair Open Lake (U.S. Portion)
+atom 	LEZ020 	Upper Niagara River and Buffalo Harbor
+atom 	LEZ040 	Ripley to Dunkirk NY
+atom 	LEZ041 	Dunkirk to Buffalo NY
+atom 	LEZ061 	Ripley to Buffalo NY extending from 5NM off shoreline to US-Canadian border
+atom 	LEZ142 	Maumee Bay to Reno Beach OH
+atom 	LEZ143 	Reno Beach to The Islands OH
+atom 	LEZ144 	The Islands to Vermilion OH
+atom 	LEZ145 	Vermilion to Avon Point OH
+atom 	LEZ146 	Avon Point to Willowick OH
+atom 	LEZ147 	Willowick to Geneva-on-the Lake OH
+atom 	LEZ148 	Geneva-on-the-Lake to Conneaut OH
+atom 	LEZ149 	Conneaut OH to Ripley NY
+atom 	LEZ162 	Detroit River Lt. to Maumee Bay OH to Reno Beach OH beyond 5NM offshoreline to US-Canadian border
+atom 	LEZ163 	Reno Beach to The Islands OH beyond 5NM off shoreline to US-Canadian border
+atom 	LEZ164 	The Islands to Vermilion OH beyond 5 nm off shoreline to US-Canadian border
+atom 	LEZ165 	Vermilion to Avon Point OH beyond 5 nm off shoreline to US-Canadian border
+atom 	LEZ166 	Avon Point to Willowick OH beyond 5 nm off shoreline to US-Canadian border
+atom 	LEZ167 	Willowick to Geneva-on-the-Lake OH beyond 5NM off shoreline to US-Canadian border
+atom 	LEZ168 	Geneva-on-the-Lake to Conneaut OH beyond 5 nm off shoreline to US-Canadian border
+atom 	LEZ169 	Conneaut OH to Ripley NY beyond 5 nm off shoreline to US-Canadian border
+atom 	LEZ444 	Michigan Waters of Lake Erie from Detroit River to North Cape MI
+atom 	LHZ345 	Straits of Mackinac within 5 nm of Mackinac Bridge including Mackinac Island
+atom 	LHZ346 	St Ignace to False Detour Channel
+atom 	LHZ347 	5NM East of Mackinac Bridge to Presque Isle Light MI including Bois Blanc Island
+atom 	LHZ348 	Presque Isle Light to Sturgeon Pt MI Including Thunder Bay National Marine Sanctuary
+atom 	LHZ349 	Sturgeon Pt to Alabaster MI
+atom 	LHZ361 	Lake Huron from 5NM east of Mackinac Bridge to Presque Isle Lt to the US/Canadian border beyond 5 NM from shore
+atom 	LHZ362 	Lake Huron from Presque Isle Lt. to Sturgeon Point MI 5NM off shore to US/Canadian border
+atom 	LHZ363 	Lake Huron from Sturgeon Point to Alabaster MI 5NM off shore to US/Canadian border
+atom 	LHZ421 	Outer Saginaw Bay SW of Alabaster to Port Austin MI to Inner Saginaw Bay
+atom 	LHZ422 	Inner Saginaw Bay SW of Point Au Gres to Bay Port MI
+atom 	LHZ441 	Port Austin to Harbor Beach MI
+atom 	LHZ442 	Harbor Beach to Port Sanilac MI
+atom 	LHZ443 	Port Sanilac to Port Huron MI
+atom 	LHZ462 	Lake Huron from Port Austin to Harbor Beach 5NM Off Shore to the US/Canadian border
+atom 	LHZ463 	Lake Huron from Harbor Beach to Port Sanilac 5NM Off Shore to US/Canadian border
+atom 	LHZ464 	Lake Huron from Port Sanilac to Port Huron 5NM Off Shore to US/Canadian border
+atom 	LMZ043 	New Buffalo MI to St Joseph MI
+atom 	LMZ046 	Michigan City IN to New Buffalo MI
+atom 	LMZ080 	Lake Michigan Michigan City IN to St. Joseph MI 5 NM offshore to mid-line of lake.
+atom 	LMZ221 	Green Bay North of line from Cedar River MI to Rock Island Passage
+atom 	LMZ248 	Seul Choix Point to Point Detour MI
+atom 	LMZ250 	5NM East of a line from Fairport MI to Rock Island Passage
+atom 	LMZ261 	Lake Michigan from Seul Choix Point to Rock Island Passage 5NM offshore to Mid Lake
+atom 	LMZ323 	Grand Traverse Bay south of a line Grand Traverse Light to Norwood MI
+atom 	LMZ341 	Seul Choix Point to 5NM West of Mackinac Bridge
+atom 	LMZ342 	Norwood MI to 5NM West of Mackinac Bridge including Little Traverse Bay
+atom 	LMZ344 	Sleeping Bear Point to Grand Traverse Light MI
+atom 	LMZ345 	Point Betsie to Sleeping Bear Point MI
+atom 	LMZ346 	Manistee to Point Betsie MI
+atom 	LMZ362 	Lake Michigan South of a line from Seul Choix Point to the Mackinac Bridge and North of a line from Charlevoix MI to South Fox Island 5NM offshore
+atom 	LMZ364 	Lake Michigan from Charlevoix to Point Betsie MI 5NM Offshore to mid lake
+atom 	LMZ366 	Lake Michigan from Point Betsie to Manistee MI 5NM offshore to Mid Lake
+atom 	LMZ521 	Green Bay south of line from Cedar River to Rock Island Passage and north of a line from Oconto WI to Little Sturgeon Bay WI
+atom 	LMZ522 	Green Bay south of line from Oconto WI to Little Sturgeon Bay WI
+atom 	LMZ541 	Rock Island Passage to Sturgeon Bay WI
+atom 	LMZ542 	Sturgeon Bay to Two Rivers WI
+atom 	LMZ543 	Two Rivers to Sheboygan WI
+atom 	LMZ563 	Lake Michigan from Rock Island Passage to Sturgeon Bay WI 5NM offshore to mid lake
+atom 	LMZ565 	Lake Michigan from Sturgeon Bay to Two Rivers WI 5NM offshore to Mid Lake
+atom 	LMZ567 	Lake Michigan from Two Rivers to Sheboygan WI 5NM offshore to Mid Lake
+atom 	LMZ643 	Sheboygan to Port Washington WI
+atom 	LMZ644 	Port Washington to North Point Light WI
+atom 	LMZ645 	North Point Light to Wind Point WI
+atom 	LMZ646 	Wind Point WI to Winthrop Harbor IL
+atom 	LMZ669 	Lake Michigan from Sheboygan to Port Washington WI 5NM offshore to Mid Lake
+atom 	LMZ671 	Lake Michigan from Port Washington to North Point Light WI 5NM offshore to Mid Lake
+atom 	LMZ673 	Lake Michigan from North Point Light to Wind Point WI 5NM offshore to Mid Lake
+atom 	LMZ675 	Lake Michigan from Wind Point WI to Winthrop Harbor IL 5NM offshore to Mid Lake
+atom 	LMZ740 	Winthrop Harbor to Wilmette Harbor IL
+atom 	LMZ741 	Wilmette Harbor to Northerly Island IL
+atom 	LMZ742 	Northerly Island to Calumet Harbor IL
+atom 	LMZ743 	Calumet Harbor IL to Gary IN
+atom 	LMZ744 	Gary to Burns Harbor IN
+atom 	LMZ745 	Burns Harbor to Michigan City IN
+atom 	LMZ777 	Lake Michigan from Winthrop Harbor to Wilmette Harbor IL 5NM offshore to Mid Lake
+atom 	LMZ779 	Lake Michigan from Wilmette Harbor to Michigan City in 5NM offshore to Mid Lake
+atom 	LMZ844 	St Joseph to South Haven MI
+atom 	LMZ845 	South Haven to Holland MI
+atom 	LMZ846 	Holland to Grand Haven MI
+atom 	LMZ847 	Grand Haven to Whitehall MI
+atom 	LMZ848 	Whitehall to Pentwater MI
+atom 	LMZ849 	Pentwater to Manistee MI
+atom 	LMZ868 	Lake Michigan from Pentwater to Manistee MI 5NM offshore to Mid Lake
+atom 	LMZ870 	Lake Michigan from Whitehall to Pentwater MI 5NM offshore to Mid Lake
+atom 	LMZ872 	Lake Michigan from Grand Haven to Whitehall MI 5NM offshore to Mid Lake
+atom 	LMZ874 	Lake Michigan from Holland to Grand Haven MI 5NM offshore to Mid Lake
+atom 	LMZ876 	Lake Michigan from South Haven to Holland MI 5NM offshore to Mid lake
+atom 	LMZ878 	Lake Michigan from St Joseph to South Haven MI 5NM offshore to Mid Lake
+atom 	LOZ030 	Lower Niagara River
+atom 	LOZ042 	Niagara River to Hamlin Beach NY
+atom 	LOZ043 	Hamlin Beach to Sodus Bay NY
+atom 	LOZ044 	Sodus Bay to Mexico Bay NY
+atom 	LOZ045 	Mexico Bay NY to the St. Lawrence River
+atom 	LOZ062 	Niagara River to Hamlin Beach NY beyond 5NM off shoreline to US-Canadian border
+atom 	LOZ063 	Hamlin Beach to Sodus Bay NY beyond 5NM off shoreline to US-Canadian border
+atom 	LOZ064 	Sodus Bay to Mexico Bay NY beyond 5NM off shoreline to US-Canadian border
+atom 	LOZ065 	Mexico Bay NY to the St. Lawrence River beyond 5NM off shoreline to US-Canadian border
+atom 	LSZ121 	Chequamegon Bay-Bayfield to Oak Point WI
+atom 	LSZ140 	Grand Portage to Grand Marais MN
+atom 	LSZ141 	Grand Marais to Taconite Harbor MN
+atom 	LSZ142 	Taconite Harbor to Silver Bay Harbor MN
+atom 	LSZ143 	Silver Bay Harbor to Two Harbors MN
+atom 	LSZ144 	Two Harbors to Duluth MN
+atom 	LSZ145 	Duluth MN to Port Wing WI
+atom 	LSZ146 	Port Wing to Sand Island WI
+atom 	LSZ147 	Sand Island to Bayfield WI
+atom 	LSZ148 	Oak Point to Saxon Harbor WI
+atom 	LSZ162 	Lake Superior west of a line from Saxon Harbor WI to Grand Portage MN beyond 5NM
+atom 	LSZ240 	Saxon Harbor WI to Black River MI
+atom 	LSZ241 	Black River To Ontonagon MI
+atom 	LSZ242 	Ontonagon to Upper Entrance of Portage Canal MI
+atom 	LSZ243 	Upper Entrance of Portage Canal to Eagle River MI
+atom 	LSZ244 	Eagle River to Manitou Island MI
+atom 	LSZ245 	Manitou Island to Point Isabelle MI
+atom 	LSZ246 	Point Isabelle to Lower Entrance of Portage Canal MI
+atom 	LSZ247 	Portage Lake to Huron Island MI to Lower Entrance of Portage Canal To Huron Islands MI Including Keweenaw and Huron Bays
+atom 	LSZ248 	Huron Islands to Marquette MI
+atom 	LSZ249 	Marquette to Munising MI
+atom 	LSZ250 	Munising to Grand Marais MI
+atom 	LSZ251 	Grand Marais to Whitefish Point MI
+atom 	LSZ263 	Lake Superior from Saxon Harbor WI to Upper Entrance to Portage Canal MI 5NM off shore to the US/Canadian border including Isle Royal National Park
+atom 	LSZ264 	Lake Superior from Upper Entrance to Portage Canal to Manitou Island MI 5NM off shore to the US/Canadian Border
+atom 	LSZ265 	Lake Superior West of Line from Manitou Island to Marquette MI Beyond 5NM from shore
+atom 	LSZ266 	Lake Superior East of a line from Manitou Island to Marquette MI and West of a line from Grand Marais MI to the US/Canadian Border Beyond 5NM from shore
+atom 	LSZ267 	Lake Superior from Grand Marais MI to Whitefish Point MI 5NM off shore to the US/Canadian border
+atom 	LSZ321 	Whitefish Bay (U.S. Portion)/Whitefish Point to Point Iroquois MI
+atom 	LSZ322 	St. Marys River Point Iroquois to E. Potagannissing Bay
+atom 	SLZ022 	St. Lawrence River above Ogdensburg NY
+atom 	SLZ024 	St. Lawrence River from Ogdensburg to St. Regis NY

@@ -21,7 +21,7 @@ def sendEmailAlert(AlertB,To,subject,method):
         # fi=open('/home/ubuntu/src/FWAS/dump/app.yml')
         # conf=yaml.load(fi)
 
-        print "sending Alert..."
+        print "sending Alert",To,"..."
         fromaddr = str(email)
     
         server = smtplib.SMTP('smtp.gmail.com', 587)

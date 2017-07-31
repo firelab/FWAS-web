@@ -63,6 +63,57 @@ shinyServer(function(input, output, session) {
   #   addRunButtonText()
   # })
   
+  ##########################################
+  #
+  # Location Finder Code
+  #
+  ##########################################
+  
+  onclick("locate",{js$func()})
+  output$location<-renderUI({
+    if (is.null(input$locationType))
+      return()
+    
+    switch(input$locationType,
+           "1" = tagList(
+             numericInput("Lat", label = ("Enter Latitude (Decimal Degrees)"), value = 46.92,step=0.1),
+             verbatimTextOutput("latVal"),
+             numericInput("Lon", label = ("Enter Longitude (Decimal Degrees)"), value = -114.1,step=0.1),
+             verbatimTextOutput("lonVal")),
+           "2" = tagList(actionButton("locate","Allow Location Access"),br(),br(),verbatimTextOutput("glat"),verbatimTextOutput("glon"))
+           # "3" = textInput("test3", "test3",value = "FIRE PERIM")
+           )
+  })
+  output$glat<-renderPrint(paste('Lat:',input$geoLat,sep=" "))
+  output$glon<-renderPrint(paste('Lon:',input$geoLon,sep=" "))
+  aCheck<-reactive({
+    validate(
+      need(input$locationType==1,paste("Using Geolocation:",input$geoLat,input$geoLon,sep=" ")),
+      need(input$locationType==2,paste("Using Specified Lat/Lon:",input$Lat,input$Lon,sep=" "))
+      # need(input$geolocation==TRUE,paste("Geolocation services are disalbed/unavailable/denied, Please Try again or manually enter Lat/Lon"))
+    )
+    # validate(
+    #  need(input$geolocation==TRUE,paste("Geolocation services are disalbed/unavailable/denied, Please Try again or manually enter Lat/Lon"))
+    #   
+    # )
+    # if (input$geolocation==TRUE && input$locationType=="2")
+    # {
+    #   b_arg<-renderPrint("GEOLOC TO BE USED!")
+    # }
+    
+  })
+  output$bCheck<-renderPrint({aCheck()})
+  # gWarn<-reactive({
+  #   validate(
+  #     need(!is.null(input$geolocation),paste("")),
+  #     need((is.null(input$geolocation) & input$geolocation==FALSE),paste("DENIED"))
+  #     # need((input$geolocation!=FALSE),paste("Geolocation services are disalbed/unavailable/denied, Please Try again or manually enter Lat/Lon")),
+  #     # need(input$geolocation=="TRUE",paste(""))
+  #     )
+  # })
+  # output$gCheck<-renderPrint({gWarn()})
+
+  
   #####
   #Vary UI based on user requests
   #####
@@ -95,7 +146,7 @@ shinyServer(function(input, output, session) {
   latNum<-reactive({
     validate(
       
-      need(is.numeric(input$Lat),"Please Input A Valid Latitude (00.00)")
+      need(is.numeric(input$Lat),"Please Input A Valid Latitude (00.00) (Decimal Degrees)")
     )
   })
   output$latVal<-renderPrint({latNum()})
@@ -103,7 +154,7 @@ shinyServer(function(input, output, session) {
   lonNum<-reactive({
     validate(
       
-      need(is.numeric(input$Lon),"Please Input A Valid Longitude (00.00)")
+      need(is.numeric(input$Lon),"Please Input A Valid Longitude (00.00) (Decimal Degrees)")
     )
   })
   output$lonVal<-renderPrint({lonNum()})
@@ -136,6 +187,21 @@ shinyServer(function(input, output, session) {
     )
   })
   output$tempVal<-renderPrint({temperatureNum()})
+  
+  nameChecker<-reactive({
+    validate(
+      need(input$runName!="","WARNING! No Alert Name has been set! You will not recieve an Alert!")
+    )
+  })
+  output$nameCzecher<-renderPrint({nameChecker()})
+  
+  notifChecker<-reactive({
+    validate(
+      need(input$email!=FALSE || input$nText!=FALSE,"WARNING! No notifcation information has been provided! YOU WILL NOT RECIEVE AN ALERT!")
+    )
+  })
+  output$notifCzecher<-renderPrint({notifChecker()})
+
   
   ###########
   #
@@ -175,7 +241,19 @@ shinyServer(function(input, output, session) {
     }
     
     name_arg<-input$runName
-
+    if (name_arg=="")
+    {
+      name_arg<-"_"
+    }
+    if (input$emailAddress=="")
+    {
+      email_arg<-"_"
+    }
+    if (input$textMessage=="")
+    {
+      text_arg<-"_"
+    }
+    
     gArgs=paste(name_arg,email_arg,text_arg,sep=" ")
     
     dupeCheck<-system2(command=dupePath,args=gArgs,stdout=TRUE)
@@ -184,9 +262,11 @@ shinyServer(function(input, output, session) {
       need(dupeCheck!='TrueEmail',paste("WARNING! Alert Name:",input$runName,"Already exists for",input$emailAddress,"Please Choose Another Name.",sep=" ")),
       need(dupeCheck!='TruePhone',paste("WARNING! Alert Name:",input$runName,"Already exists for",input$textMessage,"Please Choose Another Name.",sep=" "))
       
+      
       )   
   })
   output$dupe<-renderPrint({duplicate_name()})
+  output$dupe2<-renderPrint({duplicate_name()})
 
   observeEvent(input$nex,{
     # shinyjs::disable('radarName')
@@ -206,8 +286,16 @@ shinyServer(function(input, output, session) {
       #cfg<-paste("/home/tanner/src/breezy/fwas/data/",fileLoc,sep="")
       cat("[FWAS_Threshold_File]\n",file=cfg)
       cat(paste("alert_name = ",input$runName,"\n",collapse=""),file=cfg,append=TRUE)
-      cat(paste("latitude = ",input$Lat,"\n",collapse=""),file=cfg,append=TRUE)
-      cat(paste("longitude = ",input$Lon,"\n",collapse=""),file=cfg,append=TRUE)
+      if (input$locationType==1) #Use Lat/Lon
+      {
+        cat(paste("latitude = ",input$Lat,"\n",collapse=""),file=cfg,append=TRUE)
+        cat(paste("longitude = ",input$Lon,"\n",collapse=""),file=cfg,append=TRUE)
+      }
+      if (input$locationType==2) #Use GeoLocation
+      {
+        cat(paste("latitude = ",input$geoLat,"\n",collapse=""),file=cfg,append=TRUE)
+        cat(paste("longitude = ",input$geoLon,"\n",collapse=""),file=cfg,append=TRUE)
+      }
       cat(paste("radius = ",input$radius,"\n",collapse=""),file=cfg,append=TRUE)
       cat(paste("limit = ",0,"\n",collapse=""),file=cfg,append=TRUE)
       cat(paste("time_zone = ",input$timeZone,"\n",collapse=""),file=cfg,append=TRUE)
@@ -320,21 +408,24 @@ shinyServer(function(input, output, session) {
       }
       cat(paste("precip_units = ",input$precip_units, "\n", collapse=""), file=cfg,append=TRUE)
       cat("[NEXRAD_Options]\n",file=cfg,append=TRUE)
-      if(input$tStorm==TRUE)
-      {
-        cat(paste("radar_on = ",1,"\n",collapse=""),file=cfg,append=TRUE)
-      }
-      if(input$tStorm==FALSE)
-      {
-        cat(paste("radar_on = ",0,"\n",collapse=""),file=cfg,append=TRUE)
-      }
+      cat(paste("radar_on = ",1,"\n",collapse=""),file=cfg,append=TRUE)
+#       if(input$tStorm==TRUE)
+#       {
+#         cat(paste("radar_on = ",1,"\n",collapse=""),file=cfg,append=TRUE)
+#       }
+#       if(input$tStorm==FALSE)
+#       {
+#         cat(paste("radar_on = ",0,"\n",collapse=""),file=cfg,append=TRUE)
+#       }
       cat(paste("radar_name = ",NaN,"\n",collapse=""),file=cfg,append=TRUE)
+      cat(paste("radar_time = ",0,"\n",collapse=""),file=cfg,append=TRUE)
       
       cat("[WWA_Options]\n",file=cfg,append=TRUE)
       if(input$wwa==TRUE)
       {
         cat(paste("wwa_on = ",1,"\n",collapse=""),file=cfg,append=TRUE)
       }
+      cat(paste("wwa_time = ",0,"\n",collapse=""),file=cfg,append=TRUE)
       if(input$wwa==FALSE)
       {
         cat(paste("wwa_on = ",0,"\n",collapse=""),file=cfg,append=TRUE)
