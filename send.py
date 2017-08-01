@@ -8,25 +8,25 @@ SENDS ALL ALERTS
 """
 
 import smtplib
-import yaml
-
+import sys
+import base64
+sys.path.insert(0,base64.b64decode('L2hvbWUvdWJ1bnR1L3NyYy90ZXN0Qm9uZFN0cmVldC8='))
+import sys_codec
 
 def sendEmailAlert(AlertB,To,subject,method):
     """
     Sends email/Text message to whoever requested it, Password is currently exposed O_o
     """
-    email=""
-    pWord=""
     if method!='BOTH' and method!='NONE': #send to EITHER email OR text
         # fi=open('/home/ubuntu/src/FWAS/dump/app.yml')
         # conf=yaml.load(fi)
 
         print "sending Alert",To,"..."
-        fromaddr = str(email)
+        fromaddr = str(sys_codec.openAndDecode()[0])
     
         server = smtplib.SMTP('smtp.gmail.com', 587)
         server.starttls()
-        server.login(fromaddr, str(pWord))
+        server.login(fromaddr, str(sys_codec.openAndDecode()[1]))
     
         # Send text message through SMS gateway of destination number
     

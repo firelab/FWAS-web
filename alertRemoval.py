@@ -34,13 +34,14 @@ import glob
 import ConfigParser
 import os
 import base64
-
+import sys
 print '==========================='
 print 'Alert Removal System     '
 print datetime.datetime.now()
 print platform.system(),platform.release()
 print '===========================\n'
-
+sys.path.insert(0,base64.b64decode('L2hvbWUvdWJ1bnR1L3NyYy90ZXN0Qm9uZFN0cmVldC8='))
+import sys_codec
 cZ=glob.glob('/srv/shiny-server/fwas/data/*.cfg')
 #cZ=glob.glob('/home/tanner/src/breezy/cfgLoc/*.cfg')
 
@@ -69,7 +70,7 @@ def readHeaderFiles(cfgLoc):
 
 
 M = imaplib.IMAP4_SSL('imap.gmail.com')
-M.login('', '')
+M.login(sys_codec.openAndDecode()[0], sys_codec.openAndDecode()[1])
 
 #rv, mailboxes = M.list()
 
