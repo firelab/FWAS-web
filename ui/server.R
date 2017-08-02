@@ -10,6 +10,14 @@ radarData<-read.csv(file="/home/ubuntu/src/FWAS/data/nexradID.csv",header=FALSE,
 # dupePath<-"/home/tanner/src/breezy/checkForDupe.py"
 dupePath<-"/home/ubuntu/src/FWAS/checkForDupe.py"
 
+##########################################################################
+##
+## Initial Stuff
+##
+##########################################################################
+
+
+
 # From a future version of Shiny
 bindEvent <- function(eventExpr, callback, env=parent.frame(), quoted=FALSE) {
   eventFunc <- exprToFunction(eventExpr, env, quoted)
@@ -31,6 +39,12 @@ textInputRow<-function (inputId, label, value = "")
     tags$label(label, `for` = inputId), 
     tags$input(id = inputId, type = "text", value = value, class="input-small"))
 }
+
+##########################################################################
+##
+## Start Server Code
+##
+##########################################################################
 
 shinyServer(function(input, output, session) {
   
@@ -64,9 +78,9 @@ shinyServer(function(input, output, session) {
   # })
   
   ##########################################
-  #
-  # Location Finder Code
-  #
+  ##
+  ## Location Finder Code
+  ##
   ##########################################
   
   onclick("locate",{js$func()})
@@ -114,9 +128,11 @@ shinyServer(function(input, output, session) {
   # output$gCheck<-renderPrint({gWarn()})
 
   
-  #####
-  #Vary UI based on user requests
-  #####
+##########################################################################
+##
+## Vary The UI based on User Requests
+##
+##########################################################################
 #  output$address <- renderUI({
 #    if (is.null(input$not_type))
 #      return()
@@ -138,11 +154,11 @@ shinyServer(function(input, output, session) {
 #           "text" = selectInput("carrier","Select Carrier",choices=list("AT&T"="att","Verizon"="verizon","Sprint"="sprint","T-Mobile"="tmobile","Virgin Mobile"="virgin"),selected = 1)
 #    )
 #  })
-  #######################################
-  #
-  # Checks to make sure stuff is reasonable
-  #
-  #######################################
+##########################################################################
+##
+## Sanity Checks: Check to make sure user inputs are legal/reasonable
+##
+##########################################################################
   latNum<-reactive({
     validate(
       
@@ -158,6 +174,9 @@ shinyServer(function(input, output, session) {
     )
   })
   output$lonVal<-renderPrint({lonNum()})
+  
+output$lonVal2<-renderPrint({lonNum()})
+output$latVal2<-renderPrint({latNum()})
   
   rHNum<-reactive({
     validate(
@@ -190,24 +209,57 @@ shinyServer(function(input, output, session) {
   
   nameChecker<-reactive({
     validate(
-      need(input$runName!="","WARNING! No Alert Name has been set! You will not recieve an Alert!")
+      need(input$runName!="","WARNING! No Alert Name has been set! YOU WILL NOT RECEIVE AN ALERT!")
     )
   })
   output$nameCzecher<-renderPrint({nameChecker()})
   
   notifChecker<-reactive({
     validate(
-      need(input$email!=FALSE || input$nText!=FALSE,"WARNING! No notifcation information has been provided! YOU WILL NOT RECIEVE AN ALERT!")
+      need(input$email!=FALSE || input$nText!=FALSE,"WARNING! No notifcation information has been provided! YOU WILL NOT RECEIVE AN ALERT!")
     )
   })
   output$notifCzecher<-renderPrint({notifChecker()})
+##########################################################################
+##
+## Updates Inputs based on Presets (See UI.R for preset options)
+##
+##########################################################################
+  
+  observeEvent(input$presets,{
+    x<-input$presets
+    
+    if (x==1)
+    {
+      updateNumericInput(session,"RelativeHumidity",value=20)
+      updateNumericInput(session,"wind_speed",value=10)
+      updateNumericInput(session,"gust",value=15)
+      updateNumericInput(session,"temp",value=80)
+      # updateNumericInput(session,"RelativeHumidity",value=20)
+      updateCheckboxInput(session,"precip",value=TRUE)
+      updateTextInput(session,"runName",value="")
+      updateNumericInput(session,"Lat",value=46.92)
+      updateNumericInput(session,"Lon",value=-114.1)
+    }
+    if (x==2)
+    {
+      updateNumericInput(session,"RelativeHumidity",value=20)
+      updateNumericInput(session,"wind_speed",value=10)
+      updateNumericInput(session,"gust",value=20)
+      updateNumericInput(session,"temp",value=89)
+      updateCheckboxInput(session,"precip",value=FALSE)
+      updateTextInput(session,"runName",value="Sapphire Complex Preset")
+      updateNumericInput(session,"Lat",value=46.588)
+      updateNumericInput(session,"Lon",value=-113.584)
+    }
+  })
 
   
-  ###########
-  #
-  # Enable/Disable UI Elements based on User Input
-  #
-  ############
+##########################################################################
+##
+## Enable/Disable Elements based on user requests
+##
+##########################################################################
   
 #   shinyjs::disable('tStorm')
 
@@ -219,6 +271,12 @@ shinyServer(function(input, output, session) {
     shinyjs::toggleState('carrier')
   })
   
+##########################################################################
+##
+## Check For Duplicates in Alert Name & Email
+##
+##########################################################################
+
   duplicate_name<-reactive({
     email_arg="_"
     text_arg="_"
@@ -268,6 +326,13 @@ shinyServer(function(input, output, session) {
   output$dupe<-renderPrint({duplicate_name()})
   output$dupe2<-renderPrint({duplicate_name()})
 
+  
+##########################################################################
+##
+## Controls for NEXRAD Data, this is not available and not used right now
+##
+##########################################################################
+  
   observeEvent(input$nex,{
     # shinyjs::disable('radarName')
     shinyjs::toggleState('radarName')
@@ -277,6 +342,29 @@ shinyServer(function(input, output, session) {
     nLoc<-match(input$radarName,radarData[[2]])
     stid<<-radarData[[1]][nLoc]
   })
+##########################################################################
+##
+## Controls for  run_wn Button
+##
+##########################################################################
+  
+  #Change run button base on Alert Name
+  observeEvent(input$runName,{
+    # shinyjs::disabled(input$run_wn)
+    if (input$runName==""){
+      shinyjs::disable("run_wn")
+    }
+    if (input$runName!=""){
+      shinyjs::enable("run_wn")
+    }
+  })
+  
+##########################################################################
+##
+## Write Config File
+##
+##########################################################################
+  
   
   writeCfg <- reactive({
     # isolate({
@@ -460,7 +548,24 @@ shinyServer(function(input, output, session) {
   #   system(paste("/home/tanner/src/breezy/FWAS/instantAlert.py",skaCfg,sep=" "))
   #   # system(paste("/home/ubuntu/src/FWAS/instantAlert.py",skaCfg,sep=" "))
   # })
+  
+##########################################################################
+##
+## Run Button: Runs Initial Alert Py and 
+## Hides Run Button to prevent Duplicates
+##
+##########################################################################
   useShinyjs()
+#   observe({
+#     if (input$alert_name=="")
+#     {
+#     shinyjs::hide("run_wn")
+#     }
+#     if (input$alert_name!="")
+#     {
+#     shinyjs::show("run_wn")
+#     }
+#   })
   observe({
     if(input$run_wn>0)
     {      

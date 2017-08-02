@@ -5,6 +5,12 @@
 library(shiny)
 library(shinythemes)
 library(shinyjs)
+##########################################################################
+##
+## Some Javascript Code to Aid in GEOLOCATION
+##
+##########################################################################
+
 #radarData<-read.csv(file="/media/tanner/vol2/NEXRAD_INFO/nexradID.csv",header=FALSE,sep=",")
 radarData<-read.csv(file="/home/ubuntu/src/FWAS/data/nexradID.csv",header=FALSE,sep=",")
 jsCode<-'shinyjs.func = function(){ navigator.geolocation.getCurrentPosition(onSuccess, onError);
@@ -24,7 +30,11 @@ jsCode<-'shinyjs.func = function(){ navigator.geolocation.getCurrentPosition(onS
                                       };'
 
 
-
+##########################################################################
+##
+## Start UI Code
+##
+##########################################################################
 
 shinyUI(fluidPage(
   tags$head(
@@ -49,6 +59,31 @@ shinyUI(fluidPage(
             h2('Fire Weather Alert System')
       )),
     hr(),
+    fluidRow(column(10,wellPanel(
+    h3('CAUTION',style="color:red"),
+    div("This is a research prototype that is still undergoing changes. Therefore, we do not guarantee its use or stability. However we do encourage you to try it as a proof of concept prototype. We are more than happy to hear your suggestions and ideas for changes.",style="color:red"),br(),
+    p("If you would like to contact us for any reason, please send an email to:",style="color:red"),
+    a("Jason Forthofer - jaforthofer@fs.fed.us",href="mailto:jaforthofer@fs.fed.us"),br(),
+    a("Natalie Wagenbrenner - nwagenbrenner@fs.fed.us",href="mailto:nwagenbrenner@fs.fed.us"),br(),
+    a("Bret Butler - bwbutler@fs.fed.us",href="mailto:bwbutler@fs.fed.us"),br(),
+    a("Tanner Finney - tfinney@fs.fed.us",href="mailto:tfinney@fs.fed.us")
+    ))),
+    hr(),
+    fluidRow(
+      column(12,
+        h3('Incident Presets'),
+        ('Presets automatically set all thresholds and other necessary fields. Once a preset is selected, only your contact information is required.')
+      )
+    ),
+    hr(),
+    fluidRow(
+      column(6,wellPanel(
+        selectInput("presets",label=("Preset Thresholds"),choices = list("Default" = 1,"Sapphire Complex Fire" = 2),
+                    selected=1)
+      ))
+    ),
+    hr(),
+
     fluidRow(
       column(12,
              h3('Set Location')
@@ -100,37 +135,37 @@ shinyUI(fluidPage(
     fluidRow(
       column(5,            
              sliderInput("radius", label = h3("Grab stations within a radius of: (miles)"), min = 1,
-                                        max = 50, value = 12)
+                                        max = 50, value = 25)
       ),
       column(5,
              sliderInput("expire", label = h3("Alert Expires After: (hours)"), min = 1,
                          max = 48, value = 24)
       )
     ),
-    fluidRow(
-      column(12,h3("Select Notifcation Type"),            verbatimTextOutput("dupe"))
-      ),
-    hr(),
-  wellPanel(
-    fluidRow(
-      column(7,
-      checkboxInput("email",label=("Enable Email Notificaitons")),
-      textInput("emailAddress", "Enter Notifcation Email Address", placeholder = "fsweather1@usa.com")
-      )
-    
-      
-    ),
-    fluidRow(
-      column(7,
-             checkboxInput("nText",label=("Enable Text Message Notifications")),
-             column(8,textInput("textMessage", "Enter Phone Number (no Dashes)", placeholder = "5556667777")),
-             column(4,selectInput("carrier","Select Carrier",choices=list("AT&T"="att","Verizon"="verizon","Sprint"="sprint","T-Mobile"="tmobile","Virgin Mobile"="virgin","Boost Mobile"="boost","U.S. Cellular"="uscellular","Metro PCS"="metro","Cricket Wireless"="cricket","Project Fi"="projectfi"),selected = 1)
-             
-             
-             )
-    )
-  )
-  ),
+#     fluidRow(
+#       column(12,h3("Select Notifcation Type"),            verbatimTextOutput("dupe"))
+#       ),
+#     hr(),
+#   wellPanel(
+#     fluidRow(
+#       column(7,
+#       checkboxInput("email",label=("Enable Email Notificaitons")),
+#       textInput("emailAddress", "Enter Notifcation Email Address", placeholder = "fsweather1@usa.com")
+#       )
+#     
+#       
+#     ),
+#     fluidRow(
+#       column(7,
+#              checkboxInput("nText",label=("Enable Text Message Notifications")),
+#              column(8,textInput("textMessage", "Enter Phone Number (no Dashes)", placeholder = "5556667777")),
+#              column(4,selectInput("carrier","Select Carrier",choices=list("AT&T"="att","Verizon"="verizon","Sprint"="sprint","T-Mobile"="tmobile","Virgin Mobile"="virgin","Boost Mobile"="boost","U.S. Cellular"="uscellular","Metro PCS"="metro","Cricket Wireless"="cricket","Project Fi"="projectfi"),selected = 1)
+#              
+#              
+#              )
+#     )
+#   )
+#   ),
 #    wellPanel(
 #    fluidRow(
 #      column(3,
@@ -272,12 +307,38 @@ shinyUI(fluidPage(
 
     ),
     fluidRow(
+      column(12,h3("Select Notifcation Type"),            verbatimTextOutput("dupe"))
+      ),
+    hr(),
+    wellPanel(
+    fluidRow(
+      column(7,
+      checkboxInput("email",label=("Enable Email Notificaitons")),
+      textInput("emailAddress", "Enter Notifcation Email Address", placeholder = "fsweather1@usa.com")
+      )
+    
+      
+    ),
+    fluidRow(
+      column(7,
+             checkboxInput("nText",label=("Enable Text Message Notifications")),
+             column(8,textInput("textMessage", "Enter Phone Number (no Dashes)", placeholder = "5556667777")),
+             column(4,selectInput("carrier","Select Carrier",choices=list("AT&T"="att","Verizon"="verizon","Sprint"="sprint","T-Mobile"="tmobile","Virgin Mobile"="virgin","Boost Mobile"="boost","U.S. Cellular"="uscellular","Metro PCS"="metro","Cricket Wireless"="cricket","Project Fi"="projectfi"),selected = 1)
+             
+             
+             )
+        )
+    )
+  ),
+    fluidRow(
       column(3, h3('Create Alert'))
     ),
     fluidRow(
       column(12,verbatimTextOutput("nameCzecher")),
       column(12,verbatimTextOutput("notifCzecher")),
-      column(12,verbatimTextOutput("dupe2"))
+      column(12,verbatimTextOutput("dupe2")),
+      column(12,verbatimTextOutput("lonVal2")),
+      column(12,verbatimTextOutput("latVal2"))
     ),
     hr(),
     fluidRow(
@@ -292,16 +353,16 @@ shinyUI(fluidPage(
       column(4, htmlOutput('wnText'), style = "color:darkblue"),
       br()
     ),
-    fluidRow(column(10,wellPanel(
-    h3('CAUTION',style="color:red"),
-    div("This is a research prototype that is still undergoing changes. Therefore, we do not guarantee its use or stability. However we do encourage you to try it as a proof of concept prototype. We are more than happy to hear your suggestions and ideas for changes.",style="color:red"),br(),
-    p("If you would like to contact us for any reason, please send an email to:",style="color:red"),
-    a("Jason Forthofer - jaforthofer@fs.fed.us",href="mailto:jaforthofer@fs.fed.us"),br(),
-    a("Natalie Wagenbrenner - nwagenbrenner@fs.fed.us",href="mailto:nwagenbrenner@fs.fed.us"),br(),
-    a("Bret Butler - bwbutler@fs.fed.us",href="mailto:bwbutler@fs.fed.us"),br(),
-    a("Tanner Finney - tfinney@fs.fed.us",href="mailto:tfinney@fs.fed.us")
-    ))),
-    br(),
+#     fluidRow(column(10,wellPanel(
+#     h3('CAUTION',style="color:red"),
+#     div("This is a research prototype that is still undergoing changes. Therefore, we do not guarantee its use or stability. However we do encourage you to try it as a proof of concept prototype. We are more than happy to hear your suggestions and ideas for changes.",style="color:red"),br(),
+#     p("If you would like to contact us for any reason, please send an email to:",style="color:red"),
+#     a("Jason Forthofer - jaforthofer@fs.fed.us",href="mailto:jaforthofer@fs.fed.us"),br(),
+#     a("Natalie Wagenbrenner - nwagenbrenner@fs.fed.us",href="mailto:nwagenbrenner@fs.fed.us"),br(),
+#     a("Bret Butler - bwbutler@fs.fed.us",href="mailto:bwbutler@fs.fed.us"),br(),
+#     a("Tanner Finney - tfinney@fs.fed.us",href="mailto:tfinney@fs.fed.us")
+#     ))),
+#     br(),
     fluidRow( 
       column(4,tags$p("Data Sources"),	tags$a(href="https://synopticlabs.org/api/mesonet/",tags$img(src = "/ninja/fwas_images/meso-api-logo-dark.png", width = "292px", height = "50px"))),
       column(5,br(),tags$a(href="https://rapidrefresh.noaa.gov/hrrr/",tags$img(src = "/ninja/fwas_images/hrrr.jpg", width = "388px", height = "55px"))),
