@@ -48,11 +48,11 @@ def sendEmailAlert(AlertB,To,subject,method):
             # conf=yaml.load(fi)
         
             print "sending Alert To",To[i],'...'
-            fromaddr = str(email)
+            fromaddr = str(sys_codec.openAndDecode()[0])
         
             server = smtplib.SMTP('smtp.gmail.com', 587)
             server.starttls()
-            server.login(fromaddr, str(pWord))
+            server.login(fromaddr, str(sys_codec.openAndDecode()[1]))
         
             # Send text message through SMS gateway of destination number
         

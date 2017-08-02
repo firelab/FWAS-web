@@ -9,6 +9,8 @@ library(shinyjs)
 radarData<-read.csv(file="/home/ubuntu/src/FWAS/data/nexradID.csv",header=FALSE,sep=",")
 # dupePath<-"/home/tanner/src/breezy/checkForDupe.py"
 dupePath<-"/home/ubuntu/src/FWAS/checkForDupe.py"
+# fireData<-read.csv(file="/media/tanner/vol2/NIFC/incidents.csv")
+fireData<-read.csv(file="/home/ubuntu/fwas_data/NIFC/incidents.csv")
 
 ##########################################################################
 ##
@@ -77,12 +79,12 @@ shinyServer(function(input, output, session) {
   #   addRunButtonText()
   # })
   
-  ##########################################
-  ##
-  ## Location Finder Code
-  ##
-  ##########################################
-  
+#######################################################
+##                                                    #
+## Location Finder Code and Fire Perimeter Code       #
+##                                                    #
+#######################################################
+
   onclick("locate",{js$func()})
   output$location<-renderUI({
     if (is.null(input$locationType))
@@ -94,10 +96,24 @@ shinyServer(function(input, output, session) {
              verbatimTextOutput("latVal"),
              numericInput("Lon", label = ("Enter Longitude (Decimal Degrees)"), value = -114.1,step=0.1),
              verbatimTextOutput("lonVal")),
-           "2" = tagList(actionButton("locate","Allow Location Access"),br(),br(),verbatimTextOutput("glat"),verbatimTextOutput("glon"))
-           # "3" = textInput("test3", "test3",value = "FIRE PERIM")
+           "2" = tagList(actionButton("locate","Allow Location Access"),br(),br(),verbatimTextOutput("glat"),verbatimTextOutput("glon")),
+           "3" = tagList(
+            div('NOTE: Selecting a Fire Location REPLACES the location set by a preset. Use \'Enter Lat/Lon\' if you want to use the preset location. ',style="color:blue"),
+            hr(),selectInput('fire_name','Select Fire Location',
+            c(Choose='',fireData[1]),selectize=TRUE),br(),
+            verbatimTextOutput("fLat"),br(),
+            verbatimTextOutput("fLon"))
+
            )
   })
+  observeEvent(input$fire_name,{
+      nLoc<-match(input$fire_name,fireData[[1]])
+      output$fLat<-renderPrint(paste('Lat:',fireData[[3]][nLoc],sep=""))
+      output$fLon<-renderPrint(paste('Lon:',fireData[[2]][nLoc],sep=""))
+#       fireLat<-renderPrint(fireData[[3]][nLoc])
+#       fireLon<-renderPrint(fireData[[2]][nLoc])
+  })
+
   output$glat<-renderPrint(paste('Lat:',input$geoLat,sep=" "))
   output$glon<-renderPrint(paste('Lon:',input$geoLon,sep=" "))
   aCheck<-reactive({
@@ -383,6 +399,14 @@ output$latVal2<-renderPrint({latNum()})
       {
         cat(paste("latitude = ",input$geoLat,"\n",collapse=""),file=cfg,append=TRUE)
         cat(paste("longitude = ",input$geoLon,"\n",collapse=""),file=cfg,append=TRUE)
+      }
+      if (input$locationType==3) #Use Fire Location
+      {
+        naLoc<-match(input$fire_name,fireData[[1]])
+        fireLat<-fireData[[3]][naLoc]
+        fireLon<-fireData[[2]][naLoc]
+        cat(paste("latitude = ",fireLat,"\n",collapse=""),file=cfg,append=TRUE)
+        cat(paste("longitude = ",fireLon,"\n",collapse=""),file=cfg,append=TRUE)
       }
       cat(paste("radius = ",input$radius,"\n",collapse=""),file=cfg,append=TRUE)
       cat(paste("limit = ",0,"\n",collapse=""),file=cfg,append=TRUE)

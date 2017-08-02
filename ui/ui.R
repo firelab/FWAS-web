@@ -91,8 +91,7 @@ shinyUI(fluidPage(
     ),
     hr(),
     fluidRow(
-      column(4,wellPanel(radioButtons("locationType",label=("Location Options"),choices=list("Enter Lat/Lon"=1,"Use Your Location"=2),
-                                      selected=1,inline=TRUE)))
+      column(5,wellPanel(radioButtons("locationType",label=("Location Options"),choices=list("Enter Lat/Lon"=1,"Use Your Location"=2,"Fire Location"=3), selected=1,inline=TRUE)))
     ),
     fluidRow(
       column(5,wellPanel(uiOutput("location"))
