@@ -17,6 +17,7 @@ import createAlert
 import time
 
 import WWA_Run
+import WWA_Fetch
 
 nowTime=time.time()
 hourLen=10800.0 #3 Hours in seconds!
@@ -94,6 +95,7 @@ def writeWWATime(cfgLoc,uTime):
 
 x=0
 y=0
+WWA_Fetch.FetchWWA()
 for i in range(len(cZ)):
     print 'Reading wWA Thresolds for',cZ[i],'...'
     cfgLoc[0]=cZ[i]

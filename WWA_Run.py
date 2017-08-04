@@ -45,7 +45,7 @@ def runWWA(headerLib,tz,plot,optPrint):
     """
     Runs regular WWA called from WWA_One.py
     """
-    WWA_Fetch.FetchWWA()
+#    WWA_Fetch.FetchWWA()
     dat=WWA_Intersector.findIntersections(headerLib,tz,plot,optPrint)
     alert=WWA_Alert.createAlert(dat,headerLib,tz)
     return alert
