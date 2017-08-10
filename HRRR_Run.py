@@ -37,14 +37,17 @@ import numpy
 
 unitFlag={'wind':False,'temp':False}
 
-def run_HRRR(radius,lat,lon,reflec,temp,rh,wind,sanityCheck):
+def run_HRRR(hrrr_ds,radius,lat,lon,reflec,temp,rh,wind,sanityCheck):
     """
     Runs HRRR checker for all timeSteps on Disk
     """
     mFCast=[]    
-    tSteps=HRRR_Parse.getDiskFiles()
-    for i in range(len(tSteps)):
-        sfcast=HRRR_Parse.setControls(i,radius,lat,lon,reflec,temp,rh,wind,sanityCheck)
+    hrrr_ds.sort()
+    
+#    tSteps=HRRR_Parse.getDiskFiles()
+    
+    for i in range(len(hrrr_ds)):
+        sfcast=HRRR_Parse.setControls(hrrr_ds[i],radius,lat,lon,reflec,temp,rh,wind,sanityCheck)
         mFCast.append(sfcast)
     return mFCast        
 

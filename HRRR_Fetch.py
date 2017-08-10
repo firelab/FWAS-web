@@ -5,6 +5,8 @@ Created on Mon Jun  5 14:47:27 2017
 @author: tanner
 
 FETCHES CURRENT HRRR DATA FOR NEXT SIX HOURS IDEALLY
+
+NOW WITH MULTIPROCESSING!
 """
 
 
@@ -25,7 +27,8 @@ import datetime
 import urllib2
 import glob
 import os
-
+from multiprocessing.dummy import Pool as ThreadPool 
+import time
 
 def buildURL(simHour,fetchHour):
     """
@@ -93,6 +96,20 @@ timeList = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10',
 sixHourTimeList=['01', '02', '03', '04', '05', '06','07']
 fiveHourTimeList=['01', '02', '03', '04', '05','06']
 
+def OLDrunFetchHRRR(tList,recent):
+    """
+    Runs HRRR for a time List
+    """
+    print "Fetching HRRR grib files...."
+    #get pretty close to most recent simulation time for now
+    simHour=str(datetime.datetime.utcnow().hour-recent)
+    simHour=simHour.zfill(2)
+    for xT in tList:
+        url = buildURL(simHour,xT)
+#	print url
+        getForecast(url)
+        print "Forecast Acquired, downloading..."
+        
 def runFetchHRRR(tList,recent):
     """
     Runs HRRR for a time List
@@ -101,18 +118,23 @@ def runFetchHRRR(tList,recent):
     #get pretty close to most recent simulation time for now
     simHour=str(datetime.datetime.utcnow().hour-recent)
     simHour=simHour.zfill(2)
-    for time in tList:
-        url = buildURL(simHour,time)
-#	print url
-        getForecast(url)
-        print "Forecast Acquired, downloading..."
-
+    uList=[]
+    for xT in tList:
+        url = buildURL(simHour,xT)
+        uList.append(url)
+    pool = ThreadPool(6) #Because there are 6 forecasts this is the fastest!
+    results=pool.map(getForecast,uList)
+    pool.close()
+    pool.join()
+    
+    
 #cleanHRRRDir()
 
 def fetchHRRR():
     """
     Runs HRRR With error handling! If you can't get most recent 6 hour data, tries 5 hour data, and then tries last hours data!
     """
+    start=time.time()
     try:
         print 'Trying Most Recent HRRR Data, 6 Hour Forecast'
         runFetchHRRR(sixHourTimeList,1)
@@ -129,6 +151,9 @@ def fetchHRRR():
             except:
                 print 'DAMN! DAMN! COAL BURNING DING! DING!'
                 raise
+    end=time.time()
+    print 'HRRR GRIB FETCHED IN:',end-start,'SECONDS...'
+
 #
 #cleanHRRRDir()
 #fetchHRRR()

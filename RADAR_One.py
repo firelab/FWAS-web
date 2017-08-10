@@ -23,6 +23,7 @@ import createAlert
 import CONUS_RADAR_Run
 import NCR_Run
 import NEXRAD_Run
+import CONUS_RADAR_Fetch
 #from one import configureNotifications
 
 ###############################################################################
@@ -145,6 +146,9 @@ def writeRadarTime(cfgLoc,utime):
         cfg.write(nCfg)
 
 #Below is what runs
+#Because all that is implemented right now is CONUS_RADAR
+#We just pull that first to save time and cpu usage...
+CONUS_RADAR_Fetch.fetchRadar(False)
 for i in range(len(cZ)):
     print 'Reading Radar Thresholds for',cZ[i],'...'
     cfgLoc[0]=cZ[i]

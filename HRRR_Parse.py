@@ -458,7 +458,8 @@ def setControls(fCastNum,radius,Lat,Lon,limReflec,limTemp,limRH,limWind,runSanit
     
 #    assignForecast(fCastNum)
 #    readForecastFile()
-    ds=getDataset(fCastNum)
+#    ds=getDataset(fCastNum)
+    ds=fCastNum
     rasterBands,rasterArrays=getRasterBands(ds)
 
     setRadius(wxInfo,radius)

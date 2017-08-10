@@ -16,6 +16,9 @@ import datetime
 import one
 import os
 import HRRR_Fetch
+from HRRR_Parse import getDataset,getDiskFiles
+from multiprocessing import Pool
+import time
 
 checkTime=datetime.datetime.now()
 cZ=glob.glob('/srv/shiny-server/fwas/data/*.cfg')
@@ -51,30 +54,86 @@ def getNewForecasts():
     HRRR_Fetch.cleanHRRRDir()
     HRRR_Fetch.fetchHRRR()     
         
+#This is where HRRR Grib files get read 
+#into the program now to speed things up!
+start=time.time()
+dF=getDiskFiles()
+dsList=[]
+for i in range(len(dF)):
+    ds=getDataset(i)
+    dsList.append(ds)
+dsList.sort()
+
+"""
+#################################
+#
+# Multiprocessing Function
+#
+#################################
+"""
+def runCore(cfg):
+    try:
+        one.ascertainCfg(cfg)
+        one.runFWAS(dsList)
+        print True
+        return True
+    except:
+        print 'Could not Generate Alert for:',cZ[i],'Something is Wrong...'
+        print False
+        return False
+        pass
+
+
 #    return hDict
-    
+
+"""
+Single Core Stuff: use if something bad happened with multiproc
+""" 
+#getNewForecasts()
+#for i in range(len(cZ)):
+#    tExpire=readExpirationDate(cZ[i])
+#    tTime=calcTime.calcExpirationDate(tExpire['alert_time'],tExpire['expires_after'])
+#    if tTime>checkTime: #This means the alert has not yet expired and can be used!
+#        print "Alert is Valid... Checking Weather..."
+#        one.ascertainCfg(cZ[i])
+#        try:
+#            one.runFWAS(dsList)
+#            print True
+#        except:
+#            print 'Could not Generate Alert for',cZ[i],'Something is wrong...'
+#            print False
+#            pass
+#    if tTime<checkTime: #This means the Alert Has expired and should be removed!
+#        print "Alert has expired... Deleting alert..."
+#        print cZ[i]
+#        os.remove(cZ[i])
+#        print False
+
+"""
+MultiProc Stuff (Way Faster!)
+"""
 getNewForecasts()
+casiopea=[] #List of good forecasts
 for i in range(len(cZ)):
     tExpire=readExpirationDate(cZ[i])
     tTime=calcTime.calcExpirationDate(tExpire['alert_time'],tExpire['expires_after'])
     if tTime>checkTime: #This means the alert has not yet expired and can be used!
-        print "Alert is Valid... Checking Weather..."
-        one.ascertainCfg(cZ[i])
-        try:
-            one.runFWAS()
-            print True
-        except:
-            print 'Could not Generate Alert for',cZ[i],'Something is wrong...'
-            print False
-            pass
+        print "Alert is Valid... Proceeding..."
+        casiopea.append(cZ[i])
     if tTime<checkTime: #This means the Alert Has expired and should be removed!
         print "Alert has expired... Deleting alert..."
         print cZ[i]
         os.remove(cZ[i])
         print False
-
-
-
+  
+pool=Pool()
+results=pool.map(runCore,casiopea)
+pool.close()
+pool.join()
+end=time.time()
+print '------------------------------------------'
+print 'FWAS Duration:',end-start
+print '------------------------------------------'
 
 
 

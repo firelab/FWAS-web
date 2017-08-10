@@ -26,7 +26,7 @@ def getRadarAlerts(storm_on,headerLib,radarLib,plot_on,threshold,precip_on,preci
     """
     Delegates out radar checks...
     """
-    CONUS_RADAR_Fetch.fetchRadar(False)
+#    CONUS_RADAR_Fetch.fetchRadar(False)
     location=[float(headerLib['latitude']),float(headerLib['longitude'])]
     nAlert=''            
     tZ=calcTime.convertTimeZone(int(headerLib['time_zone']))

@@ -172,7 +172,7 @@ def ascertainCfg(Threshold):
 #    if argFile=='':
 #        cfgLoc[0]=='/home/tanner/src/FWAS/ui/threshold.cfg'
 
-def runFWAS():
+def runFWAS(hrrr_ds):
     """
     General Run Function 
     """
@@ -213,7 +213,7 @@ def runFWAS():
         specVals=HRRR_Run.checkUnits(localUnits,HLib)
         genVals=HRRR_Run.getRHandReflec(HLib)
         print 'Running HRRR Threshold Checks...'
-        fCastRuns=HRRR_Run.run_HRRR(int(headerLib['radius']),float(headerLib['latitude']),
+        fCastRuns=HRRR_Run.run_HRRR(hrrr_ds,int(headerLib['radius']),float(headerLib['latitude']),
                            float(headerLib['longitude']),float(genVals[0]),
                             float(specVals[1]),float(genVals[1]),float(specVals[0]),False)
         HRRR_Run.returnUserUnits(fCastRuns,localUnits)
@@ -261,6 +261,14 @@ def runInitialFWAS():
     """
     Alert creation run Function
     """
+    from HRRR_Parse import getDataset,getDiskFiles
+    dF=getDiskFiles()
+    hrrr_dsX=[]
+    for i in range(len(dF)):
+        ds=getDataset(i)
+        hrrr_dsX.append(ds)
+    hrrr_dsX.sort()
+    
     thresholds=readThresholds()
     headerLib=thresholds[0]
     thresholdsLib=thresholds[1]
@@ -298,7 +306,7 @@ def runInitialFWAS():
         specVals=HRRR_Run.checkUnits(localUnits,HLib)
         genVals=HRRR_Run.getRHandReflec(HLib)
         print 'Running HRRR Threshold Checks...'
-        fCastRuns=HRRR_Run.run_HRRR(int(headerLib['radius']),float(headerLib['latitude']),
+        fCastRuns=HRRR_Run.run_HRRR(hrrr_dsX,int(headerLib['radius']),float(headerLib['latitude']),
                            float(headerLib['longitude']),float(genVals[0]),
                             float(specVals[1]),float(genVals[1]),float(specVals[0]),False)
         HRRR_Run.returnUserUnits(fCastRuns,localUnits)
