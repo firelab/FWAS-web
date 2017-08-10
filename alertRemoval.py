@@ -98,6 +98,7 @@ for j in datList:
         hList['phone']=hList['phone'].translate(None,'()[] -.{}/')
         
         hName=hList['alert_name']
+#        print hName
         
         val='stop'
         
@@ -150,7 +151,9 @@ for j in datList:
 #            print msg_body
             valLoc=msg_body.find((val+' '+hName))
             if valLoc==-1:
-                valLoc=msg_body.find((val.capitalize()+' '+hName))
+                msg_body=msg_body.lower()
+                valLoc=msg_body.find(((val.lower()+' '+hName.lower())))
+#                valLoc=msg_body.find((val.capitalize()+' '+hName))
             sendType[0]=1
                 
         if d!=-1 and e!=-1:
@@ -173,7 +176,9 @@ for j in datList:
             print 'Something Worked!, proceeding...'
             valLoc=msg_body.find((val+' '+hName))
             if valLoc==-1:
-                valLoc=msg_body.find((val.capitalize()+' '+hName))
+                msg_body=msg_body.lower()
+                valLoc=msg_body.find(((val.lower()+' '+hName.lower())))
+#                valLoc=msg_body.find((val.capitalize()+' '+hName))
             sendType[0]=0
         
         localContact=''

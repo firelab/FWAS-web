@@ -373,7 +373,7 @@ def createTempLine(thresholdsLib,fCasts,tList,t_max):
     Creates HRRR Temperature Alert, reports general info about temp
     """
     line='The temperature is FORECAST to exceed '+str(thresholdsLib['temperature'])+' '+str(fCasts[0][1].units)+' from '+tList[0].strftime('%I:%M %p, %m/%d/%Y')+' to at least '+tList[-1].strftime('%I:%M %p, %m/%d/%Y')+'\n'
-    line2='FORECASTED MAX temperature: '+str(int(round(t_max[0][0],0)))+' '+str(fCasts[0][1].units)+' at '+t_max[0][2].strftime('%I:%M %p, %m/%d/%Y')+'\n'
+    line2='FORECAST MAX temperature: '+str(int(round(t_max[0][0],0)))+' '+str(fCasts[0][1].units)+' at '+t_max[0][2].strftime('%I:%M %p, %m/%d/%Y')+'\n'
     return line+line2
 
 def createSpeedLine(thresholdsLib,fCasts,tList,s_max):
@@ -381,7 +381,7 @@ def createSpeedLine(thresholdsLib,fCasts,tList,s_max):
     Reports general info about Wind speed
     """
     line='The wind speed is FORECAST to exceed '+str(thresholdsLib['wind_speed'])+' '+str(fCasts[0][5].units)+' from '+tList[0].strftime('%I:%M %p, %m/%d/%Y')+' to at least '+tList[-1].strftime('%I:%M %p, %m/%d/%Y')+'\n'
-    line2='FORECASTED MAX wind speed: '+str(int(round(s_max[0][0],0)))+' '+str(fCasts[0][5].units)+' at '+s_max[0][2].strftime('%I:%M %p, %m/%d/%Y')+'\n'    
+    line2='FORECAST MAX wind speed: '+str(int(round(s_max[0][0],0)))+' '+str(fCasts[0][5].units)+' at '+s_max[0][2].strftime('%I:%M %p, %m/%d/%Y')+'\n'    
     return line+line2
 
 def createRHLine(thresholdsLib,fCasts,tList,r_min):
@@ -395,7 +395,7 @@ def createRHLine(thresholdsLib,fCasts,tList,r_min):
     if numpy.isnan(r_min[0][0]):
         line2=''
     else:
-        line2='FORECASTED MIN relative humidity: '+str(int(round(r_min[0][0],0)))+' '+str(fCasts[0][2].units)+' at '+r_min[0][2].strftime('%I:%M %p, %m/%d/%Y')+'\n'        
+        line2='FORECAST MIN relative humidity: '+str(int(round(r_min[0][0],0)))+' '+str(fCasts[0][2].units)+' at '+r_min[0][2].strftime('%I:%M %p, %m/%d/%Y')+'\n'        
     line='The relative humidity is FORECAST to be less than '+str(thresholdsLib['relative_humidity'])+' '+str(fCasts[0][2].units)+' from '+tList[0].strftime('%I:%M %p, %m/%d/%Y')+' to at least '+tList[-1].strftime('%I:%M %p, %m/%d/%Y')+'\n'
     if r_min[0][0]==500.0: #Check to make sure that the new value is good.... Last line of defense!
         return ''
@@ -418,7 +418,7 @@ def createUnifiedPrecipLine(ppAlert,poAlert):
     if not ppAlert and poAlert:
         start=poAlert[1]
         stop=poAlert[2]
-        line='FORCEASTED '+poAlert[0]+' Precipitation from '+start.strftime('%I:%M %p, %m/%d/%Y')+' to at least '+stop.strftime('%I:%M %p, %m/%d/%Y')+'\n'
+        line='FORECAST '+poAlert[0]+' Precipitation from '+start.strftime('%I:%M %p, %m/%d/%Y')+' to at least '+stop.strftime('%I:%M %p, %m/%d/%Y')+'\n'
     
     if not ppAlert and not poAlert:
         return ''

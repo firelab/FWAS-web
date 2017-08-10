@@ -1,6 +1,11 @@
 #================================= 
 #            FWAS
 #=================================
+##########################################################################
+##
+## Fire Weather Alert System
+##
+##########################################################################
 
 library(shiny)
 library(shinyjs)
@@ -179,6 +184,7 @@ shinyServer(function(input, output, session) {
     validate(
       
       need(is.numeric(input$Lat),"Please Input A Valid Latitude (00.00) (Decimal Degrees)")
+#       need(input$Lat>0,"WARNING! Please choose a Latitude in North America.")
     )
   })
   output$latVal<-renderPrint({latNum()})
@@ -186,13 +192,43 @@ shinyServer(function(input, output, session) {
   lonNum<-reactive({
     validate(
       
-      need(is.numeric(input$Lon),"Please Input A Valid Longitude (00.00) (Decimal Degrees)")
+      need(is.numeric(input$Lon),"Please Input A Valid Longitude (00.00) (Decimal Degrees)"),
+      need(input$Lon<0,"WARNING! Longitude Must Be Negative!")
     )
   })
   output$lonVal<-renderPrint({lonNum()})
   
 output$lonVal2<-renderPrint({lonNum()})
 output$latVal2<-renderPrint({latNum()})
+observeEvent(input$radius,{
+#     output$radiusOut<-renderText(input$radius)
+    output$radiusOut<-renderText(paste("Radius set to: ",input$radius," miles; ",round(input$radius*1.60934,digits=2)," kilometers",sep=""))
+
+
+})
+observeEvent(input$expire,{
+    if (input$expire<48)
+    {
+      output$slideOut<-renderText({paste("Alert will expire in ",input$expire," Hours",sep="")})
+    }
+    if (input$expire>=48)
+    {
+#       output$slideOut<-renderText(paste("Alert will expire in ",round(input$expire/24,digits = 2)," Days (",input$expire," hours)",sep=""))
+      dInt<-as.integer(input$expire/24)
+      rHour<-input$expire-dInt*24
+      
+      if (rHour>0){
+        output$slideOut<-renderText(paste("Alert will expire in ",dInt,
+                                          " days and ",rHour," hours",sep=""))
+      }
+      if (rHour==0){
+        output$slideOut<-renderText(paste("Alert will expire in ",dInt," days",sep=""))
+      }
+    }
+})
+
+
+
   
   rHNum<-reactive({
     validate(
@@ -328,8 +364,8 @@ output$latVal2<-renderPrint({latNum()})
       text_arg<-"_"
     }
     
-    gArgs=paste(name_arg,email_arg,text_arg,sep=" ")
-    
+#     gArgs=paste(name_arg,email_arg,text_arg,sep=" ")
+    gArgs=paste("\"",name_arg,"\" \"",email_arg,"\" \"",text_arg,"\"",sep="")   
     dupeCheck<-system2(command=dupePath,args=gArgs,stdout=TRUE)
     validate(
       need(dupeCheck!='TrueBoth',paste("WARNING! Alert Name:",input$runName,"Already exists for",input$emailAddress,"and",input$textMessage,"Please Choose Another Alert Name.",sep=" ")),

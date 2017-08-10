@@ -344,13 +344,13 @@ def createSysAlert(headerLib,thresholdsLib,unitLimits,wxStations,HRRR_Alerts,p_A
         rhSect+=HRRR_Alerts[2]+'\n'
 
     if HRRR_Alerts[0]:
-        refecSect='HRRR THUNDERSTORM FORECAST:\n'+HRRR_Alerts[0]+'\n'
+        refecSect='THUNDERSTORM FORECAST:\n'+HRRR_Alerts[0]+'\n'
 
     if HRRR_Alerts[4] or p_Alert:
         precipSect='PRECIP ALERT:\n'+HRRR_Alerts[4]
 
     if HRRR_Alerts[3]:
-        ltngSect='HRRR LIGHTNING ALERT:\n'+HRRR_Alerts[3]+'\n'
+        ltngSect='LIGHTNING ALERT:\n'+HRRR_Alerts[3]+'\n'
 
     wxAlert=header+tSect+wSpdSect+rhSect+refecSect+precipSect+p_Alert+'\n'+ltngSect+footer
 

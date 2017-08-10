@@ -1,6 +1,11 @@
 #================================= 
 #            FWAS
 #=================================
+##########################################################################
+##
+## Fire Weather Alert System
+##
+##########################################################################
 
 library(shiny)
 library(shinythemes)
@@ -133,14 +138,28 @@ shinyUI(fluidPage(
 #     ),
     fluidRow(
       column(5,            
-             sliderInput("radius", label = h3("Grab stations within a radius of: (miles)"), min = 1,
+             sliderInput("radius", label = h3("Observations Radius: (miles)"), min = 1,
                                         max = 50, value = 25)
       ),
-      column(5,
+      column(6,
              sliderInput("expire", label = h3("Alert Expires After: (hours)"), min = 1,
-                         max = 48, value = 24)
+                         max = 168, value = 24)
       )
+
     ),
+   fluidRow(
+        column(5,
+        verbatimTextOutput("radiusOut")
+        ),
+#         column(1,
+#         br()
+#         ),
+        column(5,
+        verbatimTextOutput("slideOut")
+        )
+    ),
+   
+#    )
 #     fluidRow(
 #       column(12,h3("Select Notifcation Type"),            verbatimTextOutput("dupe"))
 #       ),
@@ -369,10 +388,13 @@ shinyUI(fluidPage(
               
               ),
     fluidRow(
-        column(1,tags$a(href="https://mesonet.agron.iastate.edu/request/gis/watchwarn.phtml",tags$img(src="/ninja/fwas_images/ia_iem_logo.png",width = "100px", height = "55px"))
+        column(2,tags$a(href="https://mesonet.agron.iastate.edu/request/gis/watchwarn.phtml",tags$img(src="/ninja/fwas_images/ia_iem_logo.png",width = "100px", height = "55px"))
                 ),
-        column(4,tags$a(href="http://www.weather.gov/",tags$img(src="/ninja/fwas_images/nws_logo.png",width = "100px", height = "100px"))
-                )
+        column(2,tags$a(href="http://www.weather.gov/",tags$img(src="/ninja/fwas_images/nws_logo.png",width = "100px", height = "100px"))
+                ),
+        column(1,tags$a(href="https://www.nifc.gov/",tags$img(src="/ninja/fwas_images/nifc_logo-trans_published.gif",width = "125px",height = "125px")))
+        
+                
         
     ),
     # fluidRow(
@@ -382,5 +404,10 @@ shinyUI(fluidPage(
       column(5,br()),
       column(3,tags$a(href="https://firelab.org",tags$img(src = "/ninja/fwas_images/3028309.png", width = "200px", height = "200px")))
     ),
+   fluidRow(
+         column(5,br()),
+         column(2, a('Source Code',href="https://github.com/tfinney9/FWAS",target="_blank"))
+   ),
     br()
+    
 ))
