@@ -1,0 +1,200 @@
+ 	CAZ006 	San Francisco
+atom 	CAZ013 	Shasta Lake Area / Northern Shasta County
+atom 	CAZ014 	Burney Basin / Eastern Shasta County
+atom 	CAZ015 	Northern Sacramento Valley
+atom 	CAZ016 	Central Sacramento Valley
+atom 	CAZ017 	Southern Sacramento Valley
+atom 	CAZ018 	Carquinez Strait and Delta
+atom 	CAZ019 	Northern San Joaquin Valley
+atom 	CAZ034 	San Luis Obispo County Central Coast
+atom 	CAZ035 	Santa Barbara County Central Coast
+atom 	CAZ036 	Santa Ynez Valley
+atom 	CAZ037 	San Luis Obispo County Interior Valleys
+atom 	CAZ038 	Cuyama Valley
+atom 	CAZ039 	Santa Barbara County South Coast
+atom 	CAZ040 	Ventura County Coast
+atom 	CAZ041 	Los Angeles County Coast including Downtown Los Angeles
+atom 	CAZ043 	San Diego County Coastal Areas
+atom 	CAZ044 	Ventura County Interior Valleys
+atom 	CAZ045 	Ventura County Coastal Valleys
+atom 	CAZ046 	Santa Monica Mountains Recreational Area
+atom 	CAZ048 	San Bernardino and Riverside County Valleys-The Inland Empire
+atom 	CAZ050 	San Diego County Inland Valleys
+atom 	CAZ051 	San Luis Obispo County Mountains
+atom 	CAZ052 	Santa Barbara County Mountains
+atom 	CAZ053 	Ventura County Mountains
+atom 	CAZ054 	Los Angeles County Mountains excluding the Santa Monica Range
+atom 	CAZ055 	San Bernardino County Mountains
+atom 	CAZ056 	Riverside County Mountains
+atom 	CAZ057 	Santa Ana Mountains and Foothills
+atom 	CAZ058 	San Diego County Mountains
+atom 	CAZ059 	Antelope Valley
+atom 	CAZ060 	Apple and Lucerne Valleys
+atom 	CAZ061 	Coachella Valley
+atom 	CAZ062 	San Diego County Deserts
+atom 	CAZ063 	Mountains Southwestern Shasta County to Northern Lake County
+atom 	CAZ064 	Clear Lake/Southern Lake County
+atom 	CAZ065 	San Gorgonio Pass Near Banning
+atom 	CAZ066 	Northeast Foothills/Sacramento Valley
+atom 	CAZ067 	Motherlode
+atom 	CAZ068 	Western Plumas County/Lassen Park
+atom 	CAZ069 	West Slope Northern Sierra Nevada
+atom 	CAZ070 	Surprise Valley California
+atom 	CAZ071 	Lassen-Eastern Plumas-Eastern Sierra Counties
+atom 	CAZ072 	Greater Lake Tahoe Area
+atom 	CAZ073 	Mono
+atom 	CAZ080 	Western Siskiyou County
+atom 	CAZ081 	Central Siskiyou County
+atom 	CAZ082 	South Central Siskiyou County
+atom 	CAZ083 	North Central and Southeast Siskiyou County
+atom 	CAZ084 	Northeast Siskiyou and Northwest Modoc Counties
+atom 	CAZ085 	Modoc County
+atom 	CAZ087 	Catalina and Santa Barbara Islands
+atom 	CAZ088 	Santa Clarita Valley
+atom 	CAZ089 	West-Central San Joaquin Valley
+atom 	CAZ090 	East-Central San Joaquin Valley
+atom 	CAZ091 	Southwestern San Joaquin Valley
+atom 	CAZ092 	Southeastern San Joaquin Valley
+atom 	CAZ093 	Mariposa, Madera, and Fresno County Foothills
+atom 	CAZ094 	Tulare County Foothills
+atom 	CAZ095 	Kern County Mountains
+atom 	CAZ096 	Sierra Nevada from Yosemite to Kings Canyon
+atom 	CAZ097 	Tulare County Mountains
+atom 	CAZ098 	Indian Wells Valley
+atom 	CAZ099 	Southeastern Kern County Desert
+atom 	CAZ101 	Coastal Del Norte
+atom 	CAZ102 	Del Norte Interior
+atom 	CAZ103 	Northern Humboldt Coast
+atom 	CAZ104 	Southwestern Humboldt
+atom 	CAZ105 	Northern Humboldt Interior
+atom 	CAZ106 	Southern Humboldt Interior
+atom 	CAZ107 	Northern Trinity
+atom 	CAZ108 	Southern Trinity
+atom 	CAZ109 	Mendocino Coast
+atom 	CAZ110 	Northwestern Mendocino Interior
+atom 	CAZ111 	Northeastern Mendocino Interior
+atom 	CAZ112 	Southwestern Mendocino Interior
+atom 	CAZ113 	Southeastern Mendocino Interior
+atom 	CAZ201 	North Coast
+atom 	CAZ202 	Coastal Mendocino
+atom 	CAZ203 	Upper Smith
+atom 	CAZ204 	Lower Middle Klamath
+atom 	CAZ211 	Hupa
+atom 	CAZ212 	Van Duzen/Mad River
+atom 	CAZ213 	Eastern Portion of Shasta/Trinity NF
+atom 	CAZ214 	Burney Basin and Northeast Plateau in Shasta County Including Northwest Lassen NF north of Lassen NP
+atom 	CAZ215 	Northern Sacramento Valley to Southern Tehama County Line Below 1000 Ft
+atom 	CAZ216 	Central Sacramento Valley including Glenn/Colusa/Yuba/Northern Sutter/Butte County Below 1000 Ft
+atom 	CAZ217 	Southern Sacramento Valley In Yolo/Sacramento/Far Western Placer/Southern Sutter and Solano County Below 1000 Ft - Excludes the Delta
+atom 	CAZ218 	Eastern Delta
+atom 	CAZ219 	Northern San Joaquin Valley in San Joaquin and Stanislaus Counties Below 1000 ft - Excludes the Delta
+atom 	CAZ220 	Southern Motherlode From 1000 to 3000 Ft/Calaveras and Toulumne Counties
+atom 	CAZ221 	Stanislaus National Forest
+atom 	CAZ226 	Owens Valley/Southern Inyo Forest
+atom 	CAZ227 	Death Valley National Park
+atom 	CAZ228 	Mojave Desert Including Morongo Valley/Yucca Valley
+atom 	CAZ229 	Lower Colorado River Valley
+atom 	CAZ230 	Joshua Tree National Park
+atom 	CAZ231 	Lower Colorado River Valley CA
+atom 	CAZ232 	Imperial County And Eastern Riverside County
+atom 	CAZ234 	San Luis Obispo County Central Coast
+atom 	CAZ235 	Santa Barbara County Central Coast
+atom 	CAZ236 	Santa Ynez Valley
+atom 	CAZ237 	San Luis Obispo County Interior Valleys
+atom 	CAZ238 	Cuyama Valley
+atom 	CAZ239 	Santa Barbara County South Coast
+atom 	CAZ240 	Ventura County Coast
+atom 	CAZ241 	Los Angeles County Coast including Downtown Los Angeles
+atom 	CAZ243 	San Diego County Coastal Areas
+atom 	CAZ244 	Ventura County Interior Valleys
+atom 	CAZ245 	Ventura County Coastal Valleys
+atom 	CAZ246 	Santa Monica Mountains Recreational Area
+atom 	CAZ248 	San Bernardino and Riverside County Valleys - The Inland Empire
+atom 	CAZ250 	San Diego County Inland Valleys
+atom 	CAZ251 	San Luis Obispo County Mountains / Los Padres National Forest
+atom 	CAZ252 	Santa Barbara County Mountains
+atom 	CAZ253 	Ventura County Mountains / Los Padres National Forest
+atom 	CAZ254 	Los Angeles County Mountains / Angeles National Forest
+atom 	CAZ255 	San Bernardino County Mountains-Including The Mountain Top And Front Country Ranger Districts Of The San Bernardino National Forest
+atom 	CAZ256 	Riverside County Mountains-Including The San Jacinto Ranger District Of The San Bernardino National Forest
+atom 	CAZ257 	Santa Ana Mountains-Including The Trabuco Ranger District of the Cleveland National Forest
+atom 	CAZ258 	San Diego County Mountains-Including The Palomar And Descanso Ranger Districts of the Cleveland National Forest
+atom 	CAZ259 	Antelope Valley
+atom 	CAZ260 	Victor Valley - Apple Valley - Lucerne Valley - Johnson Valley
+atom 	CAZ261 	Coachella Valley-Including The Palm Springs South Coast Desert District
+atom 	CAZ262 	San Diego County Deserts-Including The Anza Borrego Desert State Park
+atom 	CAZ263 	Southern and Eastern Mendocino NF/Southeast Edge Shasta/Trinity NF and Western Portions of Tahima/Glenn RU
+atom 	CAZ264 	Lake County Portion of Lake-Nappa-Sonoma RU
+atom 	CAZ265 	San Gorgonio Pass Near Banning
+atom 	CAZ266 	Northern Sierra Foothills from 1000 to 3000 Ft. Includes Nevada-Yuba-Placer RU and Anador-Eldorado RU
+atom 	CAZ267 	Northern Motherlode From 1000 to 3000 Ft. From Yuba To Amador Counties
+atom 	CAZ268 	Northern Sierra Including Lassen NP and Plumas and Lassen NF/S West of the Sierra Crest - West of Evans Peak/Grizzly Peak/Beckworth Peak
+atom 	CAZ269 	Tahoe - Eldorado National Forest
+atom 	CAZ270 	Surprise Valley California
+atom 	CAZ271 	Western Lassen/Eastern Plumas/Eastern Sierra/Eastern Nevada Counties
+atom 	CAZ272 	Greater Lake Tahoe
+atom 	CAZ273 	Mono County/Eastern Alpine County
+atom 	CAZ276 	Interior Mendocino
+atom 	CAZ277 	W Mendocino NF/E Mendocino Unit
+atom 	CAZ278 	Eastern Lassen County
+atom 	CAZ279 	E Mendocino NF
+atom 	CAZ280 	Western Klamath National Forest
+atom 	CAZ281 	Central Siskiyou County Including Shasta Valley
+atom 	CAZ282 	Shasta-Trinity National Forest in Siskiyou County
+atom 	CAZ283 	Trinity
+atom 	CAZ284 	Siskiyou County from the Cascade Mountains East and South to Mt Shasta
+atom 	CAZ285 	Modoc County Except for the Surprise Valley
+atom 	CAZ287 	Catalina and Santa Barbara Islands
+atom 	CAZ288 	Santa Clarita Valley
+atom 	CAZ289 	West-Central San Joaquin Valley
+atom 	CAZ290 	East-Central San Joaquin Valley
+atom 	CAZ291 	Southwestern San Joaquin Valley
+atom 	CAZ292 	Southeastern San Joaquin Valley
+atom 	CAZ293 	Mariposa, Madera, and Fresno County Foothills
+atom 	CAZ294 	Tulare County Foothills
+atom 	CAZ295 	Kern County Mountains
+atom 	CAZ296 	Sierra Nevada from Yosemite to Kings Canyon National Park
+atom 	CAZ297 	Tulare County Mountains
+atom 	CAZ298 	Indian Wells Valley
+atom 	CAZ299 	Southeastern Kern County Desert
+atom 	CAZ505 	Coastal North Bay Including Point Reyes National Seashore
+atom 	CAZ506 	North Bay Interior Valleys
+atom 	CAZ507 	North Bay Mountains
+atom 	CAZ508 	San Francisco Bay Shoreline
+atom 	CAZ509 	San Francisco Peninsula Coast
+atom 	CAZ510 	East Bay Interior Valleys
+atom 	CAZ511 	East Bay Hills and the Diablo Range
+atom 	CAZ512 	Santa Cruz Mountains
+atom 	CAZ513 	Santa Clara Valley Including San Jose
+atom 	CAZ516 	Southern Salinas Valley/Arroyo Seco and Lake San Antonio
+atom 	CAZ517 	Santa Lucia Mountains and Los Padres National Forest
+atom 	CAZ518 	Mountains Of San Benito County And Interior Monterey County Including Pinnacles National Monument
+atom 	CAZ519 	Eastern Sierra Slopes of Inyo County
+atom 	CAZ520 	Owens Valley
+atom 	CAZ521 	White Mountains of Inyo County
+atom 	CAZ522 	Death Valley National Park
+atom 	CAZ523 	Western Mojave Desert
+atom 	CAZ524 	Eastern Mojave Desert, Including the Mojave National Preserve
+atom 	CAZ525 	Morongo Basin
+atom 	CAZ526 	Cadiz Basin
+atom 	CAZ527 	San Bernardino County-Upper Colorado River Valley
+atom 	CAZ528 	Northern Salinas Valley/Hollister Valley and Carmel Valley
+atom 	CAZ529 	Northern Monterey Bay
+atom 	CAZ530 	Southern Monterey Bay and Big Sur Coast
+atom 	CAZ547 	Los Angeles County San Fernando Valley
+atom 	CAZ548 	Los Angeles County San Gabriel Valley
+atom 	CAZ549 	San Miguel and Santa Rosa Islands
+atom 	CAZ550 	Santa Cruz and Anacapa Islands
+atom 	CAZ552 	Orange County Coastal
+atom 	CAZ554 	Orange County Inland
+atom 	CAZ560 	Joshua Tree NP West
+atom 	CAZ561 	Joshua Tree NP East
+atom 	CAZ562 	Imperial County Southwest
+atom 	CAZ563 	Salton Sea
+atom 	CAZ564 	Chuckwalla Mountains
+atom 	CAZ565 	Imperial County Southeast
+atom 	CAZ566 	Imperial County West
+atom 	CAZ567 	Imperial Valley
+atom 	CAZ568 	Chiriaco Summit
+atom 	CAZ569 	Palo Verde Valley
+atom 	CAZ570 	Chuckwalla Valley

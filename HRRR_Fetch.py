@@ -5,6 +5,8 @@ Created on Mon Jun  5 14:47:27 2017
 @author: tanner
 
 FETCHES CURRENT HRRR DATA FOR NEXT SIX HOURS IDEALLY
+
+NOW WITH MULTIPROCESSING!
 """
 
 
@@ -25,9 +27,12 @@ import datetime
 import urllib2
 import glob
 import os
+from multiprocessing.dummy import Pool as ThreadPool 
+import time
 
+dataDir='/home/ubuntu/fwas_data/HRRR/grib/'
 
-def buildURL(simHour,fetchHour):
+def buildURL(simHour,fetchHour,goBackOneDay):
     """
     Builds the most recent URL for HRRR Data
     """
@@ -35,6 +40,13 @@ def buildURL(simHour,fetchHour):
     
 #    simHour='12'
 #    fetchHour='12'
+
+    if goBackOneDay==True:
+	print 'Rectifying UTC Time Change'
+        simHour=23
+        simDay=(datetime.datetime.utcnow() - datetime.timedelta(days=1)).strftime('%Y%m%d')
+    else:
+        simDay=datetime.datetime.utcnow().strftime('%Y%m%d')
     
     uFile='?file=hrrr.t'+str(simHour)+'z.wrfsfcf'+str(fetchHour)+'.grib2'
 #    mid='''&lev_10_m_above_ground=on&lev_2_m_above_ground=on\
@@ -48,7 +60,7 @@ def buildURL(simHour,fetchHour):
 &leftlon=0&rightlon=360&toplat=90\
 &bottomlat=-90&dir=%2Fhrrr.'''
     
-    simDay=datetime.datetime.utcnow().strftime('%Y%m%d')
+  #  simDay=datetime.datetime.utcnow().strftime('%Y%m%d')
     
     URL=baseUrl+uFile+mid+simDay
     return URL
@@ -58,7 +70,8 @@ def getForecast(URL):
     """
     Fetches HRRR data!
     """
-    dataDir='/home/tanner/src/breezy/HRRR/grib/'
+#    dataDir='/home/tanner/src/breezy/HRRR/grib/'
+#    dataDir='/home/ubuntu/fwas_data/HRRR/grib/'
     forecastFile=dataDir+URL[URL.find("file=")+5:URL.find(".grib2")]+".grib2"
     response=urllib2.urlopen(URL)
     output=open(forecastFile,'wb')
@@ -69,16 +82,21 @@ def backupHRRRDir():
     """
     Backs up data in case we want it, doesn't do anything right now
     """
-    gZ=glob.glob('/home/tanner/src/breezy/HRRR/grib/*.grib2')
+#    gZ=glob.glob('/home/tanner/src/breezy/HRRR/grib/*.grib2')
+ #   gZ=glob.glob('/home/ubuntu/fwas_data/HRRR/grib/*.grib2')
+    gZ=glob.glob(str(dataDir+'*.grib2'))  
     for i in range(len(gZ)):
-        os.rename(gZ[i],'/home/tanner/src/breezy/HRRR/past/'+gZ[i][35:]) 
+#        os.rename(gZ[i],'/home/tanner/src/breezy/HRRR/past/'+gZ[i][35:])
+ 	os.rename(gZ[i],'/home/ubuntu/fwas_data/HRRR/shiit/'+gZ[i][35:])
     
 def cleanHRRRDir():
     """
     deletes old HRRR data!
     """
     print "Deleting old HRRR Files..."
-    gZ=glob.glob('/home/tanner/src/breezy/HRRR/grib/*.grib2')
+#    gZ=glob.glob('/home/tanner/src/breezy/HRRR/grib/*.grib2')
+#    gZ=glob.glob('/home/ubuntu/fwas_data/HRRR/grib/*.grib2')
+    gZ=glob.glob(str(dataDir+'*.grib2'))
     for i in range(len(gZ)):
         os.remove(gZ[i])
 
@@ -89,41 +107,77 @@ timeList = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10',
 sixHourTimeList=['01', '02', '03', '04', '05', '06','07']
 fiveHourTimeList=['01', '02', '03', '04', '05','06']
 
+def OLDrunFetchHRRR(tList,recent):
+    """
+    Runs HRRR for a time List
+    """
+    print "Fetching HRRR grib files...."
+    #get pretty close to most recent simulation time for now
+    simHour=str(datetime.datetime.utcnow().hour-recent)
+    revertDay=False
+    if simHour==-1:
+	revertDay=True
+    simHour=simHour.zfill(2)
+    for xT in tList:
+        url = buildURL(simHour,xT,revertDay)
+#	print url
+        getForecast(url)
+        print "Forecast Acquired, downloading..."
+        
 def runFetchHRRR(tList,recent):
     """
     Runs HRRR for a time List
     """
     print "Fetching HRRR grib files...."
     #get pretty close to most recent simulation time for now
-    simHour=str(datetime.datetime.utcnow().hour-recent)   
-    for time in tList:
-        url = buildURL(simHour,time)
-        getForecast(url)
-        print "Forecast Acquired, downloading..."
-
+    simHour=str(datetime.datetime.utcnow().hour-recent)
+    simHour=simHour.zfill(2)
+    uList=[]
+    for xT in tList:
+        url = buildURL(simHour,xT,False)
+        uList.append(url)
+    pool = ThreadPool(6) #Because there are 6 forecasts this is the fastest!
+    results=pool.map(getForecast,uList)
+    pool.close()
+    pool.join()
+    
+    
 #cleanHRRRDir()
 
 def fetchHRRR():
     """
     Runs HRRR With error handling! If you can't get most recent 6 hour data, tries 5 hour data, and then tries last hours data!
     """
+    start=time.time()
     try:
         print 'Trying Most Recent HRRR Data, 6 Hour Forecast'
-        runFetchHRRR(sixHourTimeList,1)
+        cleanHRRRDir()
+#        runFetchHRRR(sixHourTimeList,1)
+        OLDrunFetchHRRR(sixHourTimeList,1)        
     except:
         print 'Could not get six hour Forecasts. Trying Five Hour'
         pass
         try:
-            runFetchHRRR(fiveHourTimeList,1)
+            cleanHRRRDir()
+#            runFetchHRRR(fiveHourTimeList,1)
+            OLDrunFetchHRRR(fiveHourTimeList,1)        
         except:
             print 'Could not get Five Hour Forecasts. Fetching Last Hours 6 Hour Forecast'
             pass
             try:
-                runFetchHRRR(sixHourTimeList,2)
+                cleanHRRRDir()
+#                runFetchHRRR(sixHourTimeList,2)
+                OLDrunFetchHRRR(fiveHourTimeList,2)               
             except:
                 print 'DAMN! DAMN! COAL BURNING DING! DING!'
                 raise
+    end=time.time()
+    print 'HRRR GRIB FETCHED IN:',end-start,'SECONDS...'
+
 #
 #cleanHRRRDir()
 #fetchHRRR()
 
+
+simHour=str(datetime.datetime.utcnow().hour-1)   
+print simHour

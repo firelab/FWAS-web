@@ -1,0 +1,166 @@
+ 	GAZ001 	Dade
+atom 	GAZ002 	Walker
+atom 	GAZ003 	Catoosa
+atom 	GAZ004 	Whitfield
+atom 	GAZ005 	Murray
+atom 	GAZ006 	Fannin
+atom 	GAZ007 	Gilmer
+atom 	GAZ008 	Union
+atom 	GAZ009 	Towns
+atom 	GAZ010 	Rabun
+atom 	GAZ011 	Chattooga
+atom 	GAZ012 	Gordon
+atom 	GAZ013 	Pickens
+atom 	GAZ014 	Dawson
+atom 	GAZ015 	Lumpkin
+atom 	GAZ016 	White
+atom 	GAZ017 	Habersham
+atom 	GAZ018 	Stephens
+atom 	GAZ019 	Floyd
+atom 	GAZ020 	Bartow
+atom 	GAZ021 	Cherokee
+atom 	GAZ022 	Forsyth
+atom 	GAZ023 	Hall
+atom 	GAZ024 	Banks
+atom 	GAZ025 	Jackson
+atom 	GAZ026 	Franklin
+atom 	GAZ027 	Madison
+atom 	GAZ028 	Hart
+atom 	GAZ029 	Elbert
+atom 	GAZ030 	Polk
+atom 	GAZ031 	Paulding
+atom 	GAZ032 	Cobb
+atom 	GAZ033 	North Fulton
+atom 	GAZ034 	Gwinnett
+atom 	GAZ035 	Barrow
+atom 	GAZ036 	Clarke
+atom 	GAZ037 	Oconee
+atom 	GAZ038 	Oglethorpe
+atom 	GAZ039 	Wilkes
+atom 	GAZ040 	Lincoln
+atom 	GAZ041 	Haralson
+atom 	GAZ042 	Carroll
+atom 	GAZ043 	Douglas
+atom 	GAZ044 	South Fulton
+atom 	GAZ045 	De Kalb
+atom 	GAZ046 	Rockdale
+atom 	GAZ047 	Walton
+atom 	GAZ048 	Newton
+atom 	GAZ049 	Morgan
+atom 	GAZ050 	Greene
+atom 	GAZ051 	Taliaferro
+atom 	GAZ052 	Heard
+atom 	GAZ053 	Coweta
+atom 	GAZ054 	Fayette
+atom 	GAZ055 	Clayton
+atom 	GAZ056 	Spalding
+atom 	GAZ057 	Henry
+atom 	GAZ058 	Butts
+atom 	GAZ059 	Jasper
+atom 	GAZ060 	Putnam
+atom 	GAZ061 	Hancock
+atom 	GAZ062 	Warren
+atom 	GAZ063 	McDuffie
+atom 	GAZ064 	Columbia
+atom 	GAZ065 	Richmond
+atom 	GAZ066 	Troup
+atom 	GAZ067 	Meriwether
+atom 	GAZ068 	Pike
+atom 	GAZ069 	Upson
+atom 	GAZ070 	Lamar
+atom 	GAZ071 	Monroe
+atom 	GAZ072 	Jones
+atom 	GAZ073 	Baldwin
+atom 	GAZ074 	Washington
+atom 	GAZ075 	Glascock
+atom 	GAZ076 	Jefferson
+atom 	GAZ077 	Burke
+atom 	GAZ078 	Harris
+atom 	GAZ079 	Talbot
+atom 	GAZ080 	Taylor
+atom 	GAZ081 	Crawford
+atom 	GAZ082 	Bibb
+atom 	GAZ083 	Twiggs
+atom 	GAZ084 	Wilkinson
+atom 	GAZ085 	Johnson
+atom 	GAZ086 	Emanuel
+atom 	GAZ087 	Jenkins
+atom 	GAZ088 	Screven
+atom 	GAZ089 	Muscogee
+atom 	GAZ090 	Chattahoochee
+atom 	GAZ091 	Marion
+atom 	GAZ092 	Schley
+atom 	GAZ093 	Macon
+atom 	GAZ094 	Peach
+atom 	GAZ095 	Houston
+atom 	GAZ096 	Bleckley
+atom 	GAZ097 	Laurens
+atom 	GAZ098 	Treutlen
+atom 	GAZ099 	Candler
+atom 	GAZ100 	Bulloch
+atom 	GAZ101 	Effingham
+atom 	GAZ102 	Stewart
+atom 	GAZ103 	Webster
+atom 	GAZ104 	Sumter
+atom 	GAZ105 	Dooly
+atom 	GAZ106 	Crisp
+atom 	GAZ107 	Pulaski
+atom 	GAZ108 	Wilcox
+atom 	GAZ109 	Dodge
+atom 	GAZ110 	Telfair
+atom 	GAZ111 	Wheeler
+atom 	GAZ112 	Montgomery
+atom 	GAZ113 	Toombs
+atom 	GAZ114 	Tattnall
+atom 	GAZ115 	Evans
+atom 	GAZ116 	Inland Bryan
+atom 	GAZ117 	Coastal Bryan
+atom 	GAZ118 	Inland Chatham
+atom 	GAZ119 	Coastal Chatham
+atom 	GAZ120 	Quitman
+atom 	GAZ121 	Clay
+atom 	GAZ122 	Randolph
+atom 	GAZ123 	Calhoun
+atom 	GAZ124 	Terrell
+atom 	GAZ125 	Dougherty
+atom 	GAZ126 	Lee
+atom 	GAZ127 	Worth
+atom 	GAZ128 	Turner
+atom 	GAZ129 	Tift
+atom 	GAZ130 	Ben Hill
+atom 	GAZ131 	Irwin
+atom 	GAZ132 	Coffee
+atom 	GAZ133 	Jeff Davis
+atom 	GAZ134 	Bacon
+atom 	GAZ135 	Appling
+atom 	GAZ136 	Wayne
+atom 	GAZ137 	Long
+atom 	GAZ138 	Inland Liberty
+atom 	GAZ139 	Coastal Liberty
+atom 	GAZ140 	Inland McIntosh
+atom 	GAZ141 	Coastal McIntosh
+atom 	GAZ142 	Early
+atom 	GAZ143 	Miller
+atom 	GAZ144 	Baker
+atom 	GAZ145 	Mitchell
+atom 	GAZ146 	Colquitt
+atom 	GAZ147 	Cook
+atom 	GAZ148 	Berrien
+atom 	GAZ149 	Atkinson
+atom 	GAZ150 	Ware
+atom 	GAZ151 	Pierce
+atom 	GAZ152 	Brantley
+atom 	GAZ153 	Inland Glynn
+atom 	GAZ154 	Coastal Glynn
+atom 	GAZ155 	Seminole
+atom 	GAZ156 	Decatur
+atom 	GAZ157 	Grady
+atom 	GAZ158 	Thomas
+atom 	GAZ159 	Brooks
+atom 	GAZ160 	Lowndes
+atom 	GAZ161 	Lanier
+atom 	GAZ162 	Echols
+atom 	GAZ163 	Clinch
+atom 	GAZ164 	Charlton
+atom 	GAZ165 	Inland Camden
+atom 	GAZ166 	Coastal Camden

@@ -45,7 +45,8 @@ def pixToProj(ds,pLoc):
 def getRadarCodes():
     cCol=[]
     rN=[]
-    cFile='/media/tanner/vol2/NCR/colors.csv'
+#    cFile='/media/tanner/vol2/NCR/colors.csv'
+    cFile='/home/ubuntu/src/FWAS/data/colors.csv'
     with open(cFile,'rb') as f:
         reader=csv.reader(f)
         cList=list(reader)
@@ -59,14 +60,15 @@ def openImage(iLoc):
     img=Image.open(iLoc)
     return img
 
-def checkColors(img,cCol,rN):
+def checkColors(img,cCol,rN,threshold):
     bigVal=[]
-    threshold=30.0 #This is where we set the threshold!
+#    threshold=30.0 #This is where we set the threshold!
     pix=img.load()
     col=img.convert('RGB')    
     
     pCol=img.getcolors()
     lCol=col.getcolors()
+    lCol.sort()
 #    checkRadar
     for i in range(len(lCol)):
         for j in range(len(cCol)):
@@ -78,6 +80,7 @@ def checkColors(img,cCol,rN):
     
 def plotRadar(iLoc,img,plotColor,colorData):
     pCol=img.getcolors()
+    pCol.sort()
     im2=mpimg.imread(iLoc)
     pix=img.load()
     pyplot.imshow(im2)
@@ -99,6 +102,7 @@ def plotRadar(iLoc,img,plotColor,colorData):
     
 def getClosestPixel(img,colorData,dataset,location):
     pCol=img.getcolors()
+    pCol.sort()
     pix=img.load()
     gDist=[]
     gSpatial=[]
@@ -134,18 +138,20 @@ def checkRadarLevels(img,colors,dataset,location,radius):
             continue
 #            print 'too far away: ',cVal
     
-def runRadarCheck(dsLoc,location,radius,plot_on):           
+def runRadarCheck(dsLoc,location,radius,plot_on,threshold):           
     dataset=openDataset(dsLoc)
     pLoc=projToPix(dataset,location)
     cCol,rN=getRadarCodes()
     img=openImage(dsLoc)
 #    pCol=img.getcolors()
-    cVars=checkColors(img,cCol,rN)
+    cVars=checkColors(img,cCol,rN,threshold)
     cVars.sort(reverse=True)    
     
-
+    print 'Checking Within Radius',radius,'miles...'
     A=checkRadarLevels(img,cVars,dataset,location,radius)
     if A==None and radius<45: 
+        print 'Nothing in Initial Radius Worth Reporting...'
+        print 'Checking Double Initial Radius',radius*2,'miles...'
     #double radius if nothing is found Just to be Sure....
         A=checkRadarLevels(img,cVars,dataset,location,radius*2)
         
@@ -155,6 +161,7 @@ def runRadarCheck(dsLoc,location,radius,plot_on):
         if A!=None:
             pyplot.plot(A[0][1][0],A[0][1][1],'ko')
     if A==None:
+        print 'Nothing Found on Composite Reflectivity...'
         A=[]
         return A
     else:

@@ -1,0 +1,65 @@
+ 	PZZ110 	Grays Harbor Bar
+atom 	PZZ130 	West Entrance U.S. Waters Strait Of Juan De Fuca
+atom 	PZZ131 	Central U.S. Waters Strait Of Juan De Fuca
+atom 	PZZ132 	East Entrance U.S. Waters Strait Of Juan De Fuca
+atom 	PZZ133 	Northern Inland Waters Including The San Juan Islands
+atom 	PZZ134 	Admiralty Inlet
+atom 	PZZ135 	Puget Sound and Hood Canal
+atom 	PZZ150 	Coastal Waters From Cape Flattery To James Island Out 10 Nm
+atom 	PZZ153 	Coastal Waters From James Island To Point Grenville Out 10 Nm
+atom 	PZZ156 	Coastal Waters From Point Grenville To Cape Shoalwater Out 10 Nm
+atom 	PZZ170 	Coastal Waters From Cape Flattery To James Island 10 To 60 Nm
+atom 	PZZ173 	Waters From James Island To Point Grenville 10 To 60 Nm
+atom 	PZZ176 	Coastal Waters From Point Grenville To Cape Shoalwater 10 To 60 Nm
+atom 	PZZ210 	Columbia River Bar
+atom 	PZZ250 	Coastal waters from Cape Shoalwater WA to Cascade Head OR out 10 nm
+atom 	PZZ255 	Coastal waters from Cascade Head to Florence OR out 10 nm
+atom 	PZZ270 	Waters from Cape Shoalwater WA to Cascade Head OR from 10 to 60 nm
+atom 	PZZ275 	Waters from Cascade Head to Florence OR from 10 to 60 nm
+atom 	PZZ350 	Coastal waters from Florence to Cape Blanco OR out 10 nm
+atom 	PZZ356 	Coastal waters from Cape Blanco OR to Pt. St. George CA out 10 nm
+atom 	PZZ370 	Waters from Florence to Cape Blanco OR from 10 to 60 nm
+atom 	PZZ376 	Waters from Cape Blanco OR to Pt. St. George CA from 10 to 60 nm
+atom 	PZZ410 	Humboldt Bay Bar
+atom 	PZZ450 	Coastal waters from Pt. St. George to Cape Mendocino CA out 10 nm
+atom 	PZZ455 	Coastal waters from Cape Mendocino to Pt. Arena CA out 10 nm
+atom 	PZZ470 	Waters from Pt. St. George to Cape Mendocino CA from 10 to 60 nm
+atom 	PZZ475 	Waters from Cape Mendocino to Pt. Arena CA from 10 to 60 nm
+atom 	PZZ530 	San Pablo Bay, Suisun Bay, the West Delta and the San Francisco Bay north of the Bay Bridge
+atom 	PZZ531 	San Francisco Bay South of the Bay Bridge
+atom 	PZZ535 	Monterey Bay
+atom 	PZZ540 	Coastal Waters from Point Arena to Point Reyes California out to 10 nm
+atom 	PZZ545 	Coastal Waters from Point Reyes to Pigeon Point California out to 10 nm
+atom 	PZZ560 	Coastal Waters from Pigeon Point to Point Pinos California out to 10 nm
+atom 	PZZ565 	Coastal Waters from Point Pinos to Point Piedras Blancas California out to 10 nm
+atom 	PZZ570 	Waters from Point Arena to Point Reyes 10-60 NM
+atom 	PZZ571 	Waters from Point Reyes to Pigeon Point 10-60 NM
+atom 	PZZ575 	Waters from Pigeon Point to Point Pinos 10-60 NM
+atom 	PZZ576 	Waters from Point Pinos to Point Piedras Blancas 10-60 NM
+atom 	PZZ645 	Point Piedras Blancas to Point Sal westward out to 10 NM
+atom 	PZZ650 	East Santa Barbara Channel from Pt. Conception to Pt. Mugu CA including Santa Cruz Island
+atom 	PZZ655 	Inner waters from Point Mugu to San Mateo Pt. CA including Santa Catalina and Anacapa Islands
+atom 	PZZ670 	Point Piedras Blancas to Point Sal from 10 to 60 NM
+atom 	PZZ673 	Waters from Pt. Sal to Santa Cruz Island CA and westward 60 nm including San Miguel and Santa Rosa Islands
+atom 	PZZ676 	Outer waters from Santa Cruz Island to San Clemente Island to 60 NM offshore including San Nicolas and Santa Barbara Islands
+atom 	PZZ750 	Coastal Waters from San Mateo Point to the Mexican Border and out to 30 nm
+atom 	PZZ775 	Waters from San Mateo point to the Mexican Border Extending 30 to 60 nm out including San Clemente Island
+atom 	PZZ800 	Cape Flattery to Cape Shoalwater between 60 NM and 150 NM offshore
+atom 	PZZ805 	Cape Shoalwater to Cape Lookout between 60 NM and 150 NM offshore
+atom 	PZZ810 	Cape Lookout to Florence, OR between 60 NM and 150 NM offshore
+atom 	PZZ815 	Florence, OR to Point St. George between 60 NM and 150 NM offshore
+atom 	PZZ820 	Point St. George to Point Arena between 60 NM and 150 NM offshore
+atom 	PZZ825 	Point Arena to Pigeon Point between 60 NM and 150 NM offshore
+atom 	PZZ830 	Pigeon Point to Point Piedras Blancas between 60 NM and 150 NM offshore
+atom 	PZZ835 	Point Piedras Blancas to Santa Cruz Island, CA between 60 NM and 150 NM offshore
+atom 	PZZ840 	Santa Cruz Island, CA to San Clemente Island, CA between 60 NM and 150 NM offshore
+atom 	PZZ900 	Cape Flattery to Cape Shoalwater between 150 NM and 250 NM offshore
+atom 	PZZ905 	Cape Shoalwater to Cape Lookout between 150 NM and 250 NM offshore
+atom 	PZZ910 	Cape Lookout to Florence, OR between 150 NM and 250 NM offshore
+atom 	PZZ915 	Florence, OR to Point St. George between 150 NM and 250 NM offshore
+atom 	PZZ920 	Point St. George to Point Arena between 150 NM and 250 NM offshore
+atom 	PZZ925 	Point Arena to Pigeon Point between 150 NM and 250 NM offshore
+atom 	PZZ930 	Pigeon Point to Point Piedras Blancas between 150 NM and 250 NM offshore
+atom 	PZZ935 	Point Piedras Blancas to Santa Cruz Island, CA between 150 NM and 250 NM offshore
+atom 	PZZ940 	Santa Cruz Island, CA to 120W between 150 NM and 250 NM offshore
+atom 	PZZ945 	San Clemente Island, CA to Guadalupe Island from 60 NM offshore west to 120W

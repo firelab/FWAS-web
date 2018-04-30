@@ -1,0 +1,187 @@
+ 	AMZ011 	Caribbean Nof 18N W of 85W including Yucatan Basin
+atom 	AMZ013 	Caribbean N of 18N between 76W and 85W including Cayman Basin
+atom 	AMZ015 	Caribbean approaches to the Windward Passage
+atom 	AMZ017 	Gulf of Honduras
+atom 	AMZ019 	Caribbean from 15N to 18N between 80W and 85W
+atom 	AMZ021 	Caribbean from 15N to 18N between 72W and 80W
+atom 	AMZ023 	Caribbean N of 15N between 64W and 72W
+atom 	AMZ025 	Offshore Waters Leeward Islands
+atom 	AMZ027 	Tropical N Atlantic from 15N to 19N between 55W and 60W
+atom 	AMZ029 	W Central Caribbean from 11N to 15N W of 80W
+atom 	AMZ031 	Caribbean from 11N to 15N between 72W and 80W including Colombia Basin
+atom 	AMZ033 	Caribbean S of 15N between 64W and 72W including Venezuela Basin
+atom 	AMZ035 	Offshore Waters Windward Islands including Trinidad and Tobago
+atom 	AMZ037 	Tropical N Atlantic from 7N and 15N between 55W and 60W
+atom 	AMZ039 	SW Caribbean S of 11N including the approaches to the Panama Canal
+atom 	AMZ111 	Atlantic from 27N to 31N W of 77W
+atom 	AMZ113 	Atlantic from 27N to 31N between 70W and 77W
+atom 	AMZ115 	Atlantic from 27N to 31N between 65W and 70W
+atom 	AMZ117 	Bahamas including Cay Sal Bank
+atom 	AMZ119 	Atlantic from 22N to 27N E of Bahamas to 70W
+atom 	AMZ121 	Atlantic from 22N to 27N between 65W and 70W
+atom 	AMZ123 	Atlantic S of 22N W of 70W including approaches to the Windward Passage
+atom 	AMZ125 	Atlantic S of 22N between 65W and 70W including Puerto Rico Trench
+atom 	AMZ127 	Atlantic from 19N to 22N between 55W and 65W
+atom 	AMZ130 	Albemarle Sound
+atom 	AMZ131 	Alligator River
+atom 	AMZ135 	Pamlico Sound
+atom 	AMZ136 	Pamlico and Pungo Rivers
+atom 	AMZ137 	Neuse and Bay Rivers
+atom 	AMZ150 	S of Currituck Beach Light NC to Oregon Inlet NC out to 20 nm
+atom 	AMZ152 	S of Oregon Inlet NC to Cape Hatteras NC out to 20 nm
+atom 	AMZ154 	S of Cape Hatteras NC to Ocracoke Inlet NC out to 20 nm
+atom 	AMZ156 	S of Ocracoke Inlet NC to Cape Lookout NC out to 20 nm
+atom 	AMZ158 	S of Cape Lookout NC to Surf City NC out to 20 nm
+atom 	AMZ170 	Waters from Currituck Beach Light to Oregon Inlet NC from 20 to 40 nm
+atom 	AMZ172 	Waters from Oregon Inlet to Cape Hatteras NC from 20 to 40 nm
+atom 	AMZ174 	Waters from Cape Hatteras to Ocracoke Inlet NC from 20 to 40 nm
+atom 	AMZ176 	Waters fromOcracoke Inlet to Cape Lookout NC from 20 to 40 nm
+atom 	AMZ178 	Waters from Cape Lookout to Surf City NC from 20 to 40 nm
+atom 	AMZ250 	Coastal waters from Surf City to Cape Fear NC out 20 nm
+atom 	AMZ252 	Coastal waters from Cape Fear NC to Little River Inlet SC out 20 nm
+atom 	AMZ254 	Coastal waters from Little River Inlet to Murrells Inlet SC out 20 nm
+atom 	AMZ256 	Coastal waters from Murrells Inlet to South Santee River SC out 20 nm
+atom 	AMZ270 	Waters from Surf City to Cape Fear NC from 20 to 40 nm
+atom 	AMZ272 	Waters from Cape Fear NC to Little River Inlet SC from 20 to 40 nm
+atom 	AMZ274 	Waters from Little River Inlet to Murrells Inlet SC from 20 to 40 nm
+atom 	AMZ276 	Waters from Murrells Inlet NC to South Santee River SC from 20 to 40 nm
+atom 	AMZ330 	Charleston Harbor
+atom 	AMZ350 	Coastal waters from South Santee River to Edisto Beach SC out 20 nm
+atom 	AMZ352 	Coastal waters from Edisto Beach SC to Savannah GA out 20 nm
+atom 	AMZ354 	Coastal waters from Savannah GA to Altamaha Sound GA out 20 nm...including Grays Reef National Marine Sanctuary
+atom 	AMZ370 	Waters from South Santee River SC to Edisto Beach SC extending from 20 nm to 40 nm
+atom 	AMZ372 	Waters from Edisto Beach SC to Savannah GA extending from 20 nm to 40 nm
+atom 	AMZ374 	Waters from Savannah GA to Altamaha Sound GA extending from 20 nm to 60 nm
+atom 	AMZ450 	Coastal waters from Altamaha Sound to Fernandina Beach FL out 20 NM
+atom 	AMZ452 	Coastal waters from Fernandina Beach to St. Augustine FL out 20 NM
+atom 	AMZ454 	Coastal waters from St. Augustine to Flagler Beach FL out 20 NM
+atom 	AMZ470 	Waters from Altamaha Sound GA to Fernandina Beach FL from 20 to 60 NM
+atom 	AMZ472 	Waters from Fernandina Beach to St. Augustine FL from 20 to 60 NM
+atom 	AMZ474 	Waters from St. Augustine to Flagler Beach FL from 20 to 60 NM
+atom 	AMZ550 	Flagler Beach to Volusia-Brevard County Line 0-20 nm
+atom 	AMZ552 	Volusia-Brevard County Line to Sebastian Inlet 0-20 nm
+atom 	AMZ555 	Sebastian Inlet to Jupiter Inlet 0-20 nm
+atom 	AMZ570 	Flagler Beach to Volusia-Brevard County Line 20-60 nm
+atom 	AMZ572 	Volusia-Brevard County Line to Sebastian Inlet 20-60 nm
+atom 	AMZ575 	Sebastian Inlet to Jupiter Inlet 20-60 nm
+atom 	AMZ610 	Lake Okeechobee
+atom 	AMZ630 	Biscayne Bay
+atom 	AMZ650 	Coastal waters from Jupiter Inlet to Deerfield Beach FL out 20 NM
+atom 	AMZ651 	Coastal waters from Deerfield Beach to Ocean Reef FL out 20 NM
+atom 	AMZ670 	Waters from Jupiter Inlet to Deerfield Beach FL from 20 to 60 NM
+atom 	AMZ671 	Waters from Deerfield Beach to Ocean Reef FL from 20 to 60 NM excluding the territorial waters of Bahamas
+atom 	AMZ710 	Atlantic Waters of Puerto Rico AND USVI from 10 NM to 19.5N
+atom 	AMZ712 	Coastal Waters of Northern Puerto Rico out 10 NM
+atom 	AMZ715 	Coastal Waters of Northern USVI and Culebra out 10 NM
+atom 	AMZ722 	Anegada Passage Southward to 17N
+atom 	AMZ725 	Coastal Waters of Southern USVI, Vieques, and Eastern Puerto Rico out 10 NM
+atom 	AMZ732 	Caribbean Waters of Puerto Rico from 10 NM to 17N
+atom 	AMZ735 	Coastal Waters of Southern Puerto Rico out 10 NM
+atom 	AMZ741 	Mona Passage Southward to 17N
+atom 	AMZ742 	Coastal Waters OF Northwestern Puerto Rico out 10 NM
+atom 	AMZ745 	Coastal Waters OF Southwestern Puerto Rico out 10 NM
+atom 	ANZ050 	Coastal Waters from Eastport, ME to Schoodic Point, ME out 25 NM
+atom 	ANZ051 	Coastal Waters from Schoodic Point, ME to Stonington, ME out 25 NM
+atom 	ANZ052 	Intra Coastal Waters from Schoodic Point, ME to Stonington, ME
+atom 	ANZ070 	Waters from Eastport ME to Schoodic Point, ME from 25 to 40 nm
+atom 	ANZ071 	Waters from Schoodic Point, ME to Stonington ME from 25 to 40 nm
+atom 	ANZ150 	Coastal Waters from Stonington, ME to Port Clyde, ME out 25 NM
+atom 	ANZ151 	Penobscot Bay
+atom 	ANZ152 	Coastal Waters from Port Clyde, ME to Cape Elizabeth, ME out 25 NM
+atom 	ANZ153 	Casco Bay
+atom 	ANZ154 	Coastal Waters from Cape Elizabeth, ME to Merrimack River, MA out 25 NM
+atom 	ANZ170 	Waters from Stonington ME to Port Clyde ME from 25 to 40 nm
+atom 	ANZ172 	Waters from Port Clyde ME to Cape Elizabeth ME from 25 to 40 nm
+atom 	ANZ174 	Waters from Cape Elizabeth ME to Merrimack River MA from 25 to 40 nm
+atom 	ANZ230 	Boston Harbor
+atom 	ANZ231 	Cape Cod Bay
+atom 	ANZ232 	Nantucket Sound
+atom 	ANZ233 	Vineyard Sound
+atom 	ANZ234 	Buzzards Bay
+atom 	ANZ235 	Rhode Island Sound
+atom 	ANZ236 	Narragansett Bay
+atom 	ANZ237 	Block Island Sound
+atom 	ANZ250 	Coastal waters east of Ipswich Bay and the Stellwagen Bank National Marine Sanctuary
+atom 	ANZ251 	Massachusetts Bay and Ipswich Bay
+atom 	ANZ254 	Coastal waters from Provincetown MA to Chatham MA to Nantucket MA out 20 nm
+atom 	ANZ255 	Coastal Waters extending out to 25 nm South of Marthas Vineyard and Nantucket
+atom 	ANZ256 	Coastal Waters from Montauk NY to Marthas Vineyard extending out to 20 nm South of Block Island
+atom 	ANZ270 	Ocean Waters from the Merrimack River to Plymouth from 40 to 60 NM offshore
+atom 	ANZ271 	Ocean Waters from Provincetown to Nantucket from 20 to 35 NM offshore
+atom 	ANZ272 	Ocean Waters from Marthas Vineyard to Nantucket from 25 to 45 NM offshore
+atom 	ANZ273 	Ocean Waters from Montauk NY to Marthas Vineyard from 25 to 40 NM offshore
+atom 	ANZ330 	Long Island Sound East of New Haven CT/Port Jefferson NY
+atom 	ANZ335 	Long Island Sound West of New Haven CT/Port Jefferson NY
+atom 	ANZ338 	New York Harbor
+atom 	ANZ340 	Peconic and Gardiners Bays
+atom 	ANZ345 	South Shore Bays from Jones Inlet through Shinnecock Bay
+atom 	ANZ350 	Moriches Inlet NY to Montauk Point NY out 20 nm
+atom 	ANZ353 	Fire Island Inlet NY to Moriches Inlet NY out 20 nm
+atom 	ANZ355 	Sandy Hook NJ to Fire Island Inlet NY out 20 nm
+atom 	ANZ370 	Waters from Moriches Inlet NY to Montauk Point NY from 20 to 40 NM
+atom 	ANZ373 	Waters from Fire Island Inlet NY to Moriches Inlet NY from 20 to 40 NM
+atom 	ANZ375 	Waters from Sandy Hook NJ to Fire Island Inlet out 20 to 40 nm
+atom 	ANZ430 	Delaware Bay waters north of East Point NJ to Slaughter Beach DE
+atom 	ANZ431 	Delaware Bay waters south of East Point NJ to Slaughter Beach DE
+atom 	ANZ450 	Coastal waters from Sandy Hook to Manasquan Inlet NJ out 20 nm
+atom 	ANZ451 	Coastal waters from Manasquan Inlet to Little Egg Inlet NJ out 20 nm
+atom 	ANZ452 	Coastal waters from Little Egg Inlet to Great Egg Inlet NJ out 20 nm
+atom 	ANZ453 	Coastal waters from Great Egg Inlet to Cape May NJ out 20 nm
+atom 	ANZ454 	Coastal waters from Cape May NJ to Cape Henlopen DE out 20 nm
+atom 	ANZ455 	Coastal waters from Cape Henlopen to Fenwick Island DE out 20 nm
+atom 	ANZ470 	Waters from Sandy Hook NJ to Manasquan Inlet NJ out 20 to 40 nm
+atom 	ANZ471 	Waters from Manasquan Inlet NJ to Little Egg Inlet NJ out 20 to 40 nm
+atom 	ANZ472 	Waters from Little Egg Inlet NJ to Great Egg Inlet NJ out 20 to 40 nm from 20 to 40 NM
+atom 	ANZ473 	Waters from Great Egg Inlet NJ to Cape May NJ out 20 to 40 nm
+atom 	ANZ475 	Waters from Cape May NJ to Fenwick Island DE out 20 to 40 nm
+atom 	ANZ530 	Chesapeake Bay north of Pooles Island MD
+atom 	ANZ531 	Chesapeake Bay from Pooles Island to Sandy Point MD
+atom 	ANZ532 	Chesapeake Bay from Sandy Point to North Beach MD
+atom 	ANZ533 	Chesapeake Bay from North Beach to Drum Point MD
+atom 	ANZ534 	Chesapeake Bay from Drum Point MD to Smith Point VA
+atom 	ANZ535 	Tidal Potomac from Key Bridge to Indian Head MD
+atom 	ANZ536 	Tidal Potomac from Indian Head to Cobb Island MD
+atom 	ANZ537 	Tidal Potomac from Cobb Island MD to Smith Point VA
+atom 	ANZ538 	Patapsco River including Baltimore Harbor
+atom 	ANZ539 	Chester River to Queenstown MD
+atom 	ANZ540 	Eastern Bay
+atom 	ANZ541 	Choptank River to Cambridge MD and the Little Choptank River
+atom 	ANZ542 	Patuxent River to Broomes Island MD
+atom 	ANZ543 	Tangier Sound and the inland waters surrounding Bloodsworth Island
+atom 	ANZ630 	Chesapeake Bay from Smith Point to Windmill Point VA
+atom 	ANZ631 	Chesapeake Bay from Windmill Point to New Point Comfort VA
+atom 	ANZ632 	Chesapeake Bay from New Point Comfort to Little Creek VA
+atom 	ANZ633 	Currituck Sound
+atom 	ANZ634 	Chesapeake Bay from Little Creek VA to Cape Henry VA including the Chesapeake Bay Bridge Tunnel
+atom 	ANZ635 	Rappahannock River from Urbanna to Windmill Point
+atom 	ANZ636 	York River
+atom 	ANZ637 	James River from Jamestown to the James River Bridge
+atom 	ANZ638 	James River from James River Bridge to Hampton Roads Bridge-Tunnel
+atom 	ANZ650 	Coastal waters from Fenwick Island DE to Chincoteague VA out 20 nm
+atom 	ANZ652 	Coastal waters from Chincoteague to Parramore Island VA out 20 nm
+atom 	ANZ654 	Coastal waters from Parramore Island to Cape Charles Light VA out 20 nm
+atom 	ANZ656 	Coastal Waters from Cape Charles Light to Virginia-North Carolina border out to 20 nm
+atom 	ANZ658 	Coastal waters from NC VA border to Currituck Beach Light NC out 20 nm
+atom 	ANZ670 	Waters from Fenwick Island DE to Chintoteague VA from 20 to 40 nm
+atom 	ANZ672 	Waters from Chincoteague VA to Parramore Island VA from 20 to 40 nm
+atom 	ANZ674 	Waters from Parramore Island VA to Cape Charles Light VA from 20 to 40 nm
+atom 	ANZ676 	Waters from Cape Charles Light to Virginia - North Carolina Border from 20 to 40 nm
+atom 	ANZ678 	Waters from NC VA border to Currituck Beach Light NC from 20 to 40 nm
+atom 	ANZ800 	Gulf of Maine to the Hague Line
+atom 	ANZ805 	Georges Bank between Cape Cod and 68W north of 1000 FM
+atom 	ANZ810 	South of New England between the Great South Channel and Montauk Point to 1000 FM
+atom 	ANZ815 	South of Long Island between Montauk Point and Sandy Hook to 1000 FM
+atom 	ANZ820 	Hudson Canyon to Baltimore Canyon to 1000 FM
+atom 	ANZ825 	Baltimore Canyon to Cape Charles Light to 100 NM offshore
+atom 	ANZ828 	Cape Charles Light to Currituck Beach Light to 100 NM offshore
+atom 	ANZ830 	Currituck Beach Light to Cape Hatteras to 100 NM offshore
+atom 	ANZ833 	Cape Hatteras to Cape Fear to 100 NM Offshore.
+atom 	ANZ835 	Cape Fear to 31N to 1000 FM
+atom 	ANZ900 	Georges Bank between 68W and the Hague Line
+atom 	ANZ905 	East of 69W to the Hague Line between 1000 FM and 39N
+atom 	ANZ910 	East of 69W and south of 39N to 250 NM offshore
+atom 	ANZ915 	Between 1000FM and 38.5 N west of 69 W
+atom 	ANZ920 	Baltimore Canyon to 69W east of 1000 FM and south of 38.5N to 250 NM offshore
+atom 	ANZ925 	Baltimore Canyon to Hatteras Canyon between 100 NM and 250 NM offshore
+atom 	ANZ930 	Hatteras Canyon to Cape Fear between 100 NM and 250 NM offshore
+atom 	ANZ935 	Cape Fear to 31N east of 1000 FM to 250 NM offshore

@@ -76,7 +76,13 @@ def sortData(data,lat,lon,units,timeZone):
     utc=datetime.datetime.utcnow()
     dObj=datetime.timedelta(hours=1)
     
+
+    if data['SUMMARY']['RESPONSE_MESSAGE']!='OK':
+        print 'no RAWS PRECIP data in the area, checking HRRR!'
+        return []  
+        
     pStations=[]
+
     for i in range(len(data['STATION'])):
        pStat=precip_station()
        dTime=datetime.datetime.strptime(data['STATION'][i]['OBSERVATIONS']['precip_accum_one_hour_value_1']['date_time'],'%Y-%m-%dT%H:%M:%SZ')
@@ -107,11 +113,14 @@ def createPrecipAlert(pStations):
     head=''    
     line=''
     if any(pStations):
-        head='PRECIP ALERT:\n'
+#        head='PRECIP ALERT:\n'
         for i in range(len(pStations)):
-            line+='Station '+pStations[i].stid+', '+str(round(pStations[i].dist_from_loc,1))+' miles at '+str(round(pStations[i].bearing,1))+' degrees '+str(pStations[i].cardinal)+\
-            ' from your location reported '+str(pStations[i].precip_1_hour)+' '+str(pStations[i].precip_units)+' of liquid precip within the last hour.\n\n'
-    return head+line
+            if pStations[i]=='':
+                line=''
+            else:     
+                line+='Station '+pStations[i].stid+', '+str(round(pStations[i].dist_from_loc,1))+' miles at '+str(round(pStations[i].bearing,1))+' degrees '+str(pStations[i].cardinal)+\
+                ' from your location reported '+str(pStations[i].precip_1_hour)+' '+str(pStations[i].precip_units)+' of liquid precip within the last hour.\n'
+    return line
 
 #precipLib={'precip_on': '1', 'precip_units': '2'}
 #headerLib={'alert_name': 'Alert',

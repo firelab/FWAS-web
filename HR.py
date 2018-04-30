@@ -31,6 +31,8 @@ class reflectivity:
     eBearing=0.0
     fBear=''    
     eVal=0.0
+    obs_max=0.0
+    time_max=0.0
     
 class temperature:
     """
@@ -53,6 +55,9 @@ class temperature:
     eBearing=0.0 
     fBear=''    
     eVal=0.0
+    obs_max=0.0
+    time_max=0.0
+
 
 class RH:
     """
@@ -75,6 +80,8 @@ class RH:
     eBearing=0.0
     fBear=''    
     eVal=0.0
+    obs_min=500.0
+    time_min=0.0
 
 class Wind:
     """
@@ -97,6 +104,9 @@ class Wind:
     eBearing=0.0 
     fBear=''   
     eVal=0.0
+    obs_max=0.0
+    time_max=0.0
+
 
 class Ltng:
     """
@@ -119,6 +129,8 @@ class Ltng:
     eBearing=0.0
     fBear=''    
     eVal=0.0
+    obs_max=0.0
+    time_max=0.0
 
 class Precip:
     """
@@ -139,6 +151,8 @@ class Precip:
     eBearing=0.0
     fBear=''
     eVal=0.0
+    obs_max=0.0
+    time_max=0.0
 
 class Empty:
     """
@@ -159,7 +173,9 @@ class Empty:
     eBearing=0.0 
     fBear=''   
     eVal=0.0
-    
+    obs_max=0.0
+    time_max=0.0
+
 class wxStruct:
     """
     stores metadata for HRRR Run

@@ -60,7 +60,8 @@ def getDiskFiles():
     """
     Fetches Grib Files on Disk
     """
-    dZ=glob.glob('/home/tanner/src/breezy/HRRR/grib/*.grib2')
+#    dZ=glob.glob('/home/tanner/src/breezy/HRRR/grib/*.grib2')
+    dZ=glob.glob('/home/ubuntu/fwas_data/HRRR/grib/*.grib2')
     dZ.sort()
     return dZ
     
@@ -78,7 +79,8 @@ def getDataset(futureTime):
     """
     opens grib file
     """
-    cZ=glob.glob('/home/tanner/src/breezy/HRRR/grib/*.grib2')
+#    cZ=glob.glob('/home/tanner/src/breezy/HRRR/grib/*.grib2')
+    cZ=glob.glob('/home/ubuntu/fwas_data/HRRR/grib/*.grib2')
     cZ.sort()
     fFile=cZ[futureTime]
 #    print fFile
@@ -332,6 +334,7 @@ def thresholdsII(wxInfo,wxData,variable,genInt,genVar,rasterBands):
         wxData[genInt].pctCovered=calcPercentCovered(wxInfo,datList,rasterBands[genInt])    
         wxData[genInt].eDist,wxData[genInt].eBearing,wxData[genInt].eVal=getClosestPixel(wxInfo,exceed,datVal)
         wxData[genInt].fBear=degToCompass(wxData[genInt].eBearing)
+        wxData[genInt].obs_max=max(datList)
         
 def checkThresholds(wxInfo,wxData,variable,rasterBands):
     """
@@ -361,7 +364,8 @@ def checkThresholds(wxInfo,wxData,variable,rasterBands):
     if variable=='RH':
         datVal=getBoxValues(wxInfo,rasterBands[2])
         exceed=numpy.where(datVal<wxData[2].limit)
-        if exceed[0].size==0:
+        
+        if exceed[0].size==0 or not any(exceed[0]):
             datList.append(False)
             return datList
         else:
@@ -378,6 +382,7 @@ def checkThresholds(wxInfo,wxData,variable,rasterBands):
             wxData[2].check=True
             wxData[2].eDist,wxData[2].eBearing,wxData[2].eVal=getClosestPixel(wxInfo,exceed,datVal)
             wxData[2].fBear=degToCompass(wxData[2].eBearing)
+            wxData[2].obs_min=min(datList)
 
 #            wxData[2].eVal=            
             
@@ -453,7 +458,8 @@ def setControls(fCastNum,radius,Lat,Lon,limReflec,limTemp,limRH,limWind,runSanit
     
 #    assignForecast(fCastNum)
 #    readForecastFile()
-    ds=getDataset(fCastNum)
+#    ds=getDataset(fCastNum)
+    ds=fCastNum
     rasterBands,rasterArrays=getRasterBands(ds)
 
     setRadius(wxInfo,radius)

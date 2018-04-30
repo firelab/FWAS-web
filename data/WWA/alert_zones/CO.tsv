@@ -1,0 +1,140 @@
+ 	COZ001 	Lower Yampa River Basin
+atom 	COZ002 	Central Yampa River Basin
+atom 	COZ003 	Roan and Tavaputs Plateaus
+atom 	COZ004 	Elkhead and Park Mountains
+atom 	COZ005 	Upper Yampa River Basin
+atom 	COZ006 	Grand Valley
+atom 	COZ007 	Debeque to Silt Corridor
+atom 	COZ008 	Central Colorado River Basin
+atom 	COZ009 	Grand and Battlement Mesas
+atom 	COZ010 	Gore and Elk Mountains/Central Mountain Valleys
+atom 	COZ011 	Central Gunnison and Uncompahgre River Basin
+atom 	COZ012 	West Elk and Sawatch Mountains
+atom 	COZ013 	Flattops
+atom 	COZ014 	Upper Gunnison River Valley
+atom 	COZ017 	Uncompahgre Plateau/Dallas Divide
+atom 	COZ018 	Northwestern San Juan Mountains
+atom 	COZ019 	Southwest San Juan Mountains
+atom 	COZ020 	Paradox Valley/Lower Dolores River
+atom 	COZ021 	Four Corners/Upper Dolores River
+atom 	COZ022 	Animas River Basin
+atom 	COZ023 	San Juan River Basin
+atom 	COZ030 	Jackson County Below 9000 Feet
+atom 	COZ031 	West Jackson and West Grand Counties Above 9000 Feet
+atom 	COZ032 	Grand and Summit Counties Below 9000 Feet
+atom 	COZ033 	South and East Jackson/Larimer/North and Northeast Grand/Northwest Boulder Counties Above 9000 Feet
+atom 	COZ034 	South and Southeast Grand/West Central and Southwest Boulder/Gilpin/Clear Creek/Summit/North and West Park Counties Above 9000 Feet
+atom 	COZ035 	Larimer and Boulder Counties Between 6000 and 9000 Feet
+atom 	COZ036 	Jefferson and West Douglas Counties Above 6000 Feet/Gilpin/Clear Creek/Northeast Park Counties Below 9000 Feet
+atom 	COZ037 	Central and Southeast Park County
+atom 	COZ038 	Larimer County Below 6000 Feet/Northwest Weld County
+atom 	COZ039 	Boulder And Jefferson Counties Below 6000 Feet/West Broomfield County
+atom 	COZ040 	North Douglas County Below 6000 Feet/Denver/West Adams and Arapahoe Counties/East Broomfield County
+atom 	COZ041 	Elbert/Central and East Douglas Counties Above 6000 Feet
+atom 	COZ042 	Northeast Weld County
+atom 	COZ043 	Central and South Weld County
+atom 	COZ044 	Morgan County
+atom 	COZ045 	Central and East Adams and Arapahoe Counties
+atom 	COZ046 	North and Northeast Elbert County Below 6000 Feet/North Lincoln County
+atom 	COZ047 	Southeast Elbert County Below 6000 Feet/South Lincoln County
+atom 	COZ048 	Logan County
+atom 	COZ049 	Washington County
+atom 	COZ050 	Sedgwick County
+atom 	COZ051 	Phillips County
+atom 	COZ058 	Western Mosquito Range/East Lake County Above 11000 Ft
+atom 	COZ059 	Leadville Vicinity/Lake County Below 11000 Ft
+atom 	COZ060 	Eastern Sawatch Mountains above 11000 Ft
+atom 	COZ061 	Western Chaffee County Between 9000 and 11000 Ft
+atom 	COZ062 	Central Chaffee County Below 9000 Ft
+atom 	COZ063 	Western Mosquito Range/East Chaffee County above 9000Ft
+atom 	COZ064 	Saguache County West of Continental Divide Below 10000 Ft
+atom 	COZ065 	Saguache County East of Continental Divide below 10000 Ft
+atom 	COZ066 	La Garita Mountains Above 10000 Ft
+atom 	COZ067 	Upper Rio Grande Valley/Eastern San Juan Mountains Below 10000 Ft
+atom 	COZ068 	Eastern San Juan Mountains Above 10000 Ft
+atom 	COZ069 	Del Norte Vicinity/Northern San Luis Valley Below 8500 Ft
+atom 	COZ070 	Alamosa Vicinity/Central San Luis Valley Below 8500 Ft
+atom 	COZ071 	Southern San Luis Valley
+atom 	COZ072 	Northern Sangre de Cristo Mountains Between 8500 And 11000 Ft
+atom 	COZ073 	Northern Sangre de Cristo Mountains above 11000 Ft
+atom 	COZ074 	Southern Sangre De Cristo Mountains Between 7500 and 11000 Ft
+atom 	COZ075 	Southern Sangre De Cristo Mountains Above 11000 Ft
+atom 	COZ076 	Northwestern Fremont County Above 8500Ft
+atom 	COZ077 	Western/Central Fremont County Below 8500 Ft
+atom 	COZ078 	Wet Mountain Valley Below 8500 Ft
+atom 	COZ079 	Wet Mountains between 6300 and 10000Ft
+atom 	COZ080 	Wet Mountains above 10000 Ft
+atom 	COZ081 	Teller County/Rampart Range above 7500fT/Pike's Peak Between 7500 And 11000 Ft
+atom 	COZ082 	Pikes Peak above 11000 Ft
+atom 	COZ083 	Canon City Vicinity/Eastern Fremont County
+atom 	COZ084 	Northern El Paso County/Monument Ridge/Rampart Range Below 7500 Ft
+atom 	COZ085 	Colorado Springs Vicinity/Southern El Paso County/Rampart Range Below 7400 Ft
+atom 	COZ086 	Pueblo Vicinity/Pueblo County Below 6300 Feet
+atom 	COZ087 	Walsenburg Vicinity/Upper Huerfano River Basin Below 7500 Ft
+atom 	COZ088 	Trinidad Vicinity/Western Las Animas County Below 7500 Ft
+atom 	COZ089 	Crowley County
+atom 	COZ090 	Yuma County
+atom 	COZ091 	Kit Carson County
+atom 	COZ092 	Cheyenne County
+atom 	COZ093 	La Junta Vicinity/Otero County
+atom 	COZ094 	Eastern Las Animas County
+atom 	COZ095 	Western Kiowa County
+atom 	COZ096 	Eastern Kiowa County
+atom 	COZ097 	Las Animas Vicinity/Bent County
+atom 	COZ098 	Lamar Vicinity/Prowers County
+atom 	COZ099 	Springfield Vicinity/Baca County
+atom 	COZ200 	Little Snake
+atom 	COZ201 	Routt
+atom 	COZ202 	White River
+atom 	COZ203 	Lower Colorado River
+atom 	COZ205 	Colorado River Headwaters
+atom 	COZ207 	Southwest Colorado Lower Forecast Area
+atom 	COZ211 	Jackson County Below 9000 Feet
+atom 	COZ212 	South and Southeast Grand/West Central and Southwest Boulder/Gilpin/Clear Creek/Summit/North and West Park Counties Above 9000 Feet
+atom 	COZ213 	Grand and Summit Counties Below 9000 Feet
+atom 	COZ214 	Central and Southeast Park County
+atom 	COZ215 	Larimer and Boulder Counties Between 6000 and 9000 Feet
+atom 	COZ216 	Jefferson and West Douglas Counties Above 6000 Feet/Gilpin/Clear Creek/Northeast Park Counties Below 9000 Feet
+atom 	COZ217 	West Jackson and West Grand Counties Above 9000 Feet
+atom 	COZ218 	South and East Jackson/Larimer/North and Northeast Grand/Northwest Boulder Counties Above 9000 Feet
+atom 	COZ220 	Upper Arkansas River Valley Including Lake County and Chaffee County
+atom 	COZ221 	Teller County/Rampart Range Including Pikes Peak and Florissant Fossil Beds National Monument
+atom 	COZ222 	Fremont County Including Canon City/Howard/Texas Creek
+atom 	COZ223 	Eastern San Juan Mountains and La Garita Mountains Including Wolf Creek Pass and Creede
+atom 	COZ224 	San Luis Valley Including Alamosa/Del Norte/Fort Garland/Saguache
+atom 	COZ225 	Southern Front Range Including Sangre De Cristo Mountains/Wet Mountains/La Veta Pass
+atom 	COZ226 	Northern El Paso County Including Monument and Black Forest
+atom 	COZ227 	Southern El Paso County Including Fort Carson and Colorado Springs
+atom 	COZ228 	Pueblo County Including Pueblo
+atom 	COZ229 	Huerfano County Including Walsenburg
+atom 	COZ230 	Western Las Animas County Including Trinidad and Thatcher
+atom 	COZ231 	Crowley County Including Ordway
+atom 	COZ232 	Otero County Including La Junta and Western Comanche Grasslands
+atom 	COZ233 	Eastern Las Animas County Including Pinon Canyon
+atom 	COZ234 	Kiowa County Including Eads
+atom 	COZ235 	Bent County Including Las Animas
+atom 	COZ236 	Prowers County Including Lamar
+atom 	COZ237 	Baca County Including Springfield and Eastern Comanche Grasslands
+atom 	COZ238 	Larimer County Below 6000 Feet/Northwest Weld County
+atom 	COZ239 	Boulder And Jefferson Counties Below 6000 Feet/West Broomfield County
+atom 	COZ240 	North Douglas County Below 6000 Feet/Denver/West Adams and Arapahoe Counties/East Broomfield County
+atom 	COZ241 	Elbert/Central and East Douglas Counties Above 6000 Feet
+atom 	COZ242 	Northeast Weld County
+atom 	COZ243 	Central and South Weld County
+atom 	COZ244 	Morgan County
+atom 	COZ245 	Central and East Adams and Arapahoe Counties
+atom 	COZ246 	North and Northeast Elbert County Below 6000 Feet/North Lincoln County
+atom 	COZ247 	Southeast Elbert County Below 6000 Feet/South Lincoln County
+atom 	COZ248 	Logan County
+atom 	COZ249 	Washington County
+atom 	COZ250 	Sedgwick County
+atom 	COZ251 	Phillips County
+atom 	COZ252 	Yuma
+atom 	COZ253 	Kit Carson County
+atom 	COZ254 	Cheyenne
+atom 	COZ290 	Paradox Valley
+atom 	COZ291 	Northern San Juan
+atom 	COZ292 	North Fork
+atom 	COZ293 	Gunnison Basin
+atom 	COZ294 	Southwest Colorado Upper West Forecast Area
+atom 	COZ295 	Southwest Colorado Upper East Forecast Area

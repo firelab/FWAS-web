@@ -1,0 +1,267 @@
+ 	TXZ001 	Dallam
+atom 	TXZ002 	Sherman
+atom 	TXZ003 	Hansford
+atom 	TXZ004 	Ochiltree
+atom 	TXZ005 	Lipscomb
+atom 	TXZ006 	Hartley
+atom 	TXZ007 	Moore
+atom 	TXZ008 	Hutchinson
+atom 	TXZ009 	Roberts
+atom 	TXZ010 	Hemphill
+atom 	TXZ011 	Oldham
+atom 	TXZ012 	Potter
+atom 	TXZ013 	Carson
+atom 	TXZ014 	Gray
+atom 	TXZ015 	Wheeler
+atom 	TXZ016 	Deaf Smith
+atom 	TXZ017 	Randall
+atom 	TXZ018 	Armstrong
+atom 	TXZ019 	Donley
+atom 	TXZ020 	Collingsworth
+atom 	TXZ021 	Parmer
+atom 	TXZ022 	Castro
+atom 	TXZ023 	Swisher
+atom 	TXZ024 	Briscoe
+atom 	TXZ025 	Hall
+atom 	TXZ026 	Childress
+atom 	TXZ027 	Bailey
+atom 	TXZ028 	Lamb
+atom 	TXZ029 	Hale
+atom 	TXZ030 	Floyd
+atom 	TXZ031 	Motley
+atom 	TXZ032 	Cottle
+atom 	TXZ033 	Cochran
+atom 	TXZ034 	Hockley
+atom 	TXZ035 	Lubbock
+atom 	TXZ036 	Crosby
+atom 	TXZ037 	Dickens
+atom 	TXZ038 	King
+atom 	TXZ039 	Yoakum
+atom 	TXZ040 	Terry
+atom 	TXZ041 	Lynn
+atom 	TXZ042 	Garza
+atom 	TXZ043 	Kent
+atom 	TXZ044 	Stonewall
+atom 	TXZ045 	Gaines
+atom 	TXZ046 	Dawson
+atom 	TXZ047 	Borden
+atom 	TXZ048 	Scurry
+atom 	TXZ049 	Fisher
+atom 	TXZ050 	Andrews
+atom 	TXZ051 	Martin
+atom 	TXZ052 	Howard
+atom 	TXZ053 	Mitchell
+atom 	TXZ054 	Nolan
+atom 	TXZ055 	El Paso
+atom 	TXZ056 	Hudspeth
+atom 	TXZ057 	Van Horn and Highway 54 Corridor
+atom 	TXZ058 	Reeves County and Upper Trans Pecos
+atom 	TXZ059 	Loving
+atom 	TXZ060 	Winkler
+atom 	TXZ061 	Ector
+atom 	TXZ062 	Midland
+atom 	TXZ063 	Glasscock
+atom 	TXZ064 	Sterling
+atom 	TXZ065 	Coke
+atom 	TXZ066 	Runnels
+atom 	TXZ067 	Ward
+atom 	TXZ068 	Crane
+atom 	TXZ069 	Upton
+atom 	TXZ070 	Reagan
+atom 	TXZ071 	Irion
+atom 	TXZ072 	Tom Green
+atom 	TXZ073 	Concho
+atom 	TXZ074 	Davis/Apache Mountains Area
+atom 	TXZ075 	Pecos
+atom 	TXZ076 	Crockett
+atom 	TXZ077 	Schleicher
+atom 	TXZ078 	Sutton
+atom 	TXZ079 	Presidio Valley
+atom 	TXZ080 	Marfa Plateau
+atom 	TXZ081 	Big Bend Area
+atom 	TXZ082 	Terrell
+atom 	TXZ083 	Hardeman
+atom 	TXZ084 	Foard
+atom 	TXZ085 	Wilbarger
+atom 	TXZ086 	Wichita
+atom 	TXZ087 	Knox
+atom 	TXZ088 	Baylor
+atom 	TXZ089 	Archer
+atom 	TXZ090 	Clay
+atom 	TXZ091 	Montague
+atom 	TXZ092 	Cooke
+atom 	TXZ093 	Grayson
+atom 	TXZ094 	Fannin
+atom 	TXZ095 	Lamar
+atom 	TXZ096 	Red River
+atom 	TXZ097 	Bowie
+atom 	TXZ098 	Haskell
+atom 	TXZ099 	Throckmorton
+atom 	TXZ100 	Young
+atom 	TXZ101 	Jack
+atom 	TXZ102 	Wise
+atom 	TXZ103 	Denton
+atom 	TXZ104 	Collin
+atom 	TXZ105 	Hunt
+atom 	TXZ106 	Delta
+atom 	TXZ107 	Hopkins
+atom 	TXZ108 	Franklin
+atom 	TXZ109 	Titus
+atom 	TXZ110 	Camp
+atom 	TXZ111 	Morris
+atom 	TXZ112 	Cass
+atom 	TXZ113 	Jones
+atom 	TXZ114 	Shackelford
+atom 	TXZ115 	Stephens
+atom 	TXZ116 	Palo Pinto
+atom 	TXZ117 	Parker
+atom 	TXZ118 	Tarrant
+atom 	TXZ119 	Dallas
+atom 	TXZ120 	Rockwall
+atom 	TXZ121 	Kaufman
+atom 	TXZ122 	Van Zandt
+atom 	TXZ123 	Rains
+atom 	TXZ124 	Wood
+atom 	TXZ125 	Upshur
+atom 	TXZ126 	Marion
+atom 	TXZ127 	Taylor
+atom 	TXZ128 	Callahan
+atom 	TXZ129 	Eastland
+atom 	TXZ130 	Erath
+atom 	TXZ131 	Hood
+atom 	TXZ132 	Somervell
+atom 	TXZ133 	Johnson
+atom 	TXZ134 	Ellis
+atom 	TXZ135 	Henderson
+atom 	TXZ136 	Smith
+atom 	TXZ137 	Gregg
+atom 	TXZ138 	Harrison
+atom 	TXZ139 	Coleman
+atom 	TXZ140 	Brown
+atom 	TXZ141 	Comanche
+atom 	TXZ142 	Mills
+atom 	TXZ143 	Hamilton
+atom 	TXZ144 	Bosque
+atom 	TXZ145 	Hill
+atom 	TXZ146 	Navarro
+atom 	TXZ147 	Freestone
+atom 	TXZ148 	Anderson
+atom 	TXZ149 	Cherokee
+atom 	TXZ150 	Rusk
+atom 	TXZ151 	Panola
+atom 	TXZ152 	Nacogdoches
+atom 	TXZ153 	Shelby
+atom 	TXZ154 	McCulloch
+atom 	TXZ155 	San Saba
+atom 	TXZ156 	Lampasas
+atom 	TXZ157 	Coryell
+atom 	TXZ158 	Bell
+atom 	TXZ159 	McLennan
+atom 	TXZ160 	Falls
+atom 	TXZ161 	Limestone
+atom 	TXZ162 	Leon
+atom 	TXZ163 	Houston
+atom 	TXZ164 	Trinity
+atom 	TXZ165 	Angelina
+atom 	TXZ166 	San Augustine
+atom 	TXZ167 	Sabine
+atom 	TXZ168 	Menard
+atom 	TXZ169 	Kimble
+atom 	TXZ170 	Mason
+atom 	TXZ171 	Llano
+atom 	TXZ172 	Burnet
+atom 	TXZ173 	Williamson
+atom 	TXZ174 	Milam
+atom 	TXZ175 	Robertson
+atom 	TXZ176 	Madison
+atom 	TXZ177 	Walker
+atom 	TXZ178 	San Jacinto
+atom 	TXZ179 	Polk
+atom 	TXZ180 	Tyler
+atom 	TXZ183 	Val Verde
+atom 	TXZ184 	Edwards
+atom 	TXZ185 	Real
+atom 	TXZ186 	Kerr
+atom 	TXZ187 	Bandera
+atom 	TXZ188 	Gillespie
+atom 	TXZ189 	Kendall
+atom 	TXZ190 	Blanco
+atom 	TXZ191 	Hays
+atom 	TXZ192 	Travis
+atom 	TXZ193 	Bastrop
+atom 	TXZ194 	Lee
+atom 	TXZ195 	Burleson
+atom 	TXZ196 	Brazos
+atom 	TXZ197 	Washington
+atom 	TXZ198 	Grimes
+atom 	TXZ199 	Montgomery
+atom 	TXZ200 	Liberty
+atom 	TXZ201 	Hardin
+atom 	TXZ202 	Kinney
+atom 	TXZ203 	Uvalde
+atom 	TXZ204 	Medina
+atom 	TXZ205 	Bexar
+atom 	TXZ206 	Comal
+atom 	TXZ207 	Guadalupe
+atom 	TXZ208 	Caldwell
+atom 	TXZ209 	Fayette
+atom 	TXZ210 	Colorado
+atom 	TXZ211 	Austin
+atom 	TXZ212 	Waller
+atom 	TXZ213 	Harris
+atom 	TXZ214 	Chambers
+atom 	TXZ215 	Jefferson
+atom 	TXZ216 	Orange
+atom 	TXZ217 	Maverick
+atom 	TXZ218 	Zavala
+atom 	TXZ219 	Frio
+atom 	TXZ220 	Atascosa
+atom 	TXZ221 	Wilson
+atom 	TXZ222 	Karnes
+atom 	TXZ223 	Gonzales
+atom 	TXZ224 	De Witt
+atom 	TXZ225 	Lavaca
+atom 	TXZ226 	Wharton
+atom 	TXZ227 	Fort Bend
+atom 	TXZ228 	Dimmit
+atom 	TXZ229 	La Salle
+atom 	TXZ230 	McMullen
+atom 	TXZ231 	Live Oak
+atom 	TXZ232 	Bee
+atom 	TXZ233 	Goliad
+atom 	TXZ234 	Victoria
+atom 	TXZ235 	Jackson
+atom 	TXZ236 	Matagorda
+atom 	TXZ237 	Brazoria
+atom 	TXZ238 	Galveston
+atom 	TXZ239 	Webb
+atom 	TXZ240 	Duval
+atom 	TXZ241 	Jim Wells
+atom 	TXZ242 	Kleberg
+atom 	TXZ243 	Nueces
+atom 	TXZ244 	San Patricio
+atom 	TXZ245 	Aransas
+atom 	TXZ246 	Refugio
+atom 	TXZ247 	Calhoun
+atom 	TXZ248 	Zapata
+atom 	TXZ249 	Jim Hogg
+atom 	TXZ250 	Brooks
+atom 	TXZ251 	Kenedy
+atom 	TXZ252 	Starr
+atom 	TXZ253 	Hidalgo
+atom 	TXZ254 	Inland Willacy
+atom 	TXZ255 	Inland Cameron
+atom 	TXZ256 	Coastal Willacy
+atom 	TXZ257 	Coastal Cameron
+atom 	TXZ258 	Guadalupe Mountains
+atom 	TXZ259 	Northern Jasper
+atom 	TXZ260 	Northern Newton
+atom 	TXZ261 	Southern Jasper
+atom 	TXZ262 	Southern Newton
+atom 	TXZ418 	Western El Paso County
+atom 	TXZ419 	Eastern/Central El Paso County
+atom 	TXZ420 	Northern Hudspeth Highlands/Hueco Mountains
+atom 	TXZ421 	Salt Basin
+atom 	TXZ422 	Southern Hudspeth Highlands
+atom 	TXZ423 	Rio Grande Valley of Eastern El Paso/Western Hudspeth Counties
+atom 	TXZ424 	Rio Grande Valley of Eastern Hudspeth County

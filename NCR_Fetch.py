@@ -8,10 +8,14 @@ Created on Thu Jun 22 11:06:14 2017
 import glob
 import urllib2
 
-stid='KLVX'
-ncrDir='/media/tanner/vol2/NCR/'
+#stid='KLVX'
+#ncrDir='/media/tanner/vol2/NCR/'
+ncrDir='/home/ubuntu/fwas_data/NCR/'
 
 def checkforGFW(sid,gfwStr):
+    """
+    Checks to see if we have a gfw for the station provided
+    """
     val=False
     cZ=glob.glob(str(ncrDir+'*.gfw'))
 #    print cZ
@@ -22,6 +26,9 @@ def checkforGFW(sid,gfwStr):
     return val
 
 def fetchRadar(stid):
+    """
+    fetches the gif and possibly gfw from radar.weather.gov
+    """
     #Need to Fetch both gif and gfw!
     baseurl='https://radar.weather.gov/ridge/RadarImg/NCR/'
     sid=stid[1:]

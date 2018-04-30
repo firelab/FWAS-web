@@ -32,7 +32,8 @@ def fetchStation(stid):
     
     url=ds.access_urls['HTTPServer']
     
-    dataDir='/media/tanner/vol2/NEXRAD/'
+#    dataDir='/media/tanner/vol2/NEXRAD/'
+    dataDir='/home/ubuntu/fwas_data/NEXRAD/'
     fName=dataDir+url[88:]
     response=urllib2.urlopen(url)
     output=open(fName,'wb')
@@ -41,7 +42,8 @@ def fetchStation(stid):
     return fName
 
 def cleanDir():
-    cZ=glob.glob('/media/tanner/vol2/NEXRAD/*')
+#    cZ=glob.glob('/media/tanner/vol2/NEXRAD/*')
+    cZ=glob.glob('/home/ubuntu/fwas_data/NEXRAD/*')
     for i in range(len(cZ)):
         os.remove(cZ[i])
     

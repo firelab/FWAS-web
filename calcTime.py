@@ -49,14 +49,15 @@ def calcForecastTimes():
     """
     Returns Timelist of forecasts in UTC
     """
-    cZ=glob.glob('/home/tanner/src/breezy/HRRR/grib/*.grib2')
+#    cZ=glob.glob('/home/tanner/src/breezy/HRRR/grib/*.grib2')
+    cZ=glob.glob('/home/ubuntu/fwas_data/HRRR/grib/*.grib2')
     cZ.sort()
-#    dwnHour=cZ[0][33:35]
-    dwnHour=cZ[0][40:42] #Temporary until shit stops httpsing the fan
+    dwnHour=cZ[0][39:41]
+#    dwnHour=cZ[0][40:42] #Temporary until shit stops httpsing the fan
     off=[]    
     for i in range(len(cZ)):
-#        oHour=int(cZ[i][44:46])
-        oHour=int(cZ[i][51:53]) #Temporary until shit stops httpsing the fan! 
+        oHour=int(cZ[i][50:52])
+#        oHour=int(cZ[i][51:53]) #Temporary until shit stops httpsing the fan! 
         off.append(oHour)
     simDay=datetime.datetime.utcnow().strftime('%Y%m%d')
     simDate=datetime.datetime.strptime(simDay+dwnHour,'%Y%m%d%H')
