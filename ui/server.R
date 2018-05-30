@@ -99,7 +99,7 @@ shinyServer(function(input, output, session) {
 
    ##
    ## Reactive NIFC Fire Reader-> needs to be in serveral places to work correctly
-   ## This is Place Number 1
+   ## This is Place Number 1/4
    ##
 
     xfireData<-reactiveFileReader(1000,NULL,"/home/ubuntu/fwas_data/NIFC/incidents.csv",read.csv)
@@ -114,7 +114,7 @@ shinyServer(function(input, output, session) {
            "2" = tagList(actionButton("locate","Allow Location Access"),br(),br(),verbatimTextOutput("glat"),verbatimTextOutput("glon")),
            "3" = tagList(
             div('NOTE: Selecting a Fire Location REPLACES the location set by a preset. Use \'Enter Lat/Lon\' if you want to use the preset location. ',style="color:blue"),
-            hr(),selectInput('fire_name','Select Fire Location',
+            hr(),selectInput('fire_name','Select Fire',
             c(Choose='',fireData[1]),selectize=TRUE),br(),
             verbatimTextOutput("fLat"),br(),
             verbatimTextOutput("fLon"))
@@ -126,7 +126,7 @@ shinyServer(function(input, output, session) {
 
    ##
    ## Reactive NIFC Fire Reader-> needs to be in serveral places to work correctly
-   ## This is Place Number 2
+   ## This is Place Number 2/4
    ##
 
       xfireData<-reactiveFileReader(1000,NULL,"/home/ubuntu/fwas_data/NIFC/incidents.csv",read.csv)
@@ -201,8 +201,62 @@ shinyServer(function(input, output, session) {
   #     )
   # })
   # output$gCheck<-renderPrint({gWarn()})
+##########################################################################
+##
+## Update the Time Zone based on provided Lat/Lon
+##
+##########################################################################
+  #
+  # Automatic Time Zone Detection Stuff
+  #
+  #punWrath<-"/home/tanner/src/src2/web_timeZoneFinder/tz-detector.py"
+  punWrath<-"/home/ubuntu/src/FWAS/tz-detector.py"
+  observeEvent(input$locationType,{
+    if(input$locationType==1)
+    {
+      observeEvent({input$Lat
+                    input$Lon},{
+                      targs=paste("\"",input$Lat,"\" \"",input$Lon,"\"",sep="")
+                      tz_check<-system2(command=punWrath,args=targs,stdout = TRUE)
+                      #updateSelectInput(session,"timeZone",selected=tz_check)
+                      
+                    })
+    }
+    if(input$locationType==2)
+    {
+      observeEvent({
+        input$geoLat
+        input$geoLon
+      },{
+        targs=paste("\"",input$geoLat,"\" \"",input$geoLon,"\"",sep="")
+        tz_check<-system2(command=punWrath,args=targs,stdout = TRUE)
+        updateSelectInput(session,"timeZone",selected=tz_check)
+      })
+    }
+    if(input$locationType==3)
+    {
+      observeEvent(input$fire_name,{
+        ##
+        ## Reactive NIFC Fire Reader-> needs to be in serveral places to work correctly
+        ## This is Place Number 3/4
+        ##
+        xfireData<-reactiveFileReader(1000,NULL,"/home/ubuntu/fwas_data/NIFC/incidents.csv",read.csv)
+        fireData<-xfireData() 
 
-  
+        naLoc<-match(input$fire_name,fireData[[1]])
+        fireLat<-fireData[[3]][naLoc]
+        fireLon<-fireData[[2]][naLoc]
+    
+        targs=paste("\"",fireLat,"\" \"",fireLon,"\"",sep="")
+        tz_check<-system2(command=punWrath,args=targs,stdout = TRUE)
+        updateSelectInput(session,"timeZone",selected=tz_check)
+        
+      })
+    }
+  })
+  #
+  #End Automatic Time Zone Detection stuff
+  #
 ##########################################################################
 ##
 ## Vary The UI based on User Requests
@@ -496,7 +550,7 @@ observeEvent(input$expire,{
 
         ##
         ## Reactive NIFC Fire Reader-> needs to be in serveral places to work correctly
-        ## This is Place Number 3
+        ## This is Place Number 4/4
         ##
 
         xfireData<-reactiveFileReader(1000,NULL,"/home/ubuntu/fwas_data/NIFC/incidents.csv",read.csv)

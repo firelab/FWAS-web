@@ -74,19 +74,19 @@ shinyUI(fluidPage(
     a("Bret Butler - bwbutler@fs.fed.us",href="mailto:bwbutler@fs.fed.us")
     ))),
     hr(),
-    fluidRow(
-      column(12,
-        h3('Incident Presets'),
-        ('Presets automatically set all thresholds and other necessary fields. Once a preset is selected, only your contact information is required.')
-      )
-    ),
-    hr(),
-    fluidRow(
-      column(6,wellPanel(
-        selectInput("presets",label=("Preset Thresholds"),choices = list("Default" = 1,"Sapphire Complex Fire" = 2),
-                    selected=1)
-      ))
-    ),
+    #fluidRow(
+    #  column(12,
+    #    h3('Incident Presets'),
+    #    ('Presets automatically set all thresholds and other necessary fields. Once a preset is selected, only your contact information is required.')
+    #  )
+    #),
+    #hr(),
+    #fluidRow(
+    #  column(6,wellPanel(
+    #    selectInput("presets",label=("Preset Thresholds"),choices = list("Default" = 1,"Sapphire Complex Fire" = 2),
+    #                selected=1)
+    #  ))
+    #),
     hr(),
 
     fluidRow(
@@ -96,7 +96,7 @@ shinyUI(fluidPage(
     ),
     hr(),
     fluidRow(
-      column(5,wellPanel(radioButtons("locationType",label=("Location Options"),choices=list("Enter Lat/Lon"=1,"Use Your Location"=2,"Fire Location"=3), selected=1,inline=TRUE)))
+      column(5,wellPanel(radioButtons("locationType",label=("Location Options"),choices=list("Enter Lat/Lon"=1,"Use Your Location"=2,"Current Larges Fires"=3), selected=1,inline=TRUE)))
     ),
     fluidRow(
       column(5,wellPanel(uiOutput("location"))
