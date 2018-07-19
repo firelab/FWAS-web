@@ -54,15 +54,19 @@ def buildURL(simHour,fetchHour,goBackOneDay):
 #&var_TMP=on&var_UGRD=on&var_VGRD=on&var_WIND=on\
 #&leftlon=0&rightlon=360&toplat=90\
 #&bottomlat=-90&dir=%2Fhrrr.'''
+#    mid='''&lev_surface=on&lev_10_m_above_ground=on&lev_2_m_above_ground=on\
+#&lev_entire_atmosphere=on&var_REFC=on&var_RH=on\
+#&var_TMP=on&var_PRATE=on&var_LTNG=on&var_WIND=on\
+#&leftlon=0&rightlon=360&toplat=90\
+#&bottomlat=-90&dir=%2Fhrrr.'''
     mid='''&lev_surface=on&lev_10_m_above_ground=on&lev_2_m_above_ground=on\
 &lev_entire_atmosphere=on&var_REFC=on&var_RH=on\
 &var_TMP=on&var_PRATE=on&var_LTNG=on&var_WIND=on\
 &leftlon=0&rightlon=360&toplat=90\
-&bottomlat=-90&dir=%2Fhrrr.'''
-    
+&bottomlat=-90&dir=%2Fhrrr.'''    
   #  simDay=datetime.datetime.utcnow().strftime('%Y%m%d')
     
-    URL=baseUrl+uFile+mid+simDay
+    URL=baseUrl+uFile+mid+simDay+"%2Fconus"
     return URL
     
 
