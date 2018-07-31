@@ -10,18 +10,24 @@ import getpass
 class FWAS_PATHS():
     def __init__(self):
         self.userSpace=getpass.getuser()        
-        if(getpass.getuser() =="ubuntu"):
-            self.userSpace="ubuntu"
-            self.userID=0
-            self.generalDataPath = self.generalDataPaths[0]
-            self.alertDataPath = self.alertDataPaths[0]
-            self.radarColorPath = self.radarColorPaths[0]
         if(getpass.getuser() =="tanner"):
             self.userSpace="tanner"
             self.userID=1
             self.generalDataPath = self.generalDataPaths[1]
             self.alertDataPath = self.alertDataPaths[1]
             self.radarColorPath = self.radarColorPaths[1]
+        if(getpass.getuser() =="ubuntu"):
+            self.userSpace="ubuntu"
+            self.userID=0
+            self.generalDataPath = self.generalDataPaths[0]
+            self.alertDataPath = self.alertDataPaths[0]
+            self.radarColorPath = self.radarColorPaths[0]
+        else:
+            self.userSpace="ubuntu"
+            self.userID=0
+            self.generalDataPath = self.generalDataPaths[0]
+            self.alertDataPath = self.alertDataPaths[0]
+            self.radarColorPath = self.radarColorPaths[0]
         
         self.forecastDataPath = self.generalDataPath+"HRRR/grib/"
         self.conusRadarPath = self.generalDataPath+"CONUS_RADAR/"
@@ -37,7 +43,7 @@ class FWAS_PATHS():
     generalDataPaths = ["/home/ubuntu/fwas_data/",
                    "/home/tanner/src/gitFWAS/FWAS/data/"] 
                    
-    alertDataPaths = ["/srv/shiny-serer/fwas/data/",
+    alertDataPaths = ["/srv/shiny-server/fwas/data/",
                     "/home/tanner/src/gitFWAS/alert_data/"]
                     
     radarColorPaths = ["/home/ubuntu/src/FWAS/data/colors.csv",
@@ -112,7 +118,7 @@ class FWAS_PATHS():
         return self.userSpace
         
     def get_alertDataPath(self):
-        return self.alertDataPath[self.userID]
+        return self.alertDataPath
     
     def get_forecastDataPath(self):
         return self.forecastDataPath
