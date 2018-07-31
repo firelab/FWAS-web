@@ -42,7 +42,13 @@ print platform.system(),platform.release()
 print '===========================\n'
 sys.path.insert(0,base64.b64decode('L2hvbWUvdWJ1bnR1L3NyYy90ZXN0Qm9uZFN0cmVldC8='))
 import sys_codec
-cZ=glob.glob('/srv/shiny-server/fwas/data/*.cfg')
+
+import PATHFILE
+fp = PATHFILE.FWAS_PATHS()
+alertPath = fp.get_alertDataPath()+"*.cfg"
+
+cZ = glob.glob(alertPath)
+#cZ=glob.glob('/srv/shiny-server/fwas/data/*.cfg')
 #cZ=glob.glob('/home/tanner/src/breezy/cfgLoc/*.cfg')
 
 def readHeaderFiles(cfgLoc):

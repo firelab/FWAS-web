@@ -14,7 +14,11 @@ import NCR_Alert
 #tZ='America/Denver'
 
 #hDir='/media/tanner/vol2/CONUS_RADAR/'
-hDir='/home/ubuntu/fwas_data/CONUS_RADAR/'
+#hDir='/home/ubuntu/fwas_data/CONUS_RADAR/'
+
+import PATHFILE
+fp = PATHFILE.FWAS_PATHS()
+hDir = fp.get_conusRadarPath()
 
 gifName=hDir+'conus_radar.gif'
 rTime=hDir+'rTimes.txt'

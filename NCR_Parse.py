@@ -23,6 +23,8 @@ import calcDist
 #radius=12
 
 #dsLoc='/media/tanner/vol2/NCR/HTX_NCR_0.gif'
+import PATHFILE
+
 
 def openDataset(dsPath):
     ds=gdal.Open(dsPath)
@@ -45,8 +47,10 @@ def pixToProj(ds,pLoc):
 def getRadarCodes():
     cCol=[]
     rN=[]
+    fp = PATHFILE.FWAS_PATHS()
+    cFile = fp.get_radarColorPath()
 #    cFile='/media/tanner/vol2/NCR/colors.csv'
-    cFile='/home/ubuntu/src/FWAS/data/colors.csv'
+#    cFile='/home/ubuntu/src/FWAS/data/colors.csv'
     with open(cFile,'rb') as f:
         reader=csv.reader(f)
         cList=list(reader)

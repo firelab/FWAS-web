@@ -8,8 +8,13 @@ Created on Fri Jun 23 14:25:28 2017
 import glob
 import urllib2
 
+import PATHFILE
+fp = PATHFILE.FWAS_PATHS()
+crdp = fp.get_conusRadarPath()
+hDir = crdp
+
 #hDir='/media/tanner/vol2/CONUS_RADAR/'
-hDir='/home/ubuntu/fwas_data/CONUS_RADAR/'
+#hDir='/home/ubuntu/fwas_data/CONUS_RADAR/'
 
 def fetchRadar(fetchGFW):
     """

@@ -24,7 +24,11 @@ hourLen=10800.0 #3 Hours in seconds!
 
 cfgLoc=['']
 
-cZ=glob.glob('/srv/shiny-server/fwas/data/*.cfg')
+import PATHFILE
+fp = PATHFILE.FWAS_PATHS()
+cZ = glob.glob(fp.get_alertDataPath()+"*.cfg")
+
+#cZ=glob.glob('/srv/shiny-server/fwas/data/*.cfg')
 def readThresholds():
     """
     This is a simpler version of the one found in one.py as it only handles one var

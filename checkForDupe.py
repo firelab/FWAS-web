@@ -21,7 +21,11 @@ arg1=str(sys.argv[1])
 arg2=str(sys.argv[2])
 arg3=str(sys.argv[3])
 
-cZ=glob.glob('/srv/shiny-server/fwas/data/*.cfg')
+import PATHFILE
+fp = PATHFILE.FWAS_PATHS()
+adp = fp.get_alertDataPath()+"*.cfg"
+cZ = glob.glob(adp)
+#cZ=glob.glob('/srv/shiny-server/fwas/data/*.cfg')
 #cZ=glob.glob('/home/tanner/src/breezy/cfgLoc/*.cfg')
 
 class basicInfo:

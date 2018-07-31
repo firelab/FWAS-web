@@ -14,9 +14,12 @@ import geopy
 from geopy.distance import great_circle
 import WWA_Parse
 
+import PATHFILE
+fp = PATHFILE.FWAS_PATHS()
+fLoc = fp.get_wwaDataPath()+"current_ww/current.geojson"
 
 #fLoc='/media/tanner/vol2/WWA/current_ww/current.geojson'
-fLoc='/home/ubuntu/fwas_data/WWA/current_ww/current.geojson'
+#fLoc='/home/ubuntu/fwas_data/WWA/current_ww/current.geojson'
 
 def getLoc(headerLib):
     """

@@ -25,8 +25,12 @@ import geopy
 #location=[30.6945,-880.399] #Mobile AL
 #radius=12
 
+import PATHFILE
+fp = PATHFILE.FWAS_PATHS()
+hDir = fp.get_conusRadarPath()
+
 #hDir='/media/tanner/vol2/CONUS_RADAR/'
-hDir='/home/ubuntu/fwas_data/CONUS_RADAR/'
+#hDir='/home/ubuntu/fwas_data/CONUS_RADAR/'
 
 gifName=hDir+'conus_radar.gif'
 rTime=hDir+'rTimes.txt'

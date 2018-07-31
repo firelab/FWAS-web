@@ -42,8 +42,12 @@ cfgLoc=[''] #The Config File we are reading
 #cfgLoc[0]='/home/tanner/src/breezy/cfgLoc/threshold-USERNAME-2017-07-24_15-48-52.cfg'
 
 checkTime=datetime.datetime.now()
+import PATHFILE
+fp = PATHFILE.FWAS_PATHS()
+cZ = glob.glob(fp.get_alertDataPath()+"*.cfg")
+
 #cZ=glob.glob('/home/tanner/src/breezy/fwas/data/*.cfg')
-cZ=glob.glob('/srv/shiny-server/fwas/data/*.cfg')
+#cZ=glob.glob('/srv/shiny-server/fwas/data/*.cfg')
 #cZ=[cfgLoc[0]]
 #cZ=['/srv/`shiny-server/fwas/data/threshold-USERNAME-2017-07-06_18-15-22.cfg']
 #cZ=['/srv/shiny-server/fwas/data/threshold-USERNAME-2017-06-29_17-45-43.cfg']

@@ -16,10 +16,17 @@ import glob
 #kPath='/media/tanner/vol2/NIFC/conus_lg_incidents.kmz'
 #cPath='/media/tanner/vol2/NIFC/incidents.csv'
 #nDir='/media/tanner/vol2/OSM/conuskml/'
-path='/home/ubuntu/fwas_data/NIFC/'
-kPath='/home/ubuntu/fwas_data/NIFC/conus_lg_incidents.kmz'
-cPath='/home/ubuntu/fwas_data/NIFC/incidents.csv'
-npath='/home/ubuntu/fwas_data/NIFC/'
+#path='/home/ubuntu/fwas_data/NIFC/'
+#kPath='/home/ubuntu/fwas_data/NIFC/conus_lg_incidents.kmz'
+#cPath='/home/ubuntu/fwas_data/NIFC/incidents.csv'
+#npath='/home/ubuntu/fwas_data/NIFC/'
+
+import PATHFILE
+fp = PATHFILE.FWAS_PATHS()
+path = fp.get_nifcDataPath()
+kPath = path+"conus_lg_incidents.kmz"
+cPath = path+"incidents.csv"
+#npath = 
 
 def fetchKMZ():
     url='https://fsapps.nwcg.gov/afm/data/kml/conus_lg_incidents.kmz'

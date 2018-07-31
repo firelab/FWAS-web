@@ -4,7 +4,11 @@ Created on Thu Jul 20 14:45:18 2017
 
 @author: tanner
 """
-baseDir='/home/ubuntu/fwas_data/WWA/'
+import PATHFILE
+fp = PATHFILE.FWAS_PATHS()
+baseDir = fp.get_wwaDataPath()
+
+#baseDir='/home/ubuntu/fwas_data/WWA/'
 #baseDir='/media/tanner/vol2/WWA/'
 stateDir='states.csv'
 zoneDir='alert_zones/'

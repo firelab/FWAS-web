@@ -8,9 +8,13 @@ Created on Thu Jun 22 11:06:14 2017
 import glob
 import urllib2
 
+import PATHFILE
+fp = PATHFILE.FWAS_PATHS()
+ncrDir = fp.get_ncrDataPath()
+
 #stid='KLVX'
 #ncrDir='/media/tanner/vol2/NCR/'
-ncrDir='/home/ubuntu/fwas_data/NCR/'
+#ncrDir='/home/ubuntu/fwas_data/NCR/'
 
 def checkforGFW(sid,gfwStr):
     """

@@ -11,6 +11,10 @@ import urllib2
 import glob
 import os
 
+import PATHFILE
+fp = PATHFILE.FWAS_PATHS()
+nxp = fp.get_nexradDataPath()
+
 'https://noaa-nexrad-level2.s3.amazonaws.com/2017/06/20/KMSX/KMSX20170620_165708_V06'
 
 def buildURL(stid):
@@ -32,8 +36,9 @@ def fetchStation(stid):
     
     url=ds.access_urls['HTTPServer']
     
+    dataDir = nxp
 #    dataDir='/media/tanner/vol2/NEXRAD/'
-    dataDir='/home/ubuntu/fwas_data/NEXRAD/'
+#    dataDir='/home/ubuntu/fwas_data/NEXRAD/'
     fName=dataDir+url[88:]
     response=urllib2.urlopen(url)
     output=open(fName,'wb')
@@ -42,8 +47,9 @@ def fetchStation(stid):
     return fName
 
 def cleanDir():
+    cZ = glob.glob(nxp+"*")
 #    cZ=glob.glob('/media/tanner/vol2/NEXRAD/*')
-    cZ=glob.glob('/home/ubuntu/fwas_data/NEXRAD/*')
+#    cZ=glob.glob('/home/ubuntu/fwas_data/NEXRAD/*')
     for i in range(len(cZ)):
         os.remove(cZ[i])
     

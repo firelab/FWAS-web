@@ -27,6 +27,8 @@ forecastFile=['']
 #rasterBands=list()
 #rasterArrays=list()
 #cDS=[gdal.Dataset]
+import PATHFILE
+fp = PATHFILE.FWAS_PATHS()
 
 def setRadius(wxInfo,radius):
     """
@@ -60,8 +62,9 @@ def getDiskFiles():
     """
     Fetches Grib Files on Disk
     """
+    dZ = glob.glob(fp.get_forecastDataPath()+"*.grib2")
 #    dZ=glob.glob('/home/tanner/src/breezy/HRRR/grib/*.grib2')
-    dZ=glob.glob('/home/ubuntu/fwas_data/HRRR/grib/*.grib2')
+#    dZ=glob.glob('/home/ubuntu/fwas_data/HRRR/grib/*.grib2')
     dZ.sort()
     return dZ
     
@@ -80,7 +83,7 @@ def getDataset(futureTime):
     opens grib file
     """
 #    cZ=glob.glob('/home/tanner/src/breezy/HRRR/grib/*.grib2')
-    cZ=glob.glob('/home/ubuntu/fwas_data/HRRR/grib/*.grib2')
+    cZ=glob.glob(fp.get_forecastDataPath()+"*.grib2")
     cZ.sort()
     fFile=cZ[futureTime]
 #    print fFile

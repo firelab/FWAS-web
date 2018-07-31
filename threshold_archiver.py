@@ -10,8 +10,15 @@ import glob
 import os
 import shutil
 
-cZ=glob.glob('/srv/shiny-server/fwas/data/*.cfg')
-backup_directory='/home/ubuntu/fwas_data/threshold_archive/'
+import PATHFILE
+fp = PATHFILE.FWAS_PATHS()
+
+adp = fp.get_alertDataPath()
+backup_directory = fp.get_thresholdArchivePath()
+
+cZ = glob.glob(adp+"*.cfg")
+#cZ=glob.glob('/srv/shiny-server/fwas/data/*.cfg')
+#backup_directory='/home/ubuntu/fwas_data/threshold_archive/'
 
 def backup_cfg():
     fName=[]

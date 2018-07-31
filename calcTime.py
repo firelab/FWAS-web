@@ -19,6 +19,8 @@ import pytz
 import pint
 import glob
 
+import PATHFILE
+
 #timeInt=2
 
 def convertTimeZone(timeInt):
@@ -49,8 +51,12 @@ def calcForecastTimes():
     """
     Returns Timelist of forecasts in UTC
     """
+    fp = PATHFILE.FWAS_PATHS()
+    hdf = fp.get_forecastDataPath()+"*.grib2"
+    cZ = glob.glob(hdf)    
+    
 #    cZ=glob.glob('/home/tanner/src/breezy/HRRR/grib/*.grib2')
-    cZ=glob.glob('/home/ubuntu/fwas_data/HRRR/grib/*.grib2')
+#    cZ=glob.glob('/home/ubuntu/fwas_data/HRRR/grib/*.grib2')
     cZ.sort()
     dwnHour=cZ[0][39:41]
 #    dwnHour=cZ[0][40:42] #Temporary until shit stops httpsing the fan

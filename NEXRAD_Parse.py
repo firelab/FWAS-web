@@ -15,11 +15,16 @@ import glob
 import calcDist
 import NEXRAD_radarStation
 
+import PATHFILE
+fp = PATHFILE.FWAS_PATHS()
+nxp = fp.get_nexradDataPath()
+
 globalPix=[]
 
 def getDiskFile():
+    dZ = glob.glob(nxp)
 #    dZ=glob.glob('/media/tanner/vol2/NEXRAD/*')
-    dZ=glob.glob('/home/ubuntu/fwas_data/NEXRAD/')
+#    dZ=glob.glob('/home/ubuntu/fwas_data/NEXRAD/')
     return dZ
 
 def readRadar(diskFile):

@@ -30,7 +30,11 @@ import os
 from multiprocessing.dummy import Pool as ThreadPool 
 import time
 
-dataDir='/home/ubuntu/fwas_data/HRRR/grib/'
+import PATHFILE
+fp = PATHFILE.FWAS_PATHS()
+dataDir = fp.get_forecastDataPath()
+
+#dataDir='/home/ubuntu/fwas_data/HRRR/grib/'
 
 def buildURL(simHour,fetchHour,goBackOneDay):
     """

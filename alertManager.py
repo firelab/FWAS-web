@@ -8,21 +8,29 @@ Created on Mon May 22 12:03:23 2017
 FWAS Alert Manager: run this As Primary CRONJOB for HRRR & RAWS 
 
 """
-
+#General Libraries
 import glob
 import ConfigParser
-import calcTime
 import datetime
-import one
 import os
-import HRRR_Fetch
-from HRRR_Parse import getDataset,getDiskFiles
 from multiprocessing import Pool
 import time
+
+#Local Files
+import HRRR_Fetch
+from HRRR_Parse import getDataset,getDiskFiles
+import one
+import calcTime
 import threshold_archiver
 
+#Paths
+import PATHFILE
+fp = PATHFILE.FWAS_PATHS()
+alertPath = fp.get_alertDataPath()+"*.cfg"
+
 checkTime=datetime.datetime.now()
-cZ=glob.glob('/srv/shiny-server/fwas/data/*.cfg')
+cZ=glob.glob(alertPath)
+#cZ=glob.glob('/srv/shiny-server/fwas/data/*.cfg')
 #cZ=glob.glob('/home/tanner/src/breezy/fwas/data/*.cfg')
 threshold_archiver.backup_cfg()
 
