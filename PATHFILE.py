@@ -106,7 +106,7 @@ class FWAS_PATHS():
 #    
 #    #used in:
 #    #WWA_*
-    wwaDataPath = generalDataPath+"WWA/"
+#    wwaDataPath = generalDataPath+"WWA/"
     
     def set_user(self,user):
         self.userSpace=str(user)
