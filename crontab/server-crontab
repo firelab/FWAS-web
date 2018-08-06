@@ -1,0 +1,23 @@
+#sample crontab for FWAS
+
+#Primary Run Script
+0 * * * * /home/ubuntu/src/FWAS/alertManager.py > /home/ubuntu/fwas_logs/log 2>&1
+
+#Radar Run Script
+10,25,40,55 * * * * /home/ubuntu/src/FWAS/RADAR_One.py > /home/ubuntu/fwas_logs/radLog 2>&1
+
+#Removal Script
+*/30 * * * * /home/ubuntu/src/FWAS/alertRemoval.py > /home/ubuntu/fwas_logs/removal_log 2>&1
+
+#WWA Script
+*/19 * * * * /home/ubuntu/src/FWAS/WWA_One.py > /home/ubuntu/fwas_logs/wwa_log 2>&1
+
+#Test Suite Script
+30 02 * * * /home/ubuntu/src/FWAS/testSuite.py > /home/ubuntu/fwas/logs/test_log 2>&1
+
+
+#
+#NIFC Fire Updater
+#
+
+0 */3 * * * /home/ubuntu/src/FWAS/NIFC.py > /home/ubuntu/fwas_logs/nifc_log 2>&1
