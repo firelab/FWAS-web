@@ -58,11 +58,12 @@ def calcForecastTimes():
 #    cZ=glob.glob('/home/tanner/src/breezy/HRRR/grib/*.grib2')
 #    cZ=glob.glob('/home/ubuntu/fwas_data/HRRR/grib/*.grib2')
     cZ.sort()
-    dwnHour=cZ[0][39:41]
+#    dwnHour=cZ[0][39:41]
 #    dwnHour=cZ[0][40:42] #Temporary until shit stops httpsing the fan
+    dwnHour = cZ[0][cZ[0].find("hrrr.t")+len("hrrr.t"):cZ[0].find("hrrr.t")+len("hrrr.t")+2]
     off=[]    
     for i in range(len(cZ)):
-        oHour=int(cZ[i][50:52])
+        oHour=int(cZ[i][cZ[i].find("z.wrfsfcf")+len("z.wrfsfcf"):cZ[i].find("z.wrfsfcf")+len("z.wrfsfcf")+2])
 #        oHour=int(cZ[i][51:53]) #Temporary until shit stops httpsing the fan! 
         off.append(oHour)
     simDay=datetime.datetime.utcnow().strftime('%Y%m%d')
