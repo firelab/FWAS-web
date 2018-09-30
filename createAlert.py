@@ -51,7 +51,8 @@ def listSMSGateways():
     'uscellular':'mms.uscc.net',
     'metro':'mymetropcs.com',
     'cricket':'mms.cricketwireless.net',
-    'projectfi':'msg.fi.google.com'}
+    'projectfi':'msg.fi.google.com',
+    'cellcom':'cellcom.quiktxt.com'}
     return gate
 
 def getSMSGateway(carrier,gateways):

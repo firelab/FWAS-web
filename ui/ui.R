@@ -341,7 +341,7 @@ shinyUI(fluidPage(
       column(7,
              checkboxInput("nText",label=("Enable Text Message Notifications")),
              column(8,textInput("textMessage", "Enter Phone Number (no Dashes)", placeholder = "5556667777")),
-             column(4,selectInput("carrier","Select Carrier",choices=list("AT&T"="att","Verizon"="verizon","Sprint"="sprint","T-Mobile"="tmobile","Virgin Mobile"="virgin","Boost Mobile"="boost","U.S. Cellular"="uscellular","Metro PCS"="metro","Cricket Wireless"="cricket","Project Fi"="projectfi"),selected = 1)
+             column(4,selectInput("carrier","Select Carrier",choices=list("AT&T"="att","Verizon"="verizon","Sprint"="sprint","T-Mobile"="tmobile","Virgin Mobile"="virgin","Boost Mobile"="boost","U.S. Cellular"="uscellular","Metro PCS"="metro","Cricket Wireless"="cricket","Project Fi"="projectfi","CellCom"="cellcom"),selected = 1)
              
              
              )
