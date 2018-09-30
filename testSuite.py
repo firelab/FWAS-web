@@ -1,3 +1,4 @@
+#! /usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Created on Wed Aug  1 08:35:41 2018
@@ -34,6 +35,7 @@ test_result = False
 try:
     nto.ascertainCfg(cfg_file)
     a = nto.runFWAS(dsList)
+    print(a)
     if(len(a)>0):
         test_result=True
 except:
@@ -41,6 +43,6 @@ except:
     pass
 
 with open(log_file,"a") as f:
-    fStr = str(int(time.time()))+" FWAS Nightly Test Result: "+str(test_result)
+    fStr = str(int(time.time()))+" FWAS Nightly Test Result: "+str(test_result)+"\n"
     f.write(fStr)
     f.close()
