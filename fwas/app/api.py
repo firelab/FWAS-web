@@ -1,9 +1,8 @@
-from flask import Blueprint, make_response, jsonify
+from flask import Blueprint, jsonify, make_response
 
-blueprint = Blueprint('api_blueprint', __name__)
+blueprint = Blueprint("api_blueprint", __name__)
 
 
-
-@blueprint.route('/ok')
+@blueprint.route("/ok")
 def ok():
-    return make_response(jsonify(message='ok'), 200)
+    return make_response(jsonify(message="ok"), 200)
