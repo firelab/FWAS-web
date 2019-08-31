@@ -1,0 +1,9 @@
+-i https://pypi.org/simple
+click-log==0.3.2
+click==7.0
+flask==1.1.1
+itsdangerous==1.1.0
+jinja2==2.10.1
+markupsafe==1.1.1
+python-dotenv==0.10.3
+werkzeug==0.15.5
