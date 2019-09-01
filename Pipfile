@@ -17,6 +17,7 @@ flask = "*"
 click = "*"
 python-dotenv = "*"
 click-log = "*"
+attr = "*"
 
 [requires]
 python_version = "3.7"
