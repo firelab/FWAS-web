@@ -18,6 +18,8 @@ click = "*"
 python-dotenv = "*"
 click-log = "*"
 attr = "*"
+flask-sqlalchemy = "*"
+flask-migrate = "*"
 
 [requires]
 python_version = "3.7"
