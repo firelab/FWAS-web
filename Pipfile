@@ -20,6 +20,9 @@ click-log = "*"
 attr = "*"
 flask-sqlalchemy = "*"
 flask-migrate = "*"
+flask-marshmallow = "*"
+redis = "*"
+rq = "*"
 
 [requires]
 python_version = "3.7"

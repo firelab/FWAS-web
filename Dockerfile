@@ -64,4 +64,3 @@ RUN set -xe \
 USER appuser
 
 EXPOSE 5000
-ENTRYPOINT ["/app/bin/boot.sh"]

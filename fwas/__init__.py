@@ -22,6 +22,10 @@ def create_app(config=Config):
 
     app.register_blueprint(api_blueprint, url_prefix="/api")
 
+    #    from .models import *
+
+    db.create_all()
+
     logger.info("App created")
 
     return app

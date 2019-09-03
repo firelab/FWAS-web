@@ -2,15 +2,31 @@ version: '3'
 services:
   web:
     build: .
+    image: fwas
     container_name: web
     ports: 
       - "5000:5000"
-    environment:
-      - FLASK_APP=fwas.app
+    command: fwas run --debug --reload
     networks:
       ninja-network:
         aliases:
           - web
+    volumes:
+      - .:/app
+    depends_on: 
+      - redis
+
+  worker:
+    image: fwas
+    container_name: fwas_worker
+    command: python fwas/worker.py
+    volumes:
+      - .:/app
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:3.2
 
   nginx:
     image: nginx:latest
