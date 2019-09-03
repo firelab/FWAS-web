@@ -1,9 +1,9 @@
 import pytest
 
 
-from fwas.app import create_app
-from fwas.app.config import TestConfig
-from fwas.app.database import db as _db
+from fwas import create_app
+from fwas.config import TestConfig
+from fwas.database import db as _db
 
 
 @pytest.fixture(scope='function')
