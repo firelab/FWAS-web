@@ -1,32 +1,72 @@
 version: '3'
+
+volumes:
+  dbbackups:
+  postgis-data:
+
+
+networks:
+  fwas-network:
+
+
 services:
   web:
     build: .
-    image: fwas
     container_name: web
+    image: fwas
     ports: 
       - "5000:5000"
-    command: fwas run --debug --reload
+    command: fwas run
     networks:
-      ninja-network:
-        aliases:
-          - web
+      - fwas-network
     volumes:
       - .:/app
     depends_on: 
       - redis
+    links:
+      - redis
+      - db
 
   worker:
     image: fwas
-    container_name: fwas_worker
-    command: python fwas/worker.py
+    container_name: worker
+    command: fwas runworker
+    environment:
+      - REDIS_URL=redis://redis:6379
     volumes:
       - .:/app
     depends_on:
       - redis
+    networks:
+      - fwas-network
+    links:
+      - web
+      - redis
+      - db
 
   redis:
     image: redis:3.2
+    networks:
+      - fwas-network
+
+  db:
+    image: kartoza/postgis:11.0-2.5 
+    networks:
+      - fwas-network
+    volumes:
+      - ./postgis-data:/var/lib/postgresql
+      - ./dbbackups:/backups
+    environment:
+      - POSTGRES_DB=gis
+      - POSTGRES_USER=docker
+      - POSTGRES_PASS=docker
+      - ALLOW_IP_RANGE=0.0.0.0/0
+      - POSTGRES_MULTIPLE_EXTENSIONS=postgis,hstore,postgis_topology,ogr_fdw
+    ports:
+      - 5434:5432
+    restart: on-failure
+    healthcheck:
+      test: "exit 0"
 
   nginx:
     image: nginx:latest
@@ -38,6 +78,24 @@ services:
       - "4000:4000"
     networks:
       - fwas-network
+    links:
+      - web
 
-networks:
-  fwas:
+  dbbackups:
+    image: kartoza/pg-backup:11.0
+    hostname: pg-backups
+    volumes:
+      - ./dbbackups:/backups
+    links:
+      - db:db
+    environment:
+      - DUMPPREFIX=demo
+      - PGUSER=docker
+      - PGPASSWORD=docker
+      - PGDATABASE=gis
+      - PGPORT=5432
+      - PGHOST=db
+    restart: on-failure
+    depends_on:
+      db:
+        condition: service_healthy

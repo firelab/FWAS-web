@@ -7,7 +7,7 @@ click==7.0
 coverage==5.0a6
 entrypoints==0.3
 flake8==3.7.8
-importlib-metadata==0.19 ; python_version < '3.8'
+importlib-metadata==0.20 ; python_version < '3.8'
 isort==4.3.21
 mccabe==0.6.1
 more-itertools==7.2.0

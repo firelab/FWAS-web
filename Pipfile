@@ -23,6 +23,7 @@ flask-migrate = "*"
 flask-marshmallow = "*"
 redis = "*"
 rq = "*"
+geoalchemy2 = "*"
 
 [requires]
 python_version = "3.7"

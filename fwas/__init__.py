@@ -24,8 +24,6 @@ def create_app(config=Config):
 
     #    from .models import *
 
-    db.create_all()
-
     logger.info("App created")
 
     return app

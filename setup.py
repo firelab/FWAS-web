@@ -29,7 +29,7 @@ setup(
     description="Register alert criteria and receive notifications on weather.",
     entry_points={
         'console_scripts': [
-            'fwas=fwas.app.cli:cli',
+            'fwas=fwas.cli:cli',
         ],
     },
     install_requires=requirements,

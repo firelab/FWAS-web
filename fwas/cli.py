@@ -1,6 +1,5 @@
 import click
 import click_log
-from flask import current_app
 from flask.cli import FlaskGroup, with_appcontext
 
 from . import create_app
