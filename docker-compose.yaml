@@ -16,9 +16,14 @@ services:
     image: fwas
     ports: 
       - "5000:5000"
-    command: fwas run
+    command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; fwas run --host=0.0.0.0'
+    environment:
+      - DATABASE_URL=postgres://docker:docker@db:5432/gis
+    env_file: .env
     networks:
-      - fwas-network
+      fwas-network:
+        aliases:
+          - web
     volumes:
       - .:/app
     depends_on: 
@@ -30,20 +35,22 @@ services:
   worker:
     image: fwas
     container_name: worker
-    command: fwas runworker
+    command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; fwas runworker'
     environment:
-      - REDIS_URL=redis://redis:6379
+      - DATABASE_URL=postgres://docker:docker@db:5432/gis
+    env_file: .env
     volumes:
       - .:/app
     depends_on:
       - redis
     networks:
-      - fwas-network
+      fwas-network:
+        aliases:
+          - redis
     links:
       - web
       - redis
       - db
-
   redis:
     image: redis:3.2
     networks:
@@ -52,9 +59,11 @@ services:
   db:
     image: kartoza/postgis:11.0-2.5 
     networks:
-      - fwas-network
+      fwas-network:
+        aliases:
+          - db
     volumes:
-      - ./postgis-data:/var/lib/postgresql
+      - /var/lib/postgresql:/var/lib/postgresql
       - ./dbbackups:/backups
     environment:
       - POSTGRES_DB=gis
@@ -63,7 +72,7 @@ services:
       - ALLOW_IP_RANGE=0.0.0.0/0
       - POSTGRES_MULTIPLE_EXTENSIONS=postgis,hstore,postgis_topology,ogr_fdw
     ports:
-      - 5434:5432
+      - 5432:5432
     restart: on-failure
     healthcheck:
       test: "exit 0"
@@ -80,22 +89,3 @@ services:
       - fwas-network
     links:
       - web
-
-  dbbackups:
-    image: kartoza/pg-backup:11.0
-    hostname: pg-backups
-    volumes:
-      - ./dbbackups:/backups
-    links:
-      - db:db
-    environment:
-      - DUMPPREFIX=demo
-      - PGUSER=docker
-      - PGPASSWORD=docker
-      - PGDATABASE=gis
-      - PGPORT=5432
-      - PGHOST=db
-    restart: on-failure
-    depends_on:
-      db:
-        condition: service_healthy

@@ -15,7 +15,7 @@ WORKDIR /app
 RUN apk update && \
     apk add --no-cache --virtual build-deps \
         make gcc \
-        python3-dev musl-dev libffi-dev openssl-dev && \
+        python3-dev musl-dev libffi-dev openssl-dev postgresql-dev && \
     python3 -m ensurepip && \
     pip3 install --no-cache --upgrade pip setuptools wheel
 
@@ -40,17 +40,20 @@ FROM ubuntu:bionic
 
 WORKDIR /app
 
+# System dependencies are installed
+# prior to the copy because they can take awhile on ubuntu.
+RUN set -xe \
+    add-apt-repository ppa:deadsnakes/ppa && \
+    apt update -q && \
+    apt install -y -q python3.7 python3-pip
+
 COPY --from=build /app/dist/*.whl dist/
 COPY --from=build /app/bin /app/bin
 COPY --from=build /app/config /app/config/
 
-# Install all dependencies then remove unused system pacakges to keep
-# the resulting image size down.
 RUN set -xe \
-    add-apt-repository ppa:deadsnakes/ppa && \
-    apt update -q && \
-    apt install -y -q python3.7 python3-pip && \
-    python3.7 -m pip install --no-cache --upgrade pip setuptools wheel && \
+    python3.7 -m pip install --no-cache --upgrade pip setuptools wheel&& \
+    python3.7 -m pip wheel --wheel-dir=dist psycopg2-binary && \
     python3.7 -m pip install --find-links . --no-index dist/*.whl && \
     apt remove -y python3-pip python3-wheel && \
     apt autoremove -y && \
@@ -60,6 +63,7 @@ RUN set -xe \
     useradd appuser --no-create-home --user-group && \
     chmod 777 /run/ -R && \
     chmod 777 /root/ -R 
+
 
 USER appuser
 
