@@ -7,12 +7,13 @@ click==7.0
 coverage==5.0a6
 entrypoints==0.3
 flake8==3.7.8
-importlib-metadata==0.20 ; python_version < '3.8'
+importlib-metadata==0.22 ; python_version < '3.8'
 isort==4.3.21
 mccabe==0.6.1
 more-itertools==7.2.0
 packaging==19.1
-pluggy==0.12.0
+pluggy==0.13.0
+psycopg2-binary==2.8.3
 py==1.8.0
 pycodestyle==2.5.0
 pyflakes==2.1.1

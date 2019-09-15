@@ -16,13 +16,17 @@ def create_app(config=Config):
 
     logger.info("Creating app..")
     app = Flask(__name__)
+    app.config.from_object(Config())
 
     db.init_app(app)
     Migrate(app, db)
 
     app.register_blueprint(api_blueprint, url_prefix="/api")
 
-    #    from .models import *
+    from .models import Alert, User  # noqa: F401
+
+    with app.app_context():
+        db.create_all()
 
     logger.info("App created")
 
