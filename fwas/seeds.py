@@ -15,7 +15,7 @@ def create_seeds():
     lat = 38.6247
     lon = 90.1854
     pt = WKTElement(f"POINT({lon} {lat})", srid=4326)
-    alert = Alert(user=user, geom=pt, timezone="tbd", expires_in_hours=6.0)
+    alert = Alert(user=user, geom=pt, timezone="America/Chicago", expires_in_hours=6.0)
 
     db.session.add_all([user, alert])
     db.session.commit()

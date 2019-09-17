@@ -44,8 +44,8 @@ WORKDIR /app
 # prior to the copy because they can take awhile on ubuntu.
 RUN set -xe \
     add-apt-repository ppa:deadsnakes/ppa && \
-    apt update -q && \
-    apt install -y -q python3.7 python3-pip
+    apt-get update -q && \
+    apt-get install -y -q python3.7 python3-pip binutils libproj-dev gdal-bin
 
 COPY --from=build /app/dist/*.whl dist/
 COPY --from=build /app/bin /app/bin
@@ -55,9 +55,9 @@ RUN set -xe \
     python3.7 -m pip install --no-cache --upgrade pip setuptools wheel&& \
     python3.7 -m pip wheel --wheel-dir=dist psycopg2-binary && \
     python3.7 -m pip install --find-links . --no-index dist/*.whl && \
-    apt remove -y python3-pip python3-wheel && \
-    apt autoremove -y && \
-    apt clean -y && \
+    apt-get remove -y python3-pip python3-wheel && \
+    apt-get autoremove -y && \
+    apt-get clean -y && \
     rm -r dist && \
     rm -rf /var/lib/apt/lists/* && \
     useradd appuser --no-create-home --user-group && \
