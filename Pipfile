@@ -29,6 +29,8 @@ arrow = "*"
 attrs-sqlalchemy = "*"
 flask-shell-ipython = "*"
 invoke = "*"
+aiohttp = "*"
+aiofiles = "*"
 
 [requires]
 python_version = "3.7"
