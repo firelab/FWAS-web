@@ -19,31 +19,6 @@ logger = logging.getLogger(__name__)
 click_log.basic_config(logger)
 
 
-async def retrieve_hrrr_file(start_hour: int, forecast_hour: int, directory: str):
-    logger.info(f"Downloading forecast hour {forecast_hour}")
-    start = time.time()
-    url = build_url(start_hour, forecast_hour)
-
-    output_file = os.path.join(
-        directory, url[url.find("file=") + 5 : url.find(".grib2")] + ".grib2"
-    )
-    logger.info(f"Saving forecast {forecast_hour} data to {output_file}")
-
-    async with aiohttp.ClientSession() as session:
-        async with session.get(url) as response:
-            async with aiofiles.open(output_file, "wb") as tmp_file:
-                while True:
-                    chunk = await response.content.read(1024)
-                    if not chunk:
-                        break
-                    await tmp_file.write(chunk)
-
-            await response.release()
-
-    end = time.time()
-    logger.info(f"Download for {forecast_hour} complete in {end - start} seconds")
-
-
 class HrrrFetcher(Fetcher):
     def __init__(self):
         self.tempdir = None
@@ -74,7 +49,9 @@ class HrrrFetcher(Fetcher):
             output_sql = output_path.replace(".vrt", ".sql")
             logger.info(f"Converting {path} to EPSG:4326 at {output_path}")
             run(f"gdalwarp -t_srs EPSG:4326 {path} {output_path}")
-            run(f"raster2pgsql -I -M -F -a {output_path} weather_raster > {output_sql}")
+            run(
+                f"raster2pgsql -I -M -F -s 4326 -t auto -a {output_path} weather_raster > {output_sql}"
+            )
             logger.info(f"Removing {path}")
             os.remove(path)
 
@@ -101,15 +78,42 @@ class HrrrFetcher(Fetcher):
             run(f"psql {db_url} -f {path}")
 
         for raster in raster_files:
-            saved_raster = WeatherRaster.query.filter_by(filename=raster).first()
-            saved_raster.source = source
-
-            db.session.add(saved_raster)
-            db.session.commit()
+            # TODO (lmalott): Augment with forecast information such as
+            # the forecast data vs measurement data and forecast hour
+            for weather_raster in WeatherRaster.query.filter_by(filename=raster):
+                weather_raster.created_at = datetime.utcnow()
+                weather_raster.source = source
+                db.session.add(weather_raster)
+                db.session.commit()
             logger.info(f"Saved {raster}")
 
     def cleanup(self):
         shutil.rmtree(self.tempdir)
+
+
+async def retrieve_hrrr_file(start_hour: int, forecast_hour: int, directory: str):
+    logger.info(f"Downloading forecast hour {forecast_hour}")
+    start = time.time()
+    url = build_url(start_hour, forecast_hour)
+
+    output_file = os.path.join(
+        directory, url[url.find("file=") + 5 : url.find(".grib2")] + ".grib2"
+    )
+    logger.info(f"Saving forecast {forecast_hour} data to {output_file}")
+
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as response:
+            async with aiofiles.open(output_file, "wb") as tmp_file:
+                while True:
+                    chunk = await response.content.read(1024)
+                    if not chunk:
+                        break
+                    await tmp_file.write(chunk)
+
+            await response.release()
+
+    end = time.time()
+    logger.info(f"Download for {forecast_hour} complete in {end - start} seconds")
 
 
 def build_url(start_hour: int, forecast_hour: int) -> str:
@@ -119,7 +123,7 @@ def build_url(start_hour: int, forecast_hour: int) -> str:
     Args:
         start_hour: Which hour to retrieve HRRR data from. The day is pulled
                     from calling `utcnow()`.
-        forecase_hour: Which hour of forecast data to retrieve.
+        forecast_hour: Which hour of forecast data to retrieve.
 
     Returns:
         str: URL of the HRRR grib file to download.

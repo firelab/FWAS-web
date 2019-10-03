@@ -6,16 +6,24 @@ from fwas.models import Alert, User
 
 def create_seeds():
     user = User(
-        username="levi",
-        email="levi.malott@gmail.com",
+        username="levi2",
+        email="levi.malott+2@gmail.com",
         phone="123-456-7890",
         carrier="T-Mobile",
     )
 
     lat = 38.6247
-    lon = 90.1854
+    lon = -90.1854
     pt = WKTElement(f"POINT({lon} {lat})", srid=4326)
-    alert = Alert(user=user, geom=pt, timezone="America/Chicago", expires_in_hours=6.0)
+    alert = Alert(
+        user=user,
+        latitude=lat,
+        longtitude=lon,
+        geom=pt,
+        radius=20000.0,
+        timezone="America/Chicago",
+        expires_in_hours=6.0,
+    )
 
     db.session.add_all([user, alert])
     db.session.commit()
