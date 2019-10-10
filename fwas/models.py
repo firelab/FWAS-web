@@ -76,6 +76,16 @@ class Alert(Base):
     expires_in_hours = db.Column(db.Float, nullable=False)
     expires_at = db.Column(db.DateTime)
 
+    # Thresholds
+    reflectivity_limit = db.Column(db.Float)  # in
+    temperature_limit = db.Column(db.Float)  # in degrees Celcius
+    relative_humidity_limit = db.Column(db.Float)  # in percentage
+    wind_limit = db.Column(db.Float)  # in meters per second
+    precipitation_limit = db.Column(db.Float)  # in millimeters
+
+    # Configured Checks
+    check_thunderstorms = db.Column(db.Boolean, default=False)
+
 
 @attrs_sqlalchemy
 class Notification(Base):
@@ -116,3 +126,6 @@ class WeatherRaster(Base):
 
     rast = db.Column(Raster)
     filename = db.Column(db.String(255))
+
+    forecasted_at = db.Column(db.DateTime)
+    forecast_time = db.Column(db.DateTime)

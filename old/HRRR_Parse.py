@@ -339,7 +339,15 @@ def thresholdsII(wxInfo,wxData,variable,genInt,genVar,rasterBands):
 def checkThresholds(wxInfo,wxData,variable,rasterBands):
     """
     Checks the thresholds of all variables, all the normal ones go to Thresholds II RH is checked here because its special
+
+    rasterBands.append(rasterBaster[0])  # raster band 1 = reflectivity
+    rasterBands.append(rasterBaster[3])  # raster band 4 = temperature
+    rasterBands.append(rasterBaster[4])  # raster band 5 = relative humidity
+    rasterBands.append(rasterBaster[1])  # raster band 2 = lightening
+    rasterBands.append(rasterBaster[6])  # raster band 7 = precipitation
+    rasterBands.append(rasterBaster[5])  # raster band 6 = wind
     """
+
     datList=[]
     if variable=='reflectivity':
         genVar=variable

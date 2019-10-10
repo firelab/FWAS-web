@@ -77,12 +77,22 @@ class HrrrFetcher(Fetcher):
             path = os.path.join(self.tempdir, sql_file)
             run(f"psql {db_url} -f {path}")
 
+        current_datetime = datetime.utcnow()
+        current_hour = current_datetime.replace(microsecond=0, second=0, minute=0)
         for raster in raster_files:
             # TODO (lmalott): Augment with forecast information such as
             # the forecast data vs measurement data and forecast hour
             for weather_raster in WeatherRaster.query.filter_by(filename=raster):
+                simulation_offset = get_simulation_offset_from_filename(
+                    weather_raster.filename
+                )
                 weather_raster.created_at = datetime.utcnow()
+                weather_raster.updated_at = weather_raster.created_at
                 weather_raster.source = source
+                weather_raster.forecasted_at = current_hour
+                weather_raster.forecast_time = current_hour + timedelta(
+                    hours=simulation_offset
+                )
                 db.session.add(weather_raster)
                 db.session.commit()
             logger.info(f"Saved {raster}")
@@ -91,7 +101,26 @@ class HrrrFetcher(Fetcher):
         shutil.rmtree(self.tempdir)
 
 
+def get_simulation_offset_from_filename(filename):
+    """Returns the simulation hour from a HRRR Conus GRIB2 filename.
+
+    Each filename has the simulation hour encoded as a 1-based offset.
+    The forecast data for the current hour is at offset '01'.
+    To extract the simulation hour, we find that offset and take away one.
+
+    Example:
+    >>> get_simulation_offset_from_filename('hrrr.t08z.wrfsfcf02.vrt')
+    1
+
+    """
+    return int(filename.split(".")[2][-2:]) - 1
+
+
 async def retrieve_hrrr_file(start_hour: int, forecast_hour: int, directory: str):
+    """
+    Retrieves an HRRR file by building a URL from start_hour and forecast_hour.
+    Retults are stored in directory.
+    """
     logger.info(f"Downloading forecast hour {forecast_hour}")
     start = time.time()
     url = build_url(start_hour, forecast_hour)
