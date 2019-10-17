@@ -31,6 +31,8 @@ flask-shell-ipython = "*"
 invoke = "*"
 aiohttp = "*"
 aiofiles = "*"
+records = "*"
+tablib = {extras = ["pandas"],version = "*"}
 
 [requires]
 python_version = "3.7"

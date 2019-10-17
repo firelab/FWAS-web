@@ -77,7 +77,9 @@ class Alert(Base):
     expires_at = db.Column(db.DateTime)
 
     # Thresholds
-    reflectivity_limit = db.Column(db.Float)  # in
+    reflectivity_limit = db.Column(
+        db.Float
+    )  # in ?? TODO(lmalott) find out units on this
     temperature_limit = db.Column(db.Float)  # in degrees Celcius
     relative_humidity_limit = db.Column(db.Float)  # in percentage
     wind_limit = db.Column(db.Float)  # in meters per second
