@@ -108,6 +108,22 @@ class Notification(Base):
     alert_id = db.Column(db.Integer, db.ForeignKey("alert.id"))
     alert = db.relationship("Alert", back_populates="notifications")
 
+    message = db.Column(db.String)
+    sent_at = db.Column(db.DateTime)
+    violates_at = db.Column(db.DateTime)
+    violated_on = db.Column(db.String)  # forecast, station, etc.
+
+    temperature_violated = db.Column(db.Boolean)
+    temperature_value = db.Column(db.Float)
+    relative_humidity_violated = db.Column(db.Boolean)
+    relative_humidity_value = db.Column(db.Float)
+    wind_violated = db.Column(db.Boolean)
+    wind_value = db.Column(db.Float)
+    precipitation_violated = db.Column(db.Boolean)
+    precipitation_value = db.Column(db.Float)
+    reflectivity_violated = db.Column(db.Boolean)
+    reflectivity_value = db.Column(db.Float)
+
 
 @attrs_sqlalchemy
 class WeatherSource(Base):
