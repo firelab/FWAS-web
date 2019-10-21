@@ -4,6 +4,8 @@ with alert_buffers as (
     st_buffer(geom::geography, radius) as geom
   from alert
   where created_at + make_interval(hours => expires_in_hours::int) > timezone('utc', now()) 
+-- TODO (lmalott): only return records where the forecast time is 
+-- greater than alert created_at time and less than expiration time
 ),
 
 data as (
@@ -46,35 +48,25 @@ weather_data as (
     r.forecasted_at,
     r.forecast_time,
 
-    a.reflectivity_limit,
-    (r.reflectivity).max as reflectivity_max,
-    (r.reflectivity).mean as reflectivity_mean,
-    (r.reflectivity).min as reflectivity_min,
-    ((r.reflectivity).max >= a.reflectivity_limit) as reflectivity_violated,
-
     a.temperature_limit,
     (r.temperature).max as temperature_max,
-    (r.temperature).mean as temperature_mean,
-    (r.temperature).min as temperature_min,
     ((r.temperature).max >= a.temperature_limit) as temperature_violated,
+    case when ((r.temperature).max >= a.temperature_limit) then r.forecast_time end as temperature_violated_at,
 
     a.relative_humidity_limit,
     (r.relative_humidity).max as relative_humidity_max,
-    (r.relative_humidity).mean as relative_humidity_mean,
-    (r.relative_humidity).min as relative_humidity_min,
     ((r.relative_humidity).max >= a.relative_humidity_limit) as relative_humidity_violated,
+    case when ((r.relative_humidity).max >= a.relative_humidity_limit) then r.forecast_time end as relative_humidity_violated_at,
 
     a.wind_limit,
     (r.wind).max as wind_max,
-    (r.wind).mean as wind_mean,
-    (r.wind).min as wind_min,
     ((r.wind).max >= a.wind_limit) as wind_violated,
+    case when ((r.wind).max >= a.wind_limit) then r.forecast_time end as wind_violated_at,
 
     a.precipitation_limit,
     (r.precipitation).max as precipitation_max,
-    (r.precipitation).mean as precipitation_mean,
-    (r.precipitation).min as precipitation_min,
-    ((r.precipitation).max >= a.precipitation_limit) as precipitation_violated
+    ((r.precipitation).max >= a.precipitation_limit) as precipitation_violated,
+    case when ((r.precipitation).max >= a.precipitation_limit) then r.forecast_time end as precipitation_violated_at
   from raster_stats as r
   join alert as a
     on a.id = r.alert_id
@@ -83,11 +75,34 @@ weather_data as (
   order by user_id, r.alert_id, r.forecast_time asc
 )
 
+
+-- Condense each violation into a single view for each
+-- user, alert, and forecasted_at combinitation. 
+-- Each resulting record should map 1:1 to notifications
+-- that need to be sent.
 select
-  *
+  user_id,
+  alert_id,
+  bool_or(temperature_violated) as temperature_violated,
+  min(temperature_violated_at) as temperature_violated_at,
+  max(temperature_max) as temperature_value,
+
+  bool_or(relative_humidity_violated) as relative_humidity_violated,
+  min(relative_humidity_violated_at) as relative_humidity_violated_at,
+  max(relative_humidity_max) as relative_humidity_value,
+
+  bool_or(wind_violated) as wind_violated,
+  min(wind_violated_at) as wind_violated_at,
+  max(wind_max) as wind_value,
+  
+  bool_or(precipitation_violated) as precipitation_violated,
+  min(precipitation_violated_at) as precipitation_violated_at,
+  max(precipitation_max) as precipitation_value
 from weather_data
-where reflectivity_violated
-  or temperature_violated
+where temperature_violated
   or relative_humidity_violated
   or wind_violated
   or precipitation_violated
+group by 
+  user_id,
+  alert_id

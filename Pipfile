@@ -33,6 +33,8 @@ aiohttp = "*"
 aiofiles = "*"
 records = "*"
 tablib = {extras = ["pandas"],version = "*"}
+apispec = "*"
+apispec-webframeworks = "*"
 
 [requires]
 python_version = "3.7"

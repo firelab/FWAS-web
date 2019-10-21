@@ -114,15 +114,20 @@ class Notification(Base):
     violated_on = db.Column(db.String)  # forecast, station, etc.
 
     temperature_violated = db.Column(db.Boolean)
+    temperature_violated_at = db.Column(db.DateTime)
     temperature_value = db.Column(db.Float)
+
     relative_humidity_violated = db.Column(db.Boolean)
+    relative_humidity_violated_at = db.Column(db.DateTime)
     relative_humidity_value = db.Column(db.Float)
+
     wind_violated = db.Column(db.Boolean)
+    wind_violated_at = db.Column(db.DateTime)
     wind_value = db.Column(db.Float)
+
     precipitation_violated = db.Column(db.Boolean)
+    precipitation_violated_at = db.Column(db.DateTime)
     precipitation_value = db.Column(db.Float)
-    reflectivity_violated = db.Column(db.Boolean)
-    reflectivity_value = db.Column(db.Float)
 
 
 @attrs_sqlalchemy
