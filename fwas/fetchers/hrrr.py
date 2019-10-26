@@ -175,3 +175,8 @@ def build_url(start_hour: int, forecast_hour: int) -> str:
 
     url = base_url + source_file + params + day + "%2Fconus"
     return url
+
+
+def run_now():
+    fetcher = HrrrFetcher()
+    fetcher.run()

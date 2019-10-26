@@ -35,6 +35,8 @@ records = "*"
 tablib = {extras = ["pandas"],version = "*"}
 apispec = "*"
 apispec-webframeworks = "*"
+pyjwt = "*"
+rq-dashboard = "*"
 
 [requires]
 python_version = "3.7"

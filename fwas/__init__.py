@@ -1,6 +1,7 @@
 import logging
 
 import click_log
+import rq_dashboard
 from apispec import APISpec
 from apispec.ext.marshmallow import MarshmallowPlugin
 from apispec_webframeworks.flask import FlaskPlugin
@@ -21,14 +22,16 @@ def create_app(config=Config):
     logger.info("Creating app..")
     app = Flask(__name__)
     app.config.from_object(Config())
+    app.config.from_object(rq_dashboard.default_settings)
 
     db.init_app(app)
     Migrate(app, db)
     Marshmallow(app)
 
     app.register_blueprint(api_blueprint, url_prefix="/api")
+    app.register_blueprint(rq_dashboard.blueprint, url_prefix="/rq")
 
-    from .models import Alert, User, Notification  # noqa: F401
+    import fwas.models  # noqa: F401
 
     _ = APISpec(
         title="Fire Weather Alert Service",

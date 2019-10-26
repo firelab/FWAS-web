@@ -35,3 +35,8 @@ fwas db migrate
 ## Design
 
 ![fwas_design](docs/fwas_design.png)
+
+### TODO
+
+- [ ] use ansible for production deploys (over Docker Swarm to minimize operational complexity)
+- [ ] add in token-based (JWT) authentication to the API
