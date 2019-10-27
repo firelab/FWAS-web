@@ -4,7 +4,7 @@
 # Dependencies will be removed in the second stage to reduce the total 
 # image size
 ##############################################################################
-FROM python:3.7-alpine as build
+FROM ubuntu:bionic as build
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1

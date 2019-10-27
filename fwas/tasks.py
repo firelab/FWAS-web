@@ -2,9 +2,9 @@
 Scheduled and background tasks for FWAS.
 """
 from redis import Redis
-
 from rq_scheduler import Scheduler
 
+from .fetchers import hrrr
 from .notify import check_alerts
 
 
@@ -12,10 +12,17 @@ def schedule_jobs():
     scheduler = Scheduler(connection=Redis())
 
     scheduler.cron(
-        "0 * * * *",  # at every hour
+        "*/5 * * * *",
         func=check_alerts,
+        description="Create notifications for violated alerts.",
         repeat=None,
         queue_name="default",
-        meta={"foo": "bar"},
-        use_local_timezone=False,
+    )
+
+    scheduler.cron(
+        "10 * * * *",  # 10 minutes past the hour every hour
+        func=hrrr.run_now,
+        description="Update database with latest HRRR data",
+        repeat=None,
+        queue_name="default",
     )

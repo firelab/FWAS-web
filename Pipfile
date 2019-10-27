@@ -37,6 +37,8 @@ apispec = "*"
 apispec-webframeworks = "*"
 pyjwt = "*"
 rq-dashboard = "*"
+marshmallow-sqlalchemy = "*"
+rq-scheduler = "*"
 
 [requires]
 python_version = "3.7"
