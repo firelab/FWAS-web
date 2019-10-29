@@ -23,6 +23,28 @@ def get_nearest_alert(lat, lon):
     return models.Alert.query.order_by(models.Alert.geom.distance_box(pt)).first()
 
 
+def get_user(user_id):
+    user = conn.query("select * from public.user where id=:user_id", user_id=user_id)
+    return user.first()
+
+
+def get_user_by_email(email):
+    user = conn.query("select * from public.user where email=:email", email=email)
+    return user.first()
+
+
+def get_user_alerts(user_id):
+    alerts = conn.query("select * from alert where user_id=:user_id", user_id=user_id)
+    return alerts.all()
+
+
+def get_user_notifications(user_id):
+    notifications = conn.query(
+        "select * from notification where user_id=:user_id", user_id=user_id
+    )
+    return notifications.all()
+
+
 def get_alert_buffers():
     query = """
     select id, st_buffer(geom, radius)

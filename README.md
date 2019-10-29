@@ -32,7 +32,13 @@ pipenv run fwas db migrate
 pipenv run rqscheduler
 ```
 
+Running locally requires PostGIS and Redis. A `docker-compose.yaml` file is 
+provided to run those for you. Run `docker-compose up -d` to start both
+PostGIS and Redis.
+
 ### API
+
+Exposed endpoint documentation is available through `<url>/swagger-ui`. 
 
 ## Design
 

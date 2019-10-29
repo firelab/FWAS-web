@@ -39,6 +39,7 @@ pyjwt = "*"
 rq-dashboard = "*"
 marshmallow-sqlalchemy = "*"
 rq-scheduler = "*"
+flask-apispec = "*"
 
 [requires]
 python_version = "3.7"

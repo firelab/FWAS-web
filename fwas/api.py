@@ -1,6 +1,8 @@
 from flask import Blueprint, jsonify, make_response
+from flask_apispec import marshal_with, use_kwargs
 
-from .database import conn
+from . import models, queries, serialize
+from .database import db
 
 blueprint = Blueprint("api_blueprint", __name__)
 
@@ -11,32 +13,47 @@ def ok():
 
 
 @blueprint.route("/user/<int:user_id>")
+@marshal_with(serialize.UserSchema, code=200)
+@marshal_with(serialize.UserError, code=400)
 def user(user_id):
+    """User detail view."""
     # TODO (lmalott): Add auth mechanism for clients to access
-    # TODO (lmalott): Add input validation checking
-    row = conn.query(
-        "select * from public.user where id=:user_id", user_id=user_id
-    ).first(as_dict=True)
+    user = queries.get_user(user_id)
+    if not user:
+        return {"message": f"User {user_id} does not exist."}, 400
 
-    return jsonify(row), 400
+    return user, 200
+
+
+@blueprint.route("/user", methods=["POST"])
+@use_kwargs(serialize.NewUserParameter)
+@marshal_with(serialize.NewUserResult, code=201)
+def create_user(**kwargs):
+    email = kwargs["email"]
+    if queries.get_user_by_email(email):
+        return {"message": f"User {email} already exists."}, 400
+
+    user = models.User(**kwargs)
+    db.session.add(user)
+    db.session.commit()
+
+    return user, 201
 
 
 @blueprint.route("/user/<int:user_id>/alerts")
+@marshal_with(serialize.AlertSchema(many=True), code=200)
 def user_alerts(user_id):
-    alerts = conn.query(
-        "select * from alert where user_id=:user_id", user_id=user_id
-    ).all(as_dict=True)
+    alerts = queries.get_user_alerts(user_id)
 
-    return jsonify(alerts), 400
+    return alerts, 200
 
 
 @blueprint.route("/user/<int:user_id>/notifications")
+@marshal_with(serialize.NotificationSchema(many=True), code=200)
 def user_notifications(user_id):
-    notifications = conn.query(
-        "select * from notification where user_id=:user_id", user_id=user_id
-    ).all(as_dict=True)
+    notifications = queries.get_user_notifications(user_id)
 
-    return jsonify(notifications), 400
+    return notifications, 200
 
 
 @blueprint.route("/notification/<id>")

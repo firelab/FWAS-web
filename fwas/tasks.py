@@ -25,4 +25,5 @@ def schedule_jobs():
         description="Update database with latest HRRR data",
         repeat=None,
         queue_name="default",
+        timeout=600,
     )
