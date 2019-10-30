@@ -10,6 +10,7 @@ from flask_migrate import Migrate
 from .api import blueprint as api_blueprint
 from .config import Config
 from .database import db
+from .encryption import bcrypt
 
 logger = logging.getLogger(__name__)
 click_log.basic_config(logger)
@@ -19,10 +20,11 @@ def create_app(config=Config):
 
     logger.info("Creating app..")
     app = Flask(__name__)
-    app.config.from_object(Config())
+    app.config.from_object(config())
     app.config.from_object(rq_dashboard.default_settings)
 
     db.init_app(app)
+    bcrypt.init_app(app)
     Migrate(app, db)
     Marshmallow(app)
     docs = FlaskApiSpec(app)

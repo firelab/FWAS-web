@@ -12,13 +12,18 @@ def app():
     _app = create_app(TestConfig)
 
     with _app.app_context():
+        # TODO (lmalott): only drop db on each session
+        _db.drop_all()
         _db.create_all()
-
-    test_client = _app.test_client()
 
     ctx = _app.app_context()
     ctx.push()
 
-    yield test_client
+    yield _app
 
     ctx.pop()
+
+
+@pytest.fixture()
+def client(app):
+    yield app.test_client()

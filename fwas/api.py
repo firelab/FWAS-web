@@ -1,15 +1,24 @@
-from flask import Blueprint, jsonify, make_response
+from flask import Blueprint, g, jsonify, make_response
 from flask_apispec import marshal_with, use_kwargs
+from flask_httpauth import HTTPBasicAuth
 
 from . import models, queries, serialize
 from .database import db
 
+auth = HTTPBasicAuth()
 blueprint = Blueprint("api_blueprint", __name__)
 
 
 @blueprint.route("/ok")
 def ok():
     return make_response(jsonify(message="ok"), 200)
+
+
+@blueprint.route("/token")
+@auth.login_required
+def get_auth_token():
+    token = g.user.generate_auth_token()
+    return jsonify({"token": token.decode("ascii")})
 
 
 @blueprint.route("/user/<int:user_id>")

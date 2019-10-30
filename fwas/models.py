@@ -2,10 +2,14 @@ from datetime import datetime
 from uuid import uuid4
 
 from attrs_sqlalchemy import attrs_sqlalchemy
+from flask import current_app
 from geoalchemy2.types import Geometry, Raster
+from itsdangerous import BadSignature, SignatureExpired
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from sqlalchemy.dialects.postgresql import UUID
 
 from .database import db
+from .encryption import bcrypt
 
 
 def generate_uuid():
@@ -42,12 +46,37 @@ class User(Base):
         UUID(as_uuid=True), unique=True, nullable=False, default=generate_uuid
     )
     username = db.Column(db.String(80), unique=True)
-    email = db.Column(db.String(120), unique=True)
+    email = db.Column(db.String(120), nullable=False, unique=True)
+    password = db.Column(db.String(255), nullable=False)
+    admin = db.Column(db.Boolean, nullable=False, default=False)
     phone = db.Column(db.String(12))
-    carrier = db.Column(db.String(15))
 
     alerts = db.relationship("Alert", back_populates="user")
     notifications = db.relationship("Notification", back_populates="user")
+
+    def __init__(self, email, password, phone=None, admin=False):
+        self.email = email
+        self.password = bcrypt.generate_password_hash(
+            password, current_app.config["BCRYPT_LOG_ROUNDS"]
+        ).decode()
+        self.admin = admin
+        self.phone = phone
+
+    def generate_auth_token(self, expiration: int = 600) -> str:
+        s = Serializer(current_app.config["SECRET_KEY"], expires_in=expiration)
+        return s.dumps({"id": self.id})
+
+    @staticmethod
+    def verify_auth_token(token: str):
+        s = Serializer(current_app.config["SECRET_KEY"])
+        try:
+            data = s.loads(token)
+        except SignatureExpired:
+            return None  # valid token, but expired
+        except BadSignature:
+            return None  # invalid token
+        user = User.query.get(data["id"])
+        return user
 
 
 @attrs_sqlalchemy
@@ -127,25 +156,12 @@ class Notification(Base):
     precipitation_value = db.Column(db.Float)
 
 
-@attrs_sqlalchemy
-class WeatherSource(Base):
-    id = db.Column(db.Integer, primary_key=True)
-    uuid = db.Column(
-        UUID(as_uuid=True), unique=True, nullable=False, default=generate_uuid
-    )
-
-    type = db.Column(db.String(80))
-    rasters = db.relationship("WeatherRaster", back_populates="source")
-
-
 class WeatherRaster(Base):
     id = db.Column(db.Integer, primary_key=True)
 
-    source_id = db.Column(db.Integer, db.ForeignKey("weather_source.id"))
-    source = db.relationship("WeatherSource", back_populates="rasters")
-
     rast = db.Column(Raster)
     filename = db.Column(db.String(255))
+    source = db.Column(db.String(255))
 
     forecasted_at = db.Column(db.DateTime)
     forecast_time = db.Column(db.DateTime)

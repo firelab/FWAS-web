@@ -12,7 +12,7 @@ import click_log
 from invoke import run
 
 from ..database import db
-from ..models import WeatherRaster, WeatherSource
+from ..models import WeatherRaster
 from .base import Fetcher
 
 logger = logging.getLogger(__name__)
@@ -59,12 +59,6 @@ class HrrrFetcher(Fetcher):
 
     def save(self):
         """Load each .vrt file from tempdir into PostGIS"""
-        source = WeatherSource.query.filter_by(type="hrrr").first()
-        if source is None:
-            source = WeatherSource(type="hrrr")
-            db.session.add(source)
-            db.session.commit()
-
         db_url = os.getenv("DATABASE_URL")
         sql_files = [
             filename for filename in os.listdir(self.tempdir) if ".sql" in filename
@@ -88,7 +82,7 @@ class HrrrFetcher(Fetcher):
                 )
                 weather_raster.created_at = datetime.utcnow()
                 weather_raster.updated_at = weather_raster.created_at
-                weather_raster.source = source
+                weather_raster.source = "hrrr"
                 weather_raster.forecasted_at = current_hour
                 weather_raster.forecast_time = current_hour + timedelta(
                     hours=simulation_offset

@@ -5,12 +5,8 @@ from fwas.models import Alert, User
 
 
 def create_seeds():
-    user = User(
-        username="levi2",
-        email="levi.malott+2@gmail.com",
-        phone="123-456-7890",
-        carrier="T-Mobile",
-    )
+    _ = User(email="levi.malott@gmail.com", password="secret", phone="123-456-7890")
+    user = User(email="levi.malott+2@gmail.com", password="test", phone="123-456-7890")
 
     lat = 38.6247
     lon = -90.1854

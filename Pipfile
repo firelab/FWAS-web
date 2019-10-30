@@ -40,6 +40,10 @@ rq-dashboard = "*"
 marshmallow-sqlalchemy = "*"
 rq-scheduler = "*"
 flask-apispec = "*"
+itsdangerous = "*"
+flask-httpauth = "*"
+bcrypt = "*"
+flask-bcrypt = "*"
 
 [requires]
 python_version = "3.7"
