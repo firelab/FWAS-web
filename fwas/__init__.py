@@ -8,9 +8,10 @@ from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
 
 from .api import blueprint as api_blueprint
+from .auth.views import auth_blueprint
 from .config import Config
 from .database import db
-from .encryption import bcrypt
+from .extensions import bcrypt
 
 logger = logging.getLogger(__name__)
 click_log.basic_config(logger)
@@ -30,6 +31,7 @@ def create_app(config=Config):
     docs = FlaskApiSpec(app)
 
     app.register_blueprint(api_blueprint, url_prefix="/api")
+    app.register_blueprint(auth_blueprint, url_prefix="/auth")
     app.register_blueprint(rq_dashboard.blueprint, url_prefix="/rq")
 
     import fwas.models  # noqa: F401
@@ -38,12 +40,15 @@ def create_app(config=Config):
         db.create_all()
 
     # Register API endpoints with apispec
-    from . import api
+    from . import api, auth
 
     docs.register(api.user, blueprint="api_blueprint")
-    docs.register(api.create_user, blueprint="api_blueprint")
     docs.register(api.user_alerts, blueprint="api_blueprint")
     docs.register(api.user_notifications, blueprint="api_blueprint")
+
+    docs.register(auth.views.create_user, blueprint="auth_blueprint")
+    docs.register(auth.views.user_login, blueprint="auth_blueprint")
+    docs.register(auth.views.user_status, blueprint="auth_blueprint")
 
     logger.info("App created")
 

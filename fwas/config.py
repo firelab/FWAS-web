@@ -16,5 +16,3 @@ class Config:
 class TestConfig(Config):
     DEBUG = True
     TESTING = True
-
-    SQLALCHEMY_DATABASE_URI = "postgresql://docker:docker@localhost:5432/unittests"

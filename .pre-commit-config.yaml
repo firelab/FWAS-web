@@ -30,7 +30,7 @@ repos:
         name: pytest
         stages: [commit]
         language: system
-        entry: pipenv run pytest tests
+        entry:  bash -c "PIPENV_DOTENV_LOCATION=.test.env pipenv run pytest tests"
         types: [python]
         files: fwas
         always_run: true

@@ -12,6 +12,8 @@ flake8 = "*"
 pip = "*"
 coverage = "*"
 psycopg2-binary = "*"
+ipdb = "*"
+tox = "*"
 
 [packages]
 flask = "*"

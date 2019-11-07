@@ -1,11 +1,9 @@
 from flask import Blueprint, g, jsonify, make_response
-from flask_apispec import marshal_with, use_kwargs
-from flask_httpauth import HTTPBasicAuth
+from flask_apispec import marshal_with
 
-from . import models, queries, serialize
-from .database import db
+from . import queries, serialize
+from .auth.utils import login_required
 
-auth = HTTPBasicAuth()
 blueprint = Blueprint("api_blueprint", __name__)
 
 
@@ -15,7 +13,7 @@ def ok():
 
 
 @blueprint.route("/token")
-@auth.login_required
+@login_required
 def get_auth_token():
     token = g.user.generate_auth_token()
     return jsonify({"token": token.decode("ascii")})
@@ -32,21 +30,6 @@ def user(user_id):
         return {"message": f"User {user_id} does not exist."}, 400
 
     return user, 200
-
-
-@blueprint.route("/user", methods=["POST"])
-@use_kwargs(serialize.NewUserParameter)
-@marshal_with(serialize.NewUserResult, code=201)
-def create_user(**kwargs):
-    email = kwargs["email"]
-    if queries.get_user_by_email(email):
-        return {"message": f"User {email} already exists."}, 400
-
-    user = models.User(**kwargs)
-    db.session.add(user)
-    db.session.commit()
-
-    return user, 201
 
 
 @blueprint.route("/user/<int:user_id>/alerts")

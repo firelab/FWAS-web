@@ -1,15 +1,14 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from uuid import uuid4
 
+import jwt
 from attrs_sqlalchemy import attrs_sqlalchemy
 from flask import current_app
 from geoalchemy2.types import Geometry, Raster
-from itsdangerous import BadSignature, SignatureExpired
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from sqlalchemy.dialects.postgresql import UUID
 
 from .database import db
-from .encryption import bcrypt
+from .extensions import bcrypt
 
 
 def generate_uuid():
@@ -62,20 +61,33 @@ class User(Base):
         self.admin = admin
         self.phone = phone
 
-    def generate_auth_token(self, expiration: int = 600) -> str:
-        s = Serializer(current_app.config["SECRET_KEY"], expires_in=expiration)
-        return s.dumps({"id": self.id})
+    @staticmethod
+    def generate_auth_token(user_id, expiration: int = 600) -> str:
+        payload = {
+            "exp": datetime.utcnow() + timedelta(days=0, seconds=expiration),
+            "iat": datetime.utcnow(),
+            "sub": user_id,
+        }
+        return jwt.encode(
+            payload, current_app.config.get("SECRET_KEY"), algorithm="HS256"
+        )
 
     @staticmethod
-    def verify_auth_token(token: str):
-        s = Serializer(current_app.config["SECRET_KEY"])
+    def verify_auth_token(auth_token):
+        """
+        Verify the auth token by returning the user assocaiated
+        """
         try:
-            data = s.loads(token)
-        except SignatureExpired:
-            return None  # valid token, but expired
-        except BadSignature:
-            return None  # invalid token
-        user = User.query.get(data["id"])
+            payload = jwt.decode(
+                auth_token, current_app.config.get("SECRET_KEY"), algorithms="HS256"
+            )
+            user_id = payload["sub"]
+        except jwt.ExpiredSignatureError:
+            return None  # 'Signature expired. Please log in again.'
+        except jwt.InvalidTokenError:
+            return None  # 'Invalid token. Please log in again.'
+
+        user = User.query.get(user_id)
         return user
 
 
