@@ -4,12 +4,13 @@ from flask import g, request
 from flask_apispec import marshal_with
 
 from .. import serialize
-from ..models import User
+from ..models import BlacklistToken, User
 
 
 def login_required(f):
     @wraps(f)
     @marshal_with(serialize.LoginResult, code=401)
+    @marshal_with(serialize.LoginResult, code=403)
     def wrap(*args, **kwargs):
         # TODO (lmalott): handle user/pass combo as well.
         auth_header = request.headers.get("Authorization")
@@ -20,6 +21,14 @@ def login_required(f):
 
         if not auth_token:
             response = {"status": "fail", "message": "Provide a valid auth token."}
+            return response, 403
+
+        is_blacklisted_token = BlacklistToken.check_blacklist(auth_token)
+        if is_blacklisted_token:
+            response = {
+                "status": "fail",
+                "message": "Token is blacklisted. Please log in again.",
+            }
             return response, 401
 
         user = User.verify_auth_token(auth_token)
@@ -31,6 +40,7 @@ def login_required(f):
             return response, 401
 
         g.user = user
+        g.auth_token = auth_token
         return f(*args, **kwargs)
 
     return wrap

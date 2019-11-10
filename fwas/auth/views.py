@@ -4,7 +4,7 @@ from flask_apispec import marshal_with, use_kwargs
 from .. import queries, serialize
 from ..database import db
 from ..extensions import bcrypt
-from ..models import User
+from ..models import BlacklistToken, User
 from .utils import login_required
 
 auth_blueprint = Blueprint("auth_blueprint", __name__)
@@ -87,3 +87,25 @@ def user_status():
     }
 
     return response, 200
+
+
+@auth_blueprint.route("/logout", methods=["POST"])
+@marshal_with(serialize.LoginResult, code=200)
+@marshal_with(serialize.LoginResult, code=500)
+@login_required
+def user_logout():
+    auth_token = g.auth_token
+    blacklist_token = BlacklistToken(token=auth_token)
+    try:
+        # insert the token
+        db.session.add(blacklist_token)
+        db.session.commit()
+        response = {"status": "success", "message": "Successfully logged out."}
+        return response, 200
+    except Exception:
+        current_app.logger.exception("/logout exception caught")
+        response = {
+            "status": "fail",
+            "message": "Log out failed. Please try again or contact support.",
+        }
+        return response, 500

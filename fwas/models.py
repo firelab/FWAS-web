@@ -92,6 +92,19 @@ class User(Base):
 
 
 @attrs_sqlalchemy
+class BlacklistToken(Base):
+    """Stores auth tokens that should be explicitly disallowed (e.g. user logged out)"""
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    token = db.Column(db.String(500), unique=True, nullable=False)
+
+    @staticmethod
+    def check_blacklist(auth_token: str) -> bool:
+        res = BlacklistToken.query.filter_by(token=str(auth_token)).first()
+        return bool(res)
+
+
+@attrs_sqlalchemy
 class Alert(Base):
     """Defines the configuration of an Alert for a User."""
 
