@@ -120,7 +120,7 @@ class Alert(Base):
     # Location information
     # SRID-4326 means degrees lat/lon
     latitude = db.Column(db.Float, nullable=False)
-    longtitude = db.Column(db.Float, nullable=False)
+    longitude = db.Column(db.Float, nullable=False)
     geom = db.Column(Geometry(geometry_type="POINT", srid=4326), index=True)
     # Units are in meters
     radius = db.Column(db.Float)

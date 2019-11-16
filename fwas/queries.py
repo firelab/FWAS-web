@@ -33,8 +33,17 @@ def get_user_by_email(email):
     return user.first()
 
 
-def get_user_alerts(user_id):
-    alerts = conn.query("select * from alert where user_id=:user_id", user_id=user_id)
+def get_user_alerts(user_id, since=None):
+    query = """
+      select
+        *
+      from alert
+      where user_id=:user_id
+    """
+    if since is not None:
+        query += "and created_at >= :since"
+
+    alerts = conn.query(query, user_id=user_id, since=since)
     return alerts.all()
 
 

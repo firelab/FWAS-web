@@ -1,4 +1,4 @@
-from marshmallow import Schema, fields, validate
+from marshmallow import Schema, fields
 from marshmallow_sqlalchemy import ModelSchema
 
 from .models import Alert, Notification, User
@@ -17,9 +17,22 @@ class UserError(Schema):
     message = fields.String()
 
 
+class Error(Schema):
+    status = fields.String()
+    message = fields.String()
+
+
+class InternalError(Error):
+    """Represents internal errors (i.e. HTTP 5xx)"""
+
+
+class RequestError(Error):
+    """Represents request errors (i.e. HTTP 4xx)"""
+
+
 class NewUserParameter(Schema):
     email = fields.Email(required=True)
-    password = fields.String(required=True, validate=validate.Length(min=10))
+    password = fields.String(required=True)
     phone = fields.String(required=True)
 
 
@@ -31,7 +44,7 @@ class LoginResult(Schema):
 
 class LoginParameter(Schema):
     email = fields.Email(required=True)
-    password = fields.String(required=True, validate=validate.Length(min=10))
+    password = fields.String(required=True)
 
 
 class LoginStatusData(Schema):
@@ -52,11 +65,33 @@ class AlertSchema(ModelSchema):
         exclude = ("geom",)
 
 
+class AlertCreationSuccess(Schema):
+    status = fields.String(required=True)
+    message = fields.String(required=True)
+    alert_id = fields.Int(required=True)
+
+
+class AlertDetailsParameters(Schema):
+    since = fields.DateTime()
+
+
+class NewAlertSchema(Schema):
+    latitude = fields.Float(required=True)
+    longitude = fields.Float(required=True)
+    radius = fields.Float(required=True)
+    timezone = fields.String()
+
+    temperature_limit = fields.Float()
+    relative_humidity_limit = fields.Float()
+    wind_limit = fields.Float()
+    precipitation_limit = fields.Float()
+
+
 class NotificationSchema(ModelSchema):
-    class Meta:
-        model = Notification
+    model = Notification
 
 
 user_schema = UserSchema()
 alert_schema = AlertSchema()
 notification_schema = NotificationSchema()
+new_alert_schema = NewAlertSchema()

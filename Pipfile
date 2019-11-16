@@ -15,6 +15,7 @@ psycopg2-binary = "*"
 ipdb = "*"
 tox = "*"
 freezegun = "*"
+pytest-freezegun = "*"
 
 [packages]
 flask = "*"

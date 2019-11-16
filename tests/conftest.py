@@ -1,5 +1,5 @@
 import pytest
-
+from freezegun import freeze_time
 
 from fwas import create_app
 from fwas.config import TestConfig
@@ -21,3 +21,9 @@ def app():
 @pytest.fixture()
 def client(app):
     yield app.test_client()
+
+
+@pytest.fixture
+def freezer(scope='function', auto_use=True):
+    with freeze_time("2019-10-31 12:00:01") as initial:
+        yield initial

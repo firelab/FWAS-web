@@ -1,8 +1,10 @@
-from flask import Blueprint, g, jsonify, make_response
-from flask_apispec import marshal_with
+from flask import Blueprint, current_app, g, jsonify, make_response, request
+from flask_apispec import marshal_with, use_kwargs
+from geoalchemy2.elements import WKTElement
 
-from . import queries, serialize
+from . import models, queries, serialize
 from .auth.utils import login_required
+from .database import db
 
 blueprint = Blueprint("api_blueprint", __name__)
 
@@ -19,40 +21,71 @@ def get_auth_token():
     return jsonify({"token": token.decode("ascii")})
 
 
-@blueprint.route("/user/<int:user_id>")
+@blueprint.route("/me", methods=["GET"])
 @marshal_with(serialize.UserSchema, code=200)
 @marshal_with(serialize.UserError, code=400)
-def user(user_id):
-    """User detail view."""
-    # TODO (lmalott): Add auth mechanism for clients to access
-    user = queries.get_user(user_id)
+@login_required
+def user():
+    user = g.user
     if not user:
-        return {"message": f"User {user_id} does not exist."}, 400
+        return {"message": f"User {user.id} does not exist."}, 400
 
     return user, 200
 
 
-@blueprint.route("/user/<int:user_id>/alerts")
+@blueprint.route("/alerts", methods=["GET"])
+@use_kwargs(serialize.AlertDetailsParameters)
 @marshal_with(serialize.AlertSchema(many=True), code=200)
-def user_alerts(user_id):
-    alerts = queries.get_user_alerts(user_id)
+@login_required
+def user_alerts(**kwargs):
+    # TODO (lmalott): add query param to filter based on age of alert
+    user_id = g.user.id
+    alerts = queries.get_user_alerts(user_id, request.args.get("since"))
 
     return alerts, 200
 
 
-@blueprint.route("/user/<int:user_id>/notifications")
+@blueprint.route("/alerts", methods=["POST"])
+@use_kwargs(serialize.NewAlertSchema)
+@marshal_with(serialize.AlertCreationSuccess, code=201)
+@marshal_with(serialize.RequestError, code=400)
+@marshal_with(serialize.InternalError, code=500)
+@login_required
+def create_alert(**kwargs):
+    user = g.user
+    data = kwargs
+    errors = serialize.new_alert_schema.validate(data)
+    if errors:
+        response = {"status": "fail", "message": str(errors)}
+        return response, 400
+
+    try:
+        pt = WKTElement(f"POINT({data['longitude']} {data['latitude']})", srid=4326)
+        alert = models.Alert(user_id=user.id, expires_in_hours=6.0, geom=pt, **kwargs)
+        db.session.add(alert)
+        db.session.commit()
+
+        response = {
+            "status": "success",
+            "message": "Successfully created alert",
+            "alert_id": alert.id,
+        }
+
+        return response, 201
+    except Exception:
+        current_app.logger.exception("Failed to create alert.")
+        response = {
+            "status": "fail",
+            "message": "Some error occurred. Please try again.",
+        }
+        return response, 500
+
+
+@blueprint.route("/notifications", methods=["GET"])
 @marshal_with(serialize.NotificationSchema(many=True), code=200)
+@login_required
 def user_notifications(user_id):
+    # TODO (lmalott): add query param to filter based on age of notification
     notifications = queries.get_user_notifications(user_id)
 
     return notifications, 200
-
-
-@blueprint.route("/notification/<id>")
-def notification():
-    pass
-
-
-@blueprint.route("/alert/<id>")
-def alert():
-    pass
