@@ -1,4 +1,4 @@
-from flask import Blueprint, current_app, g, jsonify, make_response, request
+from flask import Blueprint, current_app, g, jsonify, make_response
 from flask_apispec import marshal_with, use_kwargs
 from geoalchemy2.elements import WKTElement
 
@@ -38,9 +38,9 @@ def user():
 @marshal_with(serialize.AlertSchema(many=True), code=200)
 @login_required
 def user_alerts(**kwargs):
-    # TODO (lmalott): add query param to filter based on age of alert
+    since = kwargs.get("since")
     user_id = g.user.id
-    alerts = queries.get_user_alerts(user_id, request.args.get("since"))
+    alerts = queries.get_user_alerts(user_id, since).all()
 
     return alerts, 200
 
@@ -56,6 +56,7 @@ def create_alert(**kwargs):
     data = kwargs
     errors = serialize.new_alert_schema.validate(data)
     if errors:
+        current_app.logger.warning(f"Serialization failures: {errors}")
         response = {"status": "fail", "message": str(errors)}
         return response, 400
 

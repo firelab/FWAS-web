@@ -14,7 +14,7 @@ def create_seeds():
     alert = Alert(
         user=user,
         latitude=lat,
-        longtitude=lon,
+        longitude=lon,
         geom=pt,
         radius=20000.0,
         timezone="America/Chicago",
@@ -28,7 +28,7 @@ def create_seeds():
     alert2 = Alert(
         user=user,
         latitude=lat,
-        longtitude=lon,
+        longitude=lon,
         geom=pt,
         radius=50000.0,
         timezone="America/Chicago",
