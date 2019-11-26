@@ -45,7 +45,7 @@ def check_alerts():
         params = row.as_dict()
         params[
             "violated_on"
-        ] = "forcecast"  # TODO (lmalott): Compute this from something
+        ] = "forecast"  # TODO (lmalott): Compute this from something
         notification = Notification(**params)
         notifications.append(notification)
 

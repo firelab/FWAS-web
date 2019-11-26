@@ -16,6 +16,7 @@ ipdb = "*"
 tox = "*"
 freezegun = "*"
 pytest-freezegun = "*"
+ansible = "*"
 
 [packages]
 flask = "*"
