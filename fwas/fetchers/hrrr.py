@@ -6,13 +6,12 @@ import tempfile
 import time
 from datetime import datetime, timedelta
 
-import aiofiles
-import aiohttp
 import click_log
 from invoke import run
 
 from ..database import db
 from ..models import WeatherRaster
+from . import utils
 from .base import Fetcher
 
 logger = logging.getLogger(__name__)
@@ -123,18 +122,7 @@ async def retrieve_hrrr_file(start_hour: int, forecast_hour: int, directory: str
         directory, url[url.find("file=") + 5 : url.find(".grib2")] + ".grib2"
     )
     logger.info(f"Saving forecast {forecast_hour} data to {output_file}")
-
-    async with aiohttp.ClientSession() as session:
-        async with session.get(url) as response:
-            async with aiofiles.open(output_file, "wb") as tmp_file:
-                while True:
-                    chunk = await response.content.read(1024)
-                    if not chunk:
-                        break
-                    await tmp_file.write(chunk)
-
-            await response.release()
-
+    utils.download(url, output_file)
     end = time.time()
     logger.info(f"Download for {forecast_hour} complete in {end - start} seconds")
 
