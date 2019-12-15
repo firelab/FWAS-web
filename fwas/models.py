@@ -1,31 +1,40 @@
+from collections import OrderedDict
 from datetime import datetime, timedelta
-from uuid import uuid4
 
 import jwt
 from attrs_sqlalchemy import attrs_sqlalchemy
 from flask import current_app
 from geoalchemy2.types import Geometry, Raster
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.types import DateTime, TypeDecorator
 
+from . import utils
 from .database import db
 from .extensions import bcrypt
 
 
-def generate_uuid():
-    return str(uuid4())
+class AwareDateTime(TypeDecorator):
+    impl = DateTime(timezone=True)
+
+    def process_bind_params(self, value, dialect):
+        if isinstance(value, datetime) and value.tzinfo is None:
+            raise ValueError(f"{value} must be timezone-aware.")
+        return value
+
+    def __repr__(self):
+        return "AwareDateTime()"
 
 
 class TimeStampMixin(object):
     """Timestamping mixin for generating created_at and updated_at columns."""
 
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(AwareDateTime(), default=utils.get_current_utc_datetime)
     created_at._creation_order = 9998
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(AwareDateTime(), default=utils.get_current_utc_datetime)
     updated_at._creation_order = 9998
 
     @staticmethod
     def _updated_at(mapper, connection, target):
-        target.updated_at = datetime.utcnow()
+        target.updated_at = utils.get_current_utc_datetime()
 
     @classmethod
     def __declare_last__(cls):
@@ -35,37 +44,56 @@ class TimeStampMixin(object):
 class Base(db.Model, TimeStampMixin):
     __abstract__ = True
 
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
 
 @attrs_sqlalchemy
 class User(Base):
     """User of the application and their contact information."""
 
+    ROLES = OrderedDict([("member", "Member"), ("admin", "Admin")])
+
     id = db.Column(db.Integer, primary_key=True)
-    uuid = db.Column(
-        UUID(as_uuid=True), unique=True, nullable=False, default=generate_uuid
+    username = db.Column(db.String(50), unique=True, index=True)
+    email = db.Column(db.String(255), nullable=False, unique=True, index=True)
+    password = db.Column(db.String(128), nullable=False)
+    role = db.Column(
+        db.Enum(*ROLES, name="role_types", native_enum=False),
+        index=True,
+        nullable=False,
+        server_default="member",
     )
-    username = db.Column(db.String(80), unique=True)
-    email = db.Column(db.String(120), nullable=False, unique=True)
-    password = db.Column(db.String(255), nullable=False)
-    admin = db.Column(db.Boolean, nullable=False, default=False)
+    active = db.Column("is_active", db.Boolean(), nullable=False, server_default="1")
     phone = db.Column(db.String(12))
+
+    sign_in_count = db.Column(db.Integer, nullable=False, default=0)
+    current_sign_in_at = db.Column(AwareDateTime())
+    current_sign_in_ip = db.Column(db.String(45))
+    last_sign_in_at = db.Column(AwareDateTime())
+    last_sign_in_ip = db.Column(db.String(45))
 
     alerts = db.relationship("Alert", back_populates="user")
     notifications = db.relationship("Notification", back_populates="user")
 
-    def __init__(self, email, password, phone=None, admin=False):
+    def __init__(self, email, password, phone=None):
         self.email = email
         self.password = bcrypt.generate_password_hash(
             password, current_app.config["BCRYPT_LOG_ROUNDS"]
         ).decode()
-        self.admin = admin
         self.phone = phone
 
     @staticmethod
     def generate_auth_token(user_id, expiration: int = 600) -> str:
         payload = {
-            "exp": datetime.utcnow() + timedelta(days=0, seconds=expiration),
-            "iat": datetime.utcnow(),
+            "exp": utils.get_current_utc_datetime()
+            + timedelta(days=0, seconds=expiration),
+            "iat": utils.get_current_utc_datetime(),
             "sub": user_id,
         }
         return jwt.encode(
@@ -109,10 +137,6 @@ class Alert(Base):
     """Defines the configuration of an Alert for a User."""
 
     id = db.Column(db.Integer, primary_key=True)
-    uuid = db.Column(
-        UUID(as_uuid=True), unique=True, nullable=False, default=generate_uuid
-    )
-
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     user = db.relationship("User", back_populates="alerts")
     notifications = db.relationship("Notification", back_populates="alert")
@@ -149,10 +173,6 @@ class Notification(Base):
     """
 
     id = db.Column(db.Integer, primary_key=True)
-    uuid = db.Column(
-        UUID(as_uuid=True), unique=True, nullable=False, default=generate_uuid
-    )
-
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     user = db.relationship("User", back_populates="notifications")
 

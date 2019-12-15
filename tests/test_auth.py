@@ -116,7 +116,6 @@ def test_user_status(client):
     assert data['status'] == 'success'
     assert data['data'] is not None
     assert data['data']['email'] == 'test@test.com'
-    assert data['data']['admin'] == False
     assert response.status_code, 200
 
 

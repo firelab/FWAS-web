@@ -81,7 +81,6 @@ def user_status():
         "data": {
             "user_id": g.user.id,
             "email": g.user.email,
-            "admin": g.user.admin,
             "created_at": g.user.created_at,
         },
     }

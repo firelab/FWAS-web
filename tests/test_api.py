@@ -65,7 +65,6 @@ def test_user_details(client):
     expected = {
         'id': 1,
         'email': 'test@test.com',
-        'admin': False,
         'alerts': [],
         'notifications': [],
         'phone': '123456'
@@ -219,7 +218,7 @@ def test_alert_details_filter(client):
     # freeze_time unfortunately does not work with the database model
     # timestamps. Going to shave off a microsecond from the latest alert
     # to confirm filtering based on timestamps works.
-    timestamp = arrow.get(alerts[1]['created_at']).shift(microseconds=-1).isoformat().replace("+00:00", "Z")
+    timestamp = arrow.get(alerts[1]['created_at']).shift(microseconds=-1).isoformat().replace('+00:00', 'Z')
     # Confirm only one alert is returned if we specify the 'since'
     # parameter
     with freeze_time("2019-11-01 12:09:00"):
@@ -233,7 +232,7 @@ def test_alert_details_filter(client):
 
     # Confirm that providing a timestamp greater than all the alert created_at
     # times returns an empty list
-    timestamp = arrow.get(alerts[1]['created_at']).shift(microseconds=1).isoformat().replace("+00:00", "Z")
+    timestamp = arrow.get(alerts[1]['created_at']).shift(microseconds=1).isoformat().replace('+00:00', 'Z')
     with freeze_time("2019-11-01 12:09:00"):
         response = client.get(f'/api/alerts?since={timestamp}',
             headers={'Authorization': f'Bearer {auth_token}'}
