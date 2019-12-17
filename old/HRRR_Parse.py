@@ -49,13 +49,13 @@ def setLimits(wxData,reflec,temp,rh,Wind):
     wxData[1].limit=temp
     wxData[2].limit=rh
     wxData[5].limit=Wind
-    
+
 def setForecastFile(filePath):
     """
     Sets Forecast Path DEPRECATED
     """
     forecastFile[0]=filePath
-    
+
 def getDiskFiles():
     """
     Fetches Grib Files on Disk
@@ -64,17 +64,17 @@ def getDiskFiles():
     dZ=glob.glob('/home/ubuntu/fwas_data/HRRR/grib/*.grib2')
     dZ.sort()
     return dZ
-    
+
 #def assignForecast(futureTime):
 #    cZ=getDiskFiles()
 #    cZ.sort()
 #    fFile=cZ[futureTime]
-#    setForecastFile(fFile)    
-#    
+#    setForecastFile(fFile)
+#
 #def readForecastFile():
 #    ds=gdal.Open(forecastFile[0])
-#    cDS[0]=ds      
-    
+#    cDS[0]=ds
+
 def getDataset(futureTime):
     """
     opens grib file
@@ -86,8 +86,8 @@ def getDataset(futureTime):
 #    print fFile
     ds=gdal.Open(fFile)
     return ds
-        
-    
+
+
 def getRasterBands(dataset):
     """
     Converts grib dataset into raster bands and arrays and sorts them into a sensible format
@@ -96,12 +96,12 @@ def getRasterBands(dataset):
     rasterArrays=[]
     rasterBaster=[]
     rasterAaster=[]
-    for i in range(1,8):  
+    for i in range(1,8):
         band=dataset.GetRasterBand(i)
         bandArray=band.ReadAsArray()
         rasterBaster.append(band)
         rasterAaster.append(bandArray)
-        
+
     rasterBands.append(rasterBaster[0])
     rasterBands.append(rasterBaster[3])
     rasterBands.append(rasterBaster[4])
@@ -114,8 +114,8 @@ def getRasterBands(dataset):
     rasterArrays.append(rasterAaster[4])
     rasterArrays.append(rasterAaster[1])
     rasterArrays.append(rasterAaster[6])
-    rasterArrays.append(rasterAaster[5])   
-        
+    rasterArrays.append(rasterAaster[5])
+
     return [rasterBands,rasterArrays]
 
 def convertLatLonToProj(wxInfo,dataset):
@@ -126,15 +126,15 @@ def convertLatLonToProj(wxInfo,dataset):
     raster_wkt= dataset.GetProjection()
     spatial_ref=osr.SpatialReference()
     spatial_ref.ImportFromWkt(raster_wkt)
-    
-    oldCS=osr.SpatialReference()    
+
+    oldCS=osr.SpatialReference()
     newCS=osr.SpatialReference()
-    
+
     oldCS.ImportFromEPSG(4326)
     newCS.ImportFromWkt(spatial_ref.ExportToWkt())
-    
+
     transform=osr.CoordinateTransformation(oldCS,newCS)
-    
+
 #    x,y,z=transform.TransformPoint(coords[1],coords[0])
     x,y,z=transform.TransformPoint(wxInfo.lon,wxInfo.lat)
     gt=dataset.GetGeoTransform()
@@ -149,29 +149,29 @@ def projToLatLon(pxList):
     """
     Goes Backwards (pixels to lat lon)
     """
-    
+
     dataset=getDataset(0)
-    
+
     raster_wkt=dataset.GetProjection()
     spatial_ref=osr.SpatialReference()
     spatial_ref.ImportFromWkt(raster_wkt)
-    
-    oldCS=osr.SpatialReference()    
+
+    oldCS=osr.SpatialReference()
     newCS=osr.SpatialReference()
-    
+
     oldCS.ImportFromEPSG(4326)
     newCS.ImportFromWkt(spatial_ref.ExportToWkt())
-    
+
     back=osr.CoordinateTransformation(newCS,oldCS)
     gt=dataset.GetGeoTransform()
 
     x=pxList[0]*gt[1]+gt[0]
     y=pxList[1]*gt[5]+gt[3]
-    
-    lon,lat,z=back.TransformPoint(x,y)   
-    
-    return [lat,lon]    
-    
+
+    lon,lat,z=back.TransformPoint(x,y)
+
+    return [lat,lon]
+
 
 def plotRaster(bandArray):
     """
@@ -202,10 +202,10 @@ def getBoxValues(wxInfo,rasterBand):
     centerY=wxInfo.covfefe[1]
     leftSide=centerX-boxRad
     rightSide=centerX+boxRad
-    
+
     topSide=centerY-boxRad
     bottomSide=centerY+boxRad
-    
+
     LL=[leftSide,bottomSide]
     UL=[leftSide,topSide]
     LR=[rightSide,bottomSide]
@@ -222,10 +222,10 @@ def plotRasterBox(wxInfo,rasterBand):
     centerY=wxInfo.covfefe[1]
     leftSide=centerX-boxRad
     rightSide=centerX+boxRad
-    
+
     topSide=centerY-boxRad
     bottomSide=centerY+boxRad
-    
+
 #    LL=[leftSide,bottomSide]
     UL=[leftSide,topSide]
 #    LR=[rightSide,bottomSide]
@@ -278,30 +278,30 @@ def getClosestPixel(wxInfo,exceed,datVal):
         arrPix.append(numpy.linalg.norm(pixel))
     arrPix=numpy.array(arrPix)
     minDist=arrPix.min()
-    minLoc=arrPix.argmin()    
-    
+    minLoc=arrPix.argmin()
+
     x=centerPoint[0]-potential[0][minLoc]
     y=centerPoint[0]-potential[1][minLoc]
-    
-    xGlobal=wxInfo.covfefe[0]-x 
+
+    xGlobal=wxInfo.covfefe[0]-x
     yGlobal=wxInfo.covfefe[1]-y
 
-    laX,loY=projToLatLon([xGlobal,yGlobal])    
+    laX,loY=projToLatLon([xGlobal,yGlobal])
 #    print 'locLat,locLon: ',wxInfo.lat,wxInfo.lon
 #    print 'Global Coords: ', wxInfo.covfefe[0],wxInfo.covfefe[1]
 #    print 'Local Coords: ',centerPoint[0],centerPoint[0]
-#    print 'threshPoints: ', potential[0][minLoc],potential[1][minLoc] 
+#    print 'threshPoints: ', potential[0][minLoc],potential[1][minLoc]
 #    print 'diff: ',x,y
 #    print 'Global+diff: ',wxInfo.covfefe[0]-x,wxInfo.covfefe[1]-y
 #    print 'Lat,Lon: ',laX,loY
-    
-    spatialInfo=calcDist.getSpatial([wxInfo.lat,wxInfo.lon],[laX,loY])    
-        
+
+    spatialInfo=calcDist.getSpatial([wxInfo.lat,wxInfo.lon],[laX,loY])
+
     angle=math.degrees(math.atan2(y,x))
-    angle-=90 #Corrects for messsed up projection system        
+    angle-=90 #Corrects for messsed up projection system
     if angle<90:
         angle+=360#print 'value: ',datVal[exceed[0][aa],exceed[1][aa]]
-    
+
     cVal=datVal[exceed[0][minLoc],[exceed[1][minLoc]]]
 #    print angle,'\n\n'
 #    print minDist,angle
@@ -309,7 +309,7 @@ def getClosestPixel(wxInfo,exceed,datVal):
 #    return [minDist,angle,cVal]
     return[spatialInfo[0],spatialInfo[1],cVal]
 
-def thresholdsII(wxInfo,wxData,variable,genInt,genVar,rasterBands):        
+def thresholdsII(wxInfo,wxData,variable,genInt,genVar,rasterBands):
     """
     Checks thresholds of all the normal variables, excluding RH, returns lots of good Info
     """
@@ -331,15 +331,23 @@ def thresholdsII(wxInfo,wxData,variable,genInt,genVar,rasterBands):
         wxData[genInt].average=calcAverage(datList)
         wxData[genInt].stDev=calcStDev(datList)
         wxData[genInt].exceedQuad=calcQuadrant(wxInfo,wxData,genInt)
-        wxData[genInt].pctCovered=calcPercentCovered(wxInfo,datList,rasterBands[genInt])    
+        wxData[genInt].pctCovered=calcPercentCovered(wxInfo,datList,rasterBands[genInt])
         wxData[genInt].eDist,wxData[genInt].eBearing,wxData[genInt].eVal=getClosestPixel(wxInfo,exceed,datVal)
         wxData[genInt].fBear=degToCompass(wxData[genInt].eBearing)
         wxData[genInt].obs_max=max(datList)
-        
+
 def checkThresholds(wxInfo,wxData,variable,rasterBands):
     """
     Checks the thresholds of all variables, all the normal ones go to Thresholds II RH is checked here because its special
+
+    rasterBands.append(rasterBaster[0])  # raster band 1 = reflectivity
+    rasterBands.append(rasterBaster[3])  # raster band 4 = temperature
+    rasterBands.append(rasterBaster[4])  # raster band 5 = relative humidity
+    rasterBands.append(rasterBaster[1])  # raster band 2 = lightening
+    rasterBands.append(rasterBaster[6])  # raster band 7 = precipitation
+    rasterBands.append(rasterBaster[5])  # raster band 6 = wind
     """
+
     datList=[]
     if variable=='reflectivity':
         genVar=variable
@@ -364,7 +372,7 @@ def checkThresholds(wxInfo,wxData,variable,rasterBands):
     if variable=='RH':
         datVal=getBoxValues(wxInfo,rasterBands[2])
         exceed=numpy.where(datVal<wxData[2].limit)
-        
+
         if exceed[0].size==0 or not any(exceed[0]):
             datList.append(False)
             return datList
@@ -384,13 +392,13 @@ def checkThresholds(wxInfo,wxData,variable,rasterBands):
             wxData[2].fBear=degToCompass(wxData[2].eBearing)
             wxData[2].obs_min=min(datList)
 
-#            wxData[2].eVal=            
-            
+#            wxData[2].eVal=
+
 #print 'value: ',datVal[exceed[0][aa],exceed[1][aa]]
 
 #    if variable=='reflectivity' or 'temperature' or 'Wind' or 'RH':
 
-#        
+#
 def locationSanityCheck(wxInfo,wxData,varNum,rasterBands,rasterArrays):
     """
     Good To Run if you get lost. Plots the Local Area and CONUS along with your Lat Lon and other useful stuff
@@ -402,17 +410,17 @@ def locationSanityCheck(wxInfo,wxData,varNum,rasterBands,rasterArrays):
     print wxData[varNum].exceedX,wxData[varNum].exceedY
     print wxData[varNum].exceedQuad
     print wxData[varNum].pctCovered
-    
+
     centerX=wxInfo.covfefe[0]
-    centerY=wxInfo.covfefe[1]    
-    
+    centerY=wxInfo.covfefe[1]
+
     leftSide=centerX-boxRad
     rightSide=centerX+boxRad
     topSide=centerY-boxRad
     bottomSide=centerY+boxRad
-    
+
     UL=[leftSide,topSide]
-    
+
     pyplot.figure(1)
     bA=osgeo.gdal_array.BandReadAsArray(rasterBands[a],UL[0],UL[1],boxRad*2,boxRad*2)
     pyplot.imshow(bA,vmin=rasterArrays[a].min(),vmax=rasterArrays[a].max())
@@ -424,7 +432,7 @@ def locationSanityCheck(wxInfo,wxData,varNum,rasterBands,rasterArrays):
     pyplot.ylim(0,40)
     pyplot.gca().invert_yaxis()
     pyplot.show()
-    
+
     pyplot.figure(2)
     pyplot.imshow(rasterArrays[a])
     pyplot.plot(477,177,'mo',markersize=6)
@@ -435,7 +443,7 @@ def locationSanityCheck(wxInfo,wxData,varNum,rasterBands,rasterArrays):
     pyplot.gca().invert_xaxis()
     pyplot.tick_params(labelbottom='off',labeltop='on')
     pyplot.colorbar()
-    pyplot.show()        
+    pyplot.show()
 
     pyplot.figure(3)
     pyplot.imshow(rasterArrays[a])
@@ -446,16 +454,16 @@ def locationSanityCheck(wxInfo,wxData,varNum,rasterBands,rasterArrays):
     pyplot.gca().invert_yaxis()
     #pyplot.gca().invert_xaxis()
     pyplot.tick_params(labelbottom='off',labeltop='on')
-    pyplot.show()        
-       
-    
+    pyplot.show()
+
+
 def setControls(fCastNum,radius,Lat,Lon,limReflec,limTemp,limRH,limWind,runSanityCheck):
     """
     Master HRRR checker Function, run for each Forecast Hour
     """
     wxInfo=HR.wxStruct()
     wxData=[HR.reflectivity(),HR.temperature(),HR.RH(),HR.Ltng(),HR.Precip(),HR.Wind()]
-    
+
 #    assignForecast(fCastNum)
 #    readForecastFile()
 #    ds=getDataset(fCastNum)
@@ -466,16 +474,16 @@ def setControls(fCastNum,radius,Lat,Lon,limReflec,limTemp,limRH,limWind,runSanit
     setLatLon(wxInfo,Lat,Lon)
     convertLatLonToProj(wxInfo,ds)
     setLimits(wxData,limReflec,limTemp,limRH,limWind)
-    
+
     for i in range(len(wxData)):
-        checkThresholds(wxInfo,wxData,wxInfo.dataForms[i],rasterBands)     
+        checkThresholds(wxInfo,wxData,wxInfo.dataForms[i],rasterBands)
         if runSanityCheck==True:
             locationSanityCheck(wxInfo,wxData,i,rasterBands,rasterArrays)
 #    aList.append(wxData)
 #    return aList
 #    print wxData[1].average
     return wxData
-    
+
 #fCastNum=0
 #fCastRadius=20
 ##fCastLat=46.926183
@@ -523,7 +531,7 @@ def setControls(fCastNum,radius,Lat,Lon,limReflec,limTemp,limRH,limWind,runSanit
 #ska=[]
 #for i in range(len(potential[0])):
 #    cP=numpy.array([cV[0]-potential[0][i],cV[1]-potential[1][i]])
-#    
+#
 ##    print potential[0][i],potential[1][i]
 ##    print numpy.linalg.norm(cP)
 #    ska.append(numpy.linalg.norm(cP))
@@ -567,14 +575,7 @@ def setControls(fCastNum,radius,Lat,Lon,limReflec,limTemp,limRH,limWind,runSanit
 #    wxData[genInt].average=calcAverage(datList)
 #    wxData[genInt].stDev=calcStDev(datList)
 #    wxData[genInt].exceedQuad=calcQuadrant(wxInfo,wxData,genInt)
-#    wxData[genInt].pctCovered=calcPercentCovered(wxInfo,datList,rasterBands[genInt])    
-
-
-
-
-
-    
-
+#    wxData[genInt].pctCovered=calcPercentCovered(wxInfo,datList,rasterBands[genInt])
 
 #for i in range(6):
 ##    print a[1].limBool
@@ -589,150 +590,4 @@ def setControls(fCastNum,radius,Lat,Lon,limReflec,limTemp,limRH,limWind,runSanit
 
 
 #print a[1].average==b[1].average
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+

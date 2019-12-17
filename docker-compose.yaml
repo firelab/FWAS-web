@@ -1,0 +1,39 @@
+version: '3'
+
+volumes:
+  dbbackups:
+  postgis-data:
+
+
+networks:
+  fwas-network:
+
+
+services:
+  redis:
+    image: redis:3.2
+    ports:
+      - "6379:6379"
+    networks:
+      - fwas-network
+
+  db:
+    image: kartoza/postgis:11.0-2.5 
+    networks:
+      fwas-network:
+        aliases:
+          - db
+    volumes:
+      - /var/lib/postgresql:/var/lib/postgresql
+      - ./dbbackups:/backups
+    environment:
+      - POSTGRES_DB=gis
+      - POSTGRES_USER=docker
+      - POSTGRES_PASS=docker
+      - ALLOW_IP_RANGE=0.0.0.0/0
+      - POSTGRES_MULTIPLE_EXTENSIONS=postgis,hstore,postgis_topology,ogr_fdw
+    ports:
+      - 5432:5432
+    restart: on-failure
+    healthcheck:
+      test: "exit 0"

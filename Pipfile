@@ -1,0 +1,57 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+black = "*"
+isort = "*"
+pytest = "*"
+pytest-cov = "*"
+flake8 = "*"
+pip = "*"
+coverage = "*"
+psycopg2-binary = "*"
+ipdb = "*"
+tox = "*"
+freezegun = "*"
+pytest-freezegun = "*"
+ansible = "*"
+
+[packages]
+flask = "*"
+click = "*"
+python-dotenv = "*"
+click-log = "*"
+attr = "*"
+flask-sqlalchemy = "*"
+flask-migrate = "*"
+flask-marshmallow = "*"
+redis = "*"
+rq = "*"
+geoalchemy2 = "*"
+arrow = "*"
+attrs-sqlalchemy = "*"
+flask-shell-ipython = "*"
+invoke = "*"
+aiohttp = "*"
+aiofiles = "*"
+records = "*"
+tablib = {extras = ["pandas"],version = "*"}
+apispec = "*"
+apispec-webframeworks = "*"
+pyjwt = "*"
+rq-dashboard = "*"
+marshmallow-sqlalchemy = "*"
+rq-scheduler = "*"
+flask-apispec = "*"
+itsdangerous = "*"
+flask-httpauth = "*"
+bcrypt = "*"
+flask-bcrypt = "*"
+
+[requires]
+python_version = "3.7"
+
+[pipenv]
+allow_prereleases = true
