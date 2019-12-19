@@ -10,6 +10,7 @@ First, install `fwas`
 into the `pipenv` environment.  This will allow you
 to use the CLI for the app.
 ```
+pipenv install
 pipenv run pip install -e .
 ```
 
