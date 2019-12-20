@@ -1,1 +1,5 @@
 *.egg-info/
+postgis-data/
+.tox/
+__pycache__/
+*.log

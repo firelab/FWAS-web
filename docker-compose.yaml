@@ -31,7 +31,7 @@ services:
       - POSTGRES_USER=docker
       - POSTGRES_PASS=docker
       - ALLOW_IP_RANGE=0.0.0.0/0
-      - POSTGRES_MULTIPLE_EXTENSIONS=postgis,hstore,postgis_topology,ogr_fdw
+      - POSTGRES_MULTIPLE_EXTENSIONS=postgis,hstore,postgis_topology,ogr_fdw,postgis_raster
     ports:
       - 5432:5432
     restart: on-failure
