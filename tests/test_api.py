@@ -240,3 +240,41 @@ def test_alert_details_filter(client):
     data = response.json
     assert response.status_code == 200
     assert len(data) == 0
+
+
+def test_alert_subscribe(client):
+    response = register_user(client, 'test@test.com', '12345678910')
+    data = response.json
+    assert response.status_code == 201
+    assert data['status'] == 'success'
+
+    response = register_user(client, 'subscriber@test.com', '12345678910')
+    subscriber_data = response.json
+    assert response.status_code == 201
+    assert subscriber_data['status'] == 'success'
+
+    auth_token = data['auth_token']
+
+    response = create_alert(client, auth_token)
+    data = response.json
+    assert response.status_code == 201
+    assert data['status'] == 'success'
+
+    alert_uuid = data['alert_uuid']
+    subscriber_auth_token = subscriber_data['auth_token']
+
+    response = client.put(
+        f'/api/alerts/subscribe/{alert_uuid}',
+        headers=dict(
+            Authorization='Bearer ' + subscriber_auth_token
+        )
+    )
+    data = response.json
+    expected = {
+        "status": "success",
+        "message": "Successfully subscribed to alert."
+    }
+
+    assert response.status_code == 200
+    assert data == expected
+

@@ -30,6 +30,10 @@ class RequestError(Error):
     """Represents request errors (i.e. HTTP 4xx)"""
 
 
+class AlertShareError(Error):
+    """Represents errors with subscribing a user to an alert."""
+
+
 class NewUserParameter(Schema):
     email = fields.Email(required=True)
     password = fields.String(required=True)
@@ -69,6 +73,12 @@ class AlertCreationSuccess(Schema):
     status = fields.String(required=True)
     message = fields.String(required=True)
     alert_id = fields.Int(required=True)
+    alert_uuid = fields.String(required=True)
+
+
+class AlertShareSuccess(Schema):
+    status = fields.String(required=True)
+    message = fields.String(required=True)
 
 
 class AlertDetailsParameters(Schema):

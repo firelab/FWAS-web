@@ -48,9 +48,7 @@ def get_user_alerts(user_id, since=None):
 
 
 def get_user_notifications(user_id):
-    notifications = conn.query(
-        "select * from notification where user_id=:user_id", user_id=user_id
-    )
+    notifications = conn.query_file("get_user_notifications.sql", user_id=user_id)
     return notifications.all()
 
 

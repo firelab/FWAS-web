@@ -1,15 +1,21 @@
 from collections import OrderedDict
 from datetime import datetime, timedelta
+from uuid import uuid4
 
 import jwt
 from attrs_sqlalchemy import attrs_sqlalchemy
 from flask import current_app
 from geoalchemy2.types import Geometry, Raster
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.types import DateTime, TypeDecorator
 
 from . import utils
 from .database import db
 from .extensions import bcrypt
+
+
+def generate_uuid():
+    return str(uuid4())
 
 
 class AwareDateTime(TypeDecorator):
@@ -80,13 +86,20 @@ class User(Base):
 
     alerts = db.relationship("Alert", back_populates="user")
     notifications = db.relationship("Notification", back_populates="user")
+    subscriptions = db.relationship(
+        "Alert",
+        secondary=lambda: alert_subscribers,
+        lazy="subquery",
+        backref=db.backref("subscribers", lazy=True),
+    )
 
-    def __init__(self, email, password, phone=None):
+    def __init__(self, email, password, phone=None, role="member"):
         self.email = email
         self.password = bcrypt.generate_password_hash(
             password, current_app.config["BCRYPT_LOG_ROUNDS"]
         ).decode()
         self.phone = phone
+        self.role = role
 
     @staticmethod
     def generate_auth_token(user_id, expiration: int = 600) -> str:
@@ -137,6 +150,9 @@ class Alert(Base):
     """Defines the configuration of an Alert for a User."""
 
     id = db.Column(db.Integer, primary_key=True)
+    uuid = db.Column(
+        UUID(as_uuid=True), unique=True, nullable=False, default=generate_uuid
+    )
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     user = db.relationship("User", back_populates="alerts")
     notifications = db.relationship("Notification", back_populates="alert")
@@ -151,8 +167,7 @@ class Alert(Base):
 
     # Time information
     timezone = db.Column(db.String(30), nullable=False)
-    expires_in_hours = db.Column(db.Float, nullable=False)
-    expires_at = db.Column(db.DateTime)
+    expires_at = db.Column(AwareDateTime)
 
     # Thresholds
     temperature_limit = db.Column(db.Float)  # in degrees Celcius
@@ -180,24 +195,24 @@ class Notification(Base):
     alert = db.relationship("Alert", back_populates="notifications")
 
     message = db.Column(db.String)
-    sent_at = db.Column(db.DateTime)
-    violates_at = db.Column(db.DateTime)
+    sent_at = db.Column(AwareDateTime)
+    violates_at = db.Column(AwareDateTime)
     violated_on = db.Column(db.String)  # forecast, station, etc.
 
     temperature_violated = db.Column(db.Boolean)
-    temperature_violated_at = db.Column(db.DateTime)
+    temperature_violated_at = db.Column(AwareDateTime)
     temperature_value = db.Column(db.Float)
 
     relative_humidity_violated = db.Column(db.Boolean)
-    relative_humidity_violated_at = db.Column(db.DateTime)
+    relative_humidity_violated_at = db.Column(AwareDateTime)
     relative_humidity_value = db.Column(db.Float)
 
     wind_violated = db.Column(db.Boolean)
-    wind_violated_at = db.Column(db.DateTime)
+    wind_violated_at = db.Column(AwareDateTime)
     wind_value = db.Column(db.Float)
 
     precipitation_violated = db.Column(db.Boolean)
-    precipitation_violated_at = db.Column(db.DateTime)
+    precipitation_violated_at = db.Column(AwareDateTime)
     precipitation_value = db.Column(db.Float)
 
 
@@ -208,5 +223,13 @@ class WeatherRaster(Base):
     filename = db.Column(db.String(255))
     source = db.Column(db.String(255))
 
-    forecasted_at = db.Column(db.DateTime)
-    forecast_time = db.Column(db.DateTime)
+    forecasted_at = db.Column(AwareDateTime)
+    forecast_time = db.Column(AwareDateTime)
+
+
+alert_subscribers = db.Table(
+    "alert_subscribers",
+    Base.metadata,
+    db.Column("alert_id", db.Integer, db.ForeignKey("alert.id"), primary_key=True),
+    db.Column("user_id", db.Integer, db.ForeignKey("user.id"), primary_key=True),
+)

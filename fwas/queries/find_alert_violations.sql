@@ -3,9 +3,8 @@ with alert_buffers as (
     id, 
     st_buffer(geom::geography, radius) as geom
   from alert
-  where created_at + make_interval(hours => expires_in_hours::int) > timezone('utc', now()) 
--- TODO (lmalott): only return records where the forecast time is 
--- greater than alert created_at time and less than expiration time
+  where expires_at is null 
+    or expires_at > timezone('utc', now()) 
 ),
 
 data as (

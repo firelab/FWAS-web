@@ -9,3 +9,6 @@
 - [ ] create a service to run `rqscheduler` and configure via ansible
 - [ ] add endpoints to query job status
 - [ ] add support for other data integrations
+- [ ] use flask-admin to build admin interface
+- [x] add support for alert subscriptions
+- [ ] integrate with push notification service.

@@ -49,6 +49,7 @@ flask-httpauth = "*"
 bcrypt = "*"
 flask-bcrypt = "*"
 psycopg2-binary = "*"
+flask-admin = "*"
 
 [requires]
 python_version = "3.7"

@@ -39,9 +39,6 @@ def check_alerts():
     # create notifications with the details of the violations
     notifications = []
     for row in rows:
-        # TODO (lmalott): find out if we need to worry about setting a
-        # time horizon limit (e.g. "only notify me about alert violations
-        # within an hour of the current time") or something.
         params = row.as_dict()
         params[
             "violated_on"

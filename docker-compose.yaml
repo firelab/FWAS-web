@@ -26,6 +26,7 @@ services:
     volumes:
       - /var/lib/postgresql:/var/lib/postgresql
       - ./dbbackups:/backups
+      - ./config/db/setup-db.sql:/docker-entrypoint-initdb.d/setup-db.sql
     environment:
       - POSTGRES_DB=gis
       - POSTGRES_USER=docker

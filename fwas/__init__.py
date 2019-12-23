@@ -49,6 +49,7 @@ def create_app(config=Config):
     docs.register(api.user, blueprint="api_blueprint")
     docs.register(api.user_alerts, blueprint="api_blueprint")
     docs.register(api.user_notifications, blueprint="api_blueprint")
+    docs.register(api.register_alert_subscriber, blueprint="api_blueprint")
 
     docs.register(auth.views.create_user, blueprint="auth_blueprint")
     docs.register(auth.views.user_login, blueprint="auth_blueprint")
