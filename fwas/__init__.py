@@ -12,7 +12,8 @@ from .api import blueprint as api_blueprint
 from .auth.views import auth_blueprint
 from .config import Config
 from .database import db
-from .extensions import bcrypt
+from .extensions import bcrypt, login
+from .user.views import user
 
 logger = logging.getLogger(__name__)
 click_log.basic_config(logger)
@@ -30,11 +31,40 @@ def create_app(config=Config):
     bcrypt.init_app(app)
     Migrate(app, db)
     Marshmallow(app)
+    login.init_app(app)
+
+    # Configure authentication
+    from fwas.models import User, BlacklistToken
+
+    login.login_view = "user.login"
+
+    @login.user_loader
+    def load_user(user_id):
+        return User.query.get(user_id)
+
+    @login.request_loader
+    def load_user_from_request(request):
+        auth_header = request.headers.get("Authorization")
+        if auth_header:
+            auth_token = auth_header.split(" ")[1]
+        else:
+            auth_token = ""
+
+        if not auth_token:
+            return None
+
+        is_blacklisted_token = BlacklistToken.check_blacklist(auth_token)
+        if is_blacklisted_token:
+            return None
+
+        user = User.verify_auth_token(auth_token)
+        return user
 
     # Register blueprints
     app.register_blueprint(api_blueprint, url_prefix="/api")
     app.register_blueprint(auth_blueprint, url_prefix="/auth")
     app.register_blueprint(rq_dashboard.blueprint, url_prefix="/rq")
+    app.register_blueprint(user)
 
     # Create database models
     import fwas.models  # noqa: F401

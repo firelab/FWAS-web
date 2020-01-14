@@ -7,12 +7,11 @@ from .. import serialize
 from ..models import BlacklistToken, User
 
 
-def login_required(f):
+def jwt_login_required(f):
     @wraps(f)
     @marshal_with(serialize.LoginResult, code=401)
     @marshal_with(serialize.LoginResult, code=403)
     def wrap(*args, **kwargs):
-        # TODO (lmalott): handle user/pass combo as well.
         auth_header = request.headers.get("Authorization")
         if auth_header:
             auth_token = auth_header.split(" ")[1]

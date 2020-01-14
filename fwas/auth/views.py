@@ -5,7 +5,7 @@ from .. import queries, serialize
 from ..database import db
 from ..extensions import bcrypt
 from ..models import BlacklistToken, User
-from .utils import login_required
+from .utils import jwt_login_required
 
 auth_blueprint = Blueprint("auth_blueprint", __name__)
 
@@ -74,7 +74,7 @@ def user_login(**kwargs):
 
 @auth_blueprint.route("/status", methods=["GET"])
 @marshal_with(serialize.LoginStatusResult, code=200)
-@login_required
+@jwt_login_required
 def user_status():
     response = {
         "status": "success",
@@ -91,12 +91,11 @@ def user_status():
 @auth_blueprint.route("/logout", methods=["POST"])
 @marshal_with(serialize.LoginResult, code=200)
 @marshal_with(serialize.LoginResult, code=500)
-@login_required
+@jwt_login_required
 def user_logout():
     auth_token = g.auth_token
     blacklist_token = BlacklistToken(token=auth_token)
     try:
-        # insert the token
         db.session.add(blacklist_token)
         db.session.commit()
         response = {"status": "success", "message": "Successfully logged out."}

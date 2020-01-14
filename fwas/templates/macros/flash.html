@@ -1,0 +1,25 @@
+{# Render Flask messages. #}
+{%- macro render() -%}
+  {% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+      <div id="flash-messages" class="center mt1 mw5 mw7-ns">
+        {% for category, msg in messages %}
+          {% if category == 'success' %}
+          <div class="w-90 ba br2 pa3 ma2 green bg-washed-green" role="alert">
+          {% elif category == 'info' %}
+          <div class="w-90 ba br2 pa3 ma2 blue bg-washed-blue" role="alert">
+          {% elif category == 'warning' %}
+          <div class="w-90 ba br2 pa3 ma2 yellow bg-washed-yellow" role="alert">
+          {% elif category in ('danger', 'error') %}
+          <div class="w-90 ba br2 pa3 ma2 red bg-washed-red" role="alert">
+          {% else %}
+          <div class="w-90 ba br2 pa3 ma2 blue bg-washed-blue" role="alert">
+          {% endif %}
+            {{ msg }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+{%- endmacro -%}
+

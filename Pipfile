@@ -50,6 +50,12 @@ bcrypt = "*"
 flask-bcrypt = "*"
 psycopg2-binary = "*"
 flask-admin = "*"
+flask-login = "*"
+flask-wtf = "*"
+wtforms = "*"
+wtforms-components = "*"
+wtforms-alchemy = "*"
+webargs = "<6.0.0"
 
 [requires]
 python_version = "3.7"

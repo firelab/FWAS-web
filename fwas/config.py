@@ -11,6 +11,7 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = os.getenv("SECRET_KEY", "catcat")
     BCRYPT_LOG_ROUNDS = os.getenv("BCRYPT_LOG_ROUNDS", 12)
+    REMEMBER_COOKIE_DURATION = 3600
 
 
 class TestConfig(Config):

@@ -1,0 +1,36 @@
+{% import 'macros/flash.html' as flash with context %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+          content="{% block meta_description %}{% endblock %}">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/vendor/tachyons.min.css') }}">
+
+      <title>{% block title %} {% endblock %}</title>
+      {% include "layouts/nav.html" %}
+  </head>
+  <body>
+    {% block header %}{% endblock %}
+    
+    <main class="mt3 f4 f5-ns pa3 lh-copy order-0 min-vh-100">
+      {{ flash.render() }}
+
+      <div class="mt0">{% block heading %}{% endblock %}</div>
+      {% block body %}{% endblock %}
+    </main>
+
+    <footer class="tc">
+      <div class="">
+        <ul class="list">
+          {% block footer %}{% endblock %}
+        </ul>
+      </div>
+    </footer>
+  </body>
+</html>

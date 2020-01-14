@@ -7,17 +7,21 @@ from fwas.models import Alert, User
 def create_seeds():
     admin = User(
         email="levi.malott@gmail.com",
-        password="secret",
+        password="secret12345",
         phone="123-456-7890",
         role="admin",
+        active=True,
     )
-    user = User(email="levi.malott+2@gmail.com", password="test", phone="123-456-7890")
+    user = User(
+        email="levi.malott+2@gmail.com", password="secret12345", phone="123-456-7890"
+    )
 
     lat = 38.6247
     lon = -90.1854
     point = WKTElement(f"POINT({lon} {lat})", srid=4326)
     alert = Alert(
         user=user,
+        name="St. Louis Arch",
         latitude=lat,
         longitude=lon,
         geom=point,
@@ -32,6 +36,7 @@ def create_seeds():
 
     alert2 = Alert(
         user=user,
+        name="St. Louis Ballpark",
         latitude=lat,
         longitude=lon,
         geom=point,

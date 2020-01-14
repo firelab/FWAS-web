@@ -3,8 +3,10 @@ from datetime import datetime, timedelta
 from uuid import uuid4
 
 import jwt
+import pytz
 from attrs_sqlalchemy import attrs_sqlalchemy
 from flask import current_app
+from flask_login import UserMixin
 from geoalchemy2.types import Geometry, Raster
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.types import DateTime, TypeDecorator
@@ -60,7 +62,7 @@ class Base(db.Model, TimeStampMixin):
 
 
 @attrs_sqlalchemy
-class User(Base):
+class User(UserMixin, Base):
     """User of the application and their contact information."""
 
     ROLES = OrderedDict([("member", "Member"), ("admin", "Admin")])
@@ -93,16 +95,32 @@ class User(Base):
         backref=db.backref("subscribers", lazy=True),
     )
 
-    def __init__(self, email, password, phone=None, role="member"):
+    def __init__(self, email, password, phone=None, role="member", active=True):
         self.email = email
-        self.password = bcrypt.generate_password_hash(
-            password, current_app.config["BCRYPT_LOG_ROUNDS"]
-        ).decode()
+        self.password = User.encrypt_password(password)
         self.phone = phone
         self.role = role
+        self.active = active
+
+    @classmethod
+    def find_by_identity(cls, identity):
+        """Find a user by their e-mail or username."""
+        return User.query.filter(
+            (User.email == identity) | (User.username == identity)
+        ).first()
+
+    @classmethod
+    def encrypt_password(cls, plaintext_password: str) -> str:
+        if plaintext_password:
+            password = bcrypt.generate_password_hash(
+                plaintext_password, current_app.config["BCRYPT_LOG_ROUNDS"]
+            ).decode()
+            return password
+
+        return None
 
     @staticmethod
-    def generate_auth_token(user_id, expiration: int = 600) -> str:
+    def generate_auth_token(user_id, expiration: int = 3600) -> str:
         payload = {
             "exp": utils.get_current_utc_datetime()
             + timedelta(days=0, seconds=expiration),
@@ -112,6 +130,10 @@ class User(Base):
         return jwt.encode(
             payload, current_app.config.get("SECRET_KEY"), algorithm="HS256"
         )
+
+    def get_auth_token(self):
+        expiration = current_app.config.get("REMEMBER_COOKIE_DURATION").total_seconds()
+        return User.generate_auth_token(self.id, expiration=expiration)
 
     @staticmethod
     def verify_auth_token(auth_token):
@@ -130,6 +152,30 @@ class User(Base):
 
         user = User.query.get(user_id)
         return user
+
+    def authenticated(self, with_password=True, password=""):
+        """
+        Ensure a user is authenticated, and optionally check their password.
+        """
+        if with_password:
+            return bcrypt.check_password_hash(self.password, password)
+
+        return True
+
+    def update_activity_tracking(self, ip_address):
+        """
+        Update various fields on the user that's related to meta data on their
+        account, such as the sign in count and ip address, etc..
+        """
+        self.sign_in_count += 1
+
+        self.last_sign_in_at = self.current_sign_in_at
+        self.last_sign_in_ip = self.current_sign_in_ip
+
+        self.current_sign_in_at = datetime.now(pytz.utc)
+        self.current_sign_in_ip = ip_address
+
+        return self.save()
 
 
 @attrs_sqlalchemy
@@ -156,6 +202,7 @@ class Alert(Base):
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     user = db.relationship("User", back_populates="alerts")
     notifications = db.relationship("Notification", back_populates="alert")
+    name = db.Column(db.String(255), nullable=False)
 
     # Location information
     # SRID-4326 means degrees lat/lon

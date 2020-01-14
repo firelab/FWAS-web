@@ -1,0 +1,41 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}FWAS Dashboard{% endblock %}
+
+{% block body %}
+
+{{ current_user.email }}
+<div class="mw6 center">
+  {% for alert in current_user.alerts %}
+    <details>
+      <summary class="f5 f4-ns fw6 lh-title black mv0 bb b--grey pv3">
+          Alert {{ alert.name }}
+      </summary>
+      <div class="pt2 dtc w3">
+          <a href="http://www.openstreetmap.org/?lat={{ alert.latitude }}&lon={{ alert.longitude }}&zoom=17&layers=C">
+              <img src="{{ url_for('static', filename='icons/icons8-map-64.png') }}" />
+          </a>
+      </div>
+      <div class="dtc v-top pl5">
+        <dl class="mt2 f6">
+          <dt class="fw7 dib">Latitude</dt>
+          <dd class="ml0">{{ alert.latitude }}</dd>
+          <dt class="fw7 dib">Longitude</dt>
+          <dd class="ml0">{{ alert.longitude }}</dd>
+          <dt class="fw7 dib">Radius</dt>
+          <dd class="ml0">{{ alert.radius }}</dd>
+          <dt class="fw7 dib">Temperature Limit</dt>
+          <dd class="ml0">{{ alert.temperature_limit }}</dd>
+          <dt class="fw7 dib">Relative Humidity Limit</dt>
+          <dd class="ml0">{{ alert.relative_humidity_limit }}</dd>
+          <dt class="fw7 dib">Wind Limit</dt>
+          <dd class="ml0">{{ alert.wind_limit }}</dd>
+          <dt class="fw7 dib">Precipitation Limit</dt>
+          <dd class="ml0">{{ alert.precipitation_limit }}</dd>
+        </dl>
+      </div>
+    </details>
+  {% endfor %}
+</div>
+
+{% endblock %}

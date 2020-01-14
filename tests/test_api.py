@@ -11,7 +11,7 @@ def register_user(client, email, password):
         data=json.dumps(dict(
             email=email,
             password=password,
-            phone='123456'
+            phone='12345678910'
         )),
         content_type='application/json'
     )
@@ -20,6 +20,7 @@ def register_user(client, email, password):
 
 def create_alert(client, auth_token):
     alert = {
+        'name': 'Test Alert',
         'latitude': 38.6247,
         'longitude': -90.1854,
         'radius': 20000,
@@ -65,9 +66,17 @@ def test_user_details(client):
     expected = {
         'id': 1,
         'email': 'test@test.com',
+        'active': True,
         'alerts': [],
         'notifications': [],
-        'phone': '123456'
+        'subscriptions': [],
+        'phone': '12345678910',
+        'sign_in_count': 0,
+        'role': 'member',
+        'current_sign_in_at': None,
+        'current_sign_in_ip': None,
+        'last_sign_in_at': None,
+        'last_sign_in_ip': None
     }
     assert expected.items() < data.items()
 
@@ -89,6 +98,7 @@ def test_alert_create(client):
     assert data['status'] == 'success'
 
     alert = {
+        'name': 'Test Alert',
         'latitude': 38.6247,
         'longitude': -90.1854,
         'radius': 20000,
@@ -222,7 +232,8 @@ def test_alert_details_filter(client):
     # Confirm only one alert is returned if we specify the 'since'
     # parameter
     with freeze_time("2019-11-01 12:09:00"):
-        response = client.get(f'/api/alerts?since={timestamp}',
+        response = client.get(
+            f'/api/alerts?since={timestamp}',
             headers={'Authorization': f'Bearer {auth_token}'}
         )
     data = response.json
@@ -234,7 +245,8 @@ def test_alert_details_filter(client):
     # times returns an empty list
     timestamp = arrow.get(alerts[1]['created_at']).shift(microseconds=1).isoformat().replace('+00:00', 'Z')
     with freeze_time("2019-11-01 12:09:00"):
-        response = client.get(f'/api/alerts?since={timestamp}',
+        response = client.get(
+            f'/api/alerts?since={timestamp}',
             headers={'Authorization': f'Bearer {auth_token}'}
         )
     data = response.json

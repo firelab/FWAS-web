@@ -7,6 +7,7 @@ from .models import Alert, Notification, User
 class UserSchema(ModelSchema):
     class Meta:
         model = User
+        exclude = ("password",)
 
 
 class UserParameter(Schema):
@@ -86,6 +87,7 @@ class AlertDetailsParameters(Schema):
 
 
 class NewAlertSchema(Schema):
+    name = fields.String(required=True)
     latitude = fields.Float(required=True)
     longitude = fields.Float(required=True)
     radius = fields.Float(required=True)
