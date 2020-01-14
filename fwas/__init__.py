@@ -8,6 +8,7 @@ from flask_apispec import FlaskApiSpec
 from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
 
+from .alert.views import alert
 from .api import blueprint as api_blueprint
 from .auth.views import auth_blueprint
 from .config import Config
@@ -65,6 +66,7 @@ def create_app(config=Config):
     app.register_blueprint(auth_blueprint, url_prefix="/auth")
     app.register_blueprint(rq_dashboard.blueprint, url_prefix="/rq")
     app.register_blueprint(user)
+    app.register_blueprint(alert)
 
     # Create database models
     import fwas.models  # noqa: F401

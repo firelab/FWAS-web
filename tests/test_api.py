@@ -5,11 +5,12 @@ import pytest
 from freezegun import freeze_time
 
 
-def register_user(client, email, password):
+def register_user(client, email, password, username='test'):
     response = client.post(
         '/auth/register',
         data=json.dumps(dict(
             email=email,
+            username=username,
             password=password,
             phone='12345678910'
         )),
@@ -260,7 +261,7 @@ def test_alert_subscribe(client):
     assert response.status_code == 201
     assert data['status'] == 'success'
 
-    response = register_user(client, 'subscriber@test.com', '12345678910')
+    response = register_user(client, 'subscriber@test.com', '12345678910', username='test1')
     subscriber_data = response.json
     assert response.status_code == 201
     assert subscriber_data['status'] == 'success'

@@ -11,6 +11,7 @@ def register_user(client, email, password):
         '/auth/register',
         data=json.dumps(dict(
             email=email,
+            username="test",
             password=password,
             phone='123456'
         )),
@@ -45,6 +46,7 @@ def test_registration(client):
 def test_registered_with_already_registered_user(client):
     user = User(
         email='test@test.com',
+        username='test',
         password='test1234566'
     )
     db.session.add(user)
@@ -54,7 +56,7 @@ def test_registered_with_already_registered_user(client):
     data = response.json
 
     assert data['status'] == 'fail'
-    assert data['message'] == 'User test@test.com already exists. Please log in.'
+    assert data['message'] == 'User already exists. Please log in.'
     assert response.content_type == 'application/json'
     assert response.status_code, 202
 
@@ -137,7 +139,7 @@ def test_user_status_invalid_token(client):
 
 
 def test_user_status_expired_token(client):
-    user = User(email='test@test.com', password='12345678910')
+    user = User(email='test@test.com', username='test', password='12345678910')
     db.session.add(user)
     db.session.commit()
 

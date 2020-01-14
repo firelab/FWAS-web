@@ -7,13 +7,17 @@ from fwas.models import Alert, User
 def create_seeds():
     admin = User(
         email="levi.malott@gmail.com",
+        username="levi_admin",
         password="secret12345",
         phone="123-456-7890",
         role="admin",
         active=True,
     )
     user = User(
-        email="levi.malott+2@gmail.com", password="secret12345", phone="123-456-7890"
+        email="levi.malott+2@gmail.com",
+        username="levi",
+        password="secret12345",
+        phone="123-456-7890",
     )
 
     lat = 38.6247

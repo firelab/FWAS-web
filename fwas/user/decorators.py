@@ -4,7 +4,7 @@ from flask import flash, redirect
 from flask_login import current_user
 
 
-def anonymous_required(url="/settings"):
+def anonymous_required(url="/dashboard"):
     """
     Redirect a user to a specified location if they are already signed in.
 

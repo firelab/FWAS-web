@@ -5,6 +5,7 @@ from fwas.models import User
 def test_encode_auth_token(app):
     user = User(
         email='test@test.com',
+        username='test',
         password='test'
     )
     db.session.add(user)
@@ -15,6 +16,7 @@ def test_encode_auth_token(app):
 def test_verify_auth_token(app):
     user = User(
         email='test@test.com',
+        username='test',
         password='test'
     )
     db.session.add(user)

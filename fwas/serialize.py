@@ -37,6 +37,7 @@ class AlertShareError(Error):
 
 class NewUserParameter(Schema):
     email = fields.Email(required=True)
+    username = fields.String(required=True)
     password = fields.String(required=True)
     phone = fields.String(required=True)
 

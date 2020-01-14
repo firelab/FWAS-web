@@ -95,8 +95,11 @@ class User(UserMixin, Base):
         backref=db.backref("subscribers", lazy=True),
     )
 
-    def __init__(self, email, password, phone=None, role="member", active=True):
+    def __init__(
+        self, email, username, password, phone=None, role="member", active=True
+    ):
         self.email = email
+        self.username = username
         self.password = User.encrypt_password(password)
         self.phone = phone
         self.role = role

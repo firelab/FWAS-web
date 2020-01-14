@@ -15,10 +15,12 @@ auth_blueprint = Blueprint("auth_blueprint", __name__)
 @marshal_with(serialize.LoginResult)
 def create_user(**kwargs):
     email = kwargs["email"]
-    if queries.get_user_by_email(email):
+    username = kwargs["username"]
+
+    if User.find_by_identity(email) or User.find_by_identity(username):
         response = {
             "status": "fail",
-            "message": f"User {email} already exists. Please log in.",
+            "message": f"User already exists. Please log in.",
         }
         return response, 202
 
