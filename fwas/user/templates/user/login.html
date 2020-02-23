@@ -4,37 +4,61 @@
 {% block title %}Sign in to access your account{% endblock %}
 
 {% block body %}
-  <div class="mt3 center mw5 mw7-ns>
-    <div class="">
-      {% call f.form_tag('user.login') %}
-        <legend class="mb3">Sign in to continue</legend>
 
-        {% call f.form_group(form.identity, css_class='mb1',
-                             autofocus='autofocus') %}
-        {% endcall %}
+<div class="columns">
+  <div class="column is-one-fifth is-offset-one-third">
+    <header>
+      <h1 class="title is-1">Fire Weather Alert Service</h1>
+    </header>
+    <section>
+    {% call f.form_tag('user.login') %}
+      <legend class="h2 is-subtitle">Sign in to continue</legend>
 
-        {% call f.form_group(form.password, css_class='mb1') %}
-        {% endcall %}
+      <div class="field">
+        <p class="control has-icons-left has-icons-right">
+          <input id="identity" class="input" type="email" placeholder="Email">
+          <span class="icon is-small is-left">
+            <i class="fas fa-envelope"></i>
+          </span>
+          <span class="icon is-small is-right">
+            <i class="fas fa-check"></i>
+          </span>
+        </p>
+      </div>
 
-        <div class="">
-            <button type="submit" class="f6 link dim br2 ph3 pv2 mb2 white bg-dark-green">
-              Sign in
-            </button>
-        </div>
-      {% endcall %}
-      <div class="mt1">
+      <div class="field">
+        <p class="control has-icons-left">
+          <input id="password" class="input" type="password" placeholder="Password">
+          <span class="icon is-small is-left">
+            <i class="fas fa-lock"></i>
+          </span>
+        </p>
+      </div>
+
+      <div class="field">
+        <p class="control">
+          <button class="button is-success" type="submit">
+            Login
+          </button>
+        </p>
+      </div>
+    {% endcall %}
+    <div class="mt1">
         <div class="mt1">
             <a href="{{ url_for('user.signup') }}"
                class="f6 link dim near-black db">
               Register
             </a>
         </div>
-          <div class="mt1">
+        <div class="mt1">
             <a href="{{ url_for('user.begin_password_reset') }}" class="f6 link dim near-black">
               Forgot your password?
             </a>
-          </div>
         </div>
+      </div>
     </div>
+    </section>
   </div>
+</div>
+
 {% endblock %}

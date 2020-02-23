@@ -1,5 +1,6 @@
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import login_required, login_user, logout_user
+from loguru import logger
 
 from ..models import User
 from ..utils import safe_next_url
@@ -18,6 +19,7 @@ def login():
         account = User.find_by_identity(request.form.get("identity"))
 
         if account and account.authenticated(password=request.form.get("password")):
+            logger.debug(f"Login successful for {account.email}")
             if login_user(account, remember=True) and account.is_active:
                 account.update_activity_tracking(request.remote_addr)
 
@@ -29,7 +31,10 @@ def login():
 
             flash("This account has been disabled.", "error")
         else:
+            logger.warning("Invalid identity or password")
             flash("Identity or password is incorrect.", "error")
+    else:
+        logger.warning("Invalid form validation on login page.")
 
     return render_template("user/login.html", form=form)
 
