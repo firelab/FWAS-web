@@ -3,3 +3,4 @@ postgis-data/
 .tox/
 __pycache__/
 *.log
+venv/

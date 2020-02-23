@@ -10,6 +10,21 @@ networks:
 
 
 services:
+  app:
+    build: .
+    command: >
+      uvicorn --host=0.0.0.0 --reload fwas.main:app
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+    networks:
+      - fwas-network
+
   redis:
     image: redis:3.2
     ports:

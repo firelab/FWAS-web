@@ -1,26 +1,99 @@
-from marshmallow import Schema, fields
-from marshmallow_sqlalchemy import ModelSchema
+from datetime import datetime
+from uuid import UUID
 
 from .models import Alert, Notification, User
 
+from pydantic import BaseModel, EmailStr
 
-class UserSchema(ModelSchema):
+
+class UserInDB(BaseModel):
     class Meta:
         model = User
         exclude = ("password",)
 
-
-class UserParameter(Schema):
-    user_id = fields.Int()
-
-
-class UserError(Schema):
-    message = fields.String()
+    class Config:
+        orm_mode = True
 
 
-class Error(Schema):
-    status = fields.String()
-    message = fields.String()
+class UserRequest(BaseModel):
+    user_id: int
+
+
+class UserError(BaseModel):
+    message: str
+
+
+class UserIn(BaseModel):
+    email: EmailStr
+    username: str
+    password: str
+    phone: str
+
+
+class TokenResponse(BaseModel):
+    status: str
+    message: str
+    auth_token: Optional[str]
+
+
+class LoginParameter(BaseModel):
+    email: str
+    password: str
+
+
+class LoginStatusData(BaseModel):
+    user_id: str
+    email: EmailStr
+    admin: bool
+    created_at: datetime
+
+
+class LoginStatusResult(BaseModel):
+    status: str
+    data: LoginStatusData
+
+
+class AlertInDB(ModelBaseModel):
+    Config:
+        orm_mode = True
+
+
+class AlertCreationSuccess(BaseModel):
+    status: str
+    message: str
+    alert_id: int
+    alert_uuid: UUID
+
+
+class AlertShareSuccess(BaseModel):
+    status: str
+    message: str
+
+
+class AlertDetailsParameters(BaseModel):
+    since: datetime
+
+
+class NewAlertBaseModel(BaseModel):
+    name: str
+    latitude: float
+    longitude: float
+    radius: float
+    timezone: Optional[str]
+
+    temperature_limit: Optional[float] = None
+    relative_humidity_limit: Optional[float] = None
+    wind_limit: Optional[float] = None
+    precipitation_limit: Optional[float] = None
+
+
+class NotificationBaseModel(BaseModel):
+    model: Notification
+
+
+class Error(BaseModel):
+    status: str
+    message: str
 
 
 class InternalError(Error):
@@ -33,78 +106,3 @@ class RequestError(Error):
 
 class AlertShareError(Error):
     """Represents errors with subscribing a user to an alert."""
-
-
-class NewUserParameter(Schema):
-    email = fields.Email(required=True)
-    username = fields.String(required=True)
-    password = fields.String(required=True)
-    phone = fields.String(required=True)
-
-
-class LoginResult(Schema):
-    status = fields.String(required=True)
-    message = fields.String(required=True)
-    auth_token = fields.String()
-
-
-class LoginParameter(Schema):
-    email = fields.Email(required=True)
-    password = fields.String(required=True)
-
-
-class LoginStatusData(Schema):
-    user_id = fields.String(required=True)
-    email = fields.Email(required=True)
-    admin = fields.Boolean(required=True)
-    created_at = fields.DateTime(required=True)
-
-
-class LoginStatusResult(Schema):
-    status = fields.String(required=True)
-    data = fields.Nested(LoginStatusData, required=True)
-
-
-class AlertSchema(ModelSchema):
-    class Meta:
-        model = Alert
-        exclude = ("geom",)
-
-
-class AlertCreationSuccess(Schema):
-    status = fields.String(required=True)
-    message = fields.String(required=True)
-    alert_id = fields.Int(required=True)
-    alert_uuid = fields.String(required=True)
-
-
-class AlertShareSuccess(Schema):
-    status = fields.String(required=True)
-    message = fields.String(required=True)
-
-
-class AlertDetailsParameters(Schema):
-    since = fields.DateTime()
-
-
-class NewAlertSchema(Schema):
-    name = fields.String(required=True)
-    latitude = fields.Float(required=True)
-    longitude = fields.Float(required=True)
-    radius = fields.Float(required=True)
-    timezone = fields.String()
-
-    temperature_limit = fields.Float()
-    relative_humidity_limit = fields.Float()
-    wind_limit = fields.Float()
-    precipitation_limit = fields.Float()
-
-
-class NotificationSchema(ModelSchema):
-    model = Notification
-
-
-user_schema = UserSchema()
-alert_schema = AlertSchema()
-notification_schema = NotificationSchema()
-new_alert_schema = NewAlertSchema()
