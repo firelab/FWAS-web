@@ -12,3 +12,5 @@
 - [ ] use flask-admin to build admin interface
 - [x] add support for alert subscriptions
 - [ ] integrate with push notification service.
+- [ ] migrate to fastapi
+- [ ] migrate to async databases package
