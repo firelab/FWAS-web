@@ -9,8 +9,10 @@
 - [ ] create a service to run `rqscheduler` and configure via ansible
 - [ ] add endpoints to query job status
 - [ ] add support for other data integrations
-- [ ] use flask-admin to build admin interface
+- [ ] build admin interface
 - [x] add support for alert subscriptions
 - [ ] integrate with push notification service.
-- [ ] migrate to fastapi
-- [ ] migrate to async databases package
+- [x] migrate to fastapi
+- [x] migrate to async databases package
+- [ ] implement auth flows with security scopes
+- [ ] fixup all broken things from migrating to FastAPI
