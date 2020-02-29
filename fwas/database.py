@@ -1,5 +1,5 @@
-import records
-from flask_sqlalchemy import SQLAlchemy
+from databases import Database
 
-db = SQLAlchemy()
-conn = records.Database()
+from fwas.config import SQLALCHEMY_DATABASE_URI
+
+database = Database(SQLALCHEMY_DATABASE_URI)

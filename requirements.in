@@ -3,10 +3,6 @@ aiofiles
 aiohttp
 alembic
 arrow
-async-timeout
-attr
-attrs-sqlalchemy
-attrs
 bcrypt
 click-log
 click
@@ -14,7 +10,6 @@ geoalchemy2
 fastapi[all]
 databases[postgresql]
 invoke
-itsdangerous
 jinja2
 loguru
 numpy
@@ -33,9 +28,4 @@ sqlalchemy
 traitlets
 typing-extensions
 uvicorn
-validators
-werkzeug
-wtforms-alchemy
-wtforms-components
-wtforms
-pydantic
+pydantic[email,typing_extensions,dotenv]

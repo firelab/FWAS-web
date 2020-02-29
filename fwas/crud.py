@@ -1,19 +1,28 @@
 import os
+from typing import Optional
 from importlib.resources import path as resource_path
 
 from geoalchemy2.elements import WKTElement
 
-from . import models
-from .database import conn, db
+from fwas import models
+from fwas.database import database, Database
+from fwas.serialize import UserInDb
+
 
 with resource_path("fwas", "queries") as path:
     QUERY_TEMPLATE_DIR = path
 
 
-def query_file(filename: str, **params):
+def run_sql(filename: str, **params):
     abs_path = os.path.join(QUERY_TEMPLATE_DIR, filename)
+    if not os.path.exists(abs_path):
+        raise IOError(f"{abs_path} does not exist.")
 
-    return conn.query_file(abs_path, **params)
+    sql_content = None
+    with open(abs_path, "r") as fh:
+        sql_content = fh.read().strip()
+
+    return database.execute(sql_content, **params)
 
 
 def get_nearest_alert(lat, lon):
@@ -33,6 +42,13 @@ def get_user_by_email(email):
     return user.first()
 
 
+async def get_user_by_identity(db: Database, identity: str) -> Optional[UserInDb]:
+    """Find a user by their e-mail or username."""
+    query = "select * from users where email = :identiy or username = :identiiy"
+    row = await db.fetch_one(query, values={"identity": identity})
+    return UserInDb(**row) if row else row
+
+
 def get_user_alerts(user_id, since=None):
     query = """
       select
@@ -45,6 +61,11 @@ def get_user_alerts(user_id, since=None):
 
     alerts = conn.query(query, user_id=user_id, since=since)
     return alerts
+
+
+def check_blacklist(auth_token: str) -> bool:
+    res = BlacklistToken.query.filter_by(token=str(auth_token)).first()
+    return bool(res)
 
 
 def get_user_notifications(user_id):

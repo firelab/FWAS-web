@@ -1,18 +1,14 @@
 from datetime import datetime
+from typing import Optional
 from uuid import UUID
 
-from .models import Alert, Notification, User
+from fwas import models
 
 from pydantic import BaseModel, EmailStr
 
 
-class UserInDB(BaseModel):
-    class Meta:
-        model = User
-        exclude = ("password",)
-
-    class Config:
-        orm_mode = True
+class Token(BaseModel):
+    token: str
 
 
 class UserRequest(BaseModel):
@@ -28,6 +24,26 @@ class UserIn(BaseModel):
     username: str
     password: str
     phone: str
+
+
+class UserInDb(BaseModel):
+    id: int
+    email: str
+    username: str
+    password: str
+    is_active: bool
+    phone: Optional[str]
+    sign_in_count: int
+    current_sign_in_at: datetime
+    current_sign_in_ip: str
+    last_sign_in_at: datetime
+    last_sign_in_ip: str
+    role: models.Roles
+    created_at: datetime
+    updated_at: datetime
+
+    class Config:
+        orm_mode = True
 
 
 class TokenResponse(BaseModel):
@@ -53,8 +69,26 @@ class LoginStatusResult(BaseModel):
     data: LoginStatusData
 
 
-class AlertInDB(ModelBaseModel):
-    Config:
+class AlertInDb(BaseModel):
+    id: int
+    uuid: str
+    user_id: int
+    name: str
+    latitude: float
+    longitude: float
+    geom: str
+    radius: float
+    timezone: str
+    expires_at: datetime
+    temperature_limit: float
+    relative_humidity_limit: float
+    wind_limit: float
+    precipitation_limit: float
+    check_thunderstorms: bool
+    created_at: datetime
+    updated_at: datetime
+
+    class Config:
         orm_mode = True
 
 
@@ -74,7 +108,7 @@ class AlertDetailsParameters(BaseModel):
     since: datetime
 
 
-class NewAlertBaseModel(BaseModel):
+class AlertIn(BaseModel):
     name: str
     latitude: float
     longitude: float
@@ -87,8 +121,33 @@ class NewAlertBaseModel(BaseModel):
     precipitation_limit: Optional[float] = None
 
 
-class NotificationBaseModel(BaseModel):
-    model: Notification
+class NotificationInDb(BaseModel):
+    id: int
+    user_id: int
+    alert_id: int
+    message: str
+    sent_at: datetime
+    violates_at: datetime
+    violated_on: str
+    temperature_violated: bool
+    temperature_violated_at: datetime
+    relative_humidity_violated: bool
+    relative_humidity_violated_at: datetime
+    wind_violated: bool
+    wind_violated_at: datetime
+    wind_value: float
+    precipiation_violated: bool
+    precipiation_violated_at: datetime
+    precipiation_value: float
+    created_at: datetime
+    updated_at: datetime
+
+    class Config:
+        orm_mode = True
+
+
+class NotificationOut(NotificationInDb):
+    pass
 
 
 class Error(BaseModel):

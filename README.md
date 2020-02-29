@@ -39,7 +39,7 @@ PostGIS and Redis.
 
 ### API
 
-Exposed endpoint documentation is available through `<url>/swagger-ui`. 
+Exposed endpoint documentation is available through (localhost:8000/docs)[http://localhost:8000/docs].
 
 ## Design
 

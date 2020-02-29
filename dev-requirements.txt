@@ -20,9 +20,9 @@ filelock==3.0.12          # via -r dev-requirements.in (line 14), tox, virtualen
 flake8==3.7.9             # via -r dev-requirements.in (line 15)
 freezegun==0.3.15         # via -r dev-requirements.in (line 16), pytest-freezegun
 importlib-metadata==1.5.0  # via -r dev-requirements.in (line 17), pluggy, pytest, tox, virtualenv
-ipdb==0.12.3              # via -r dev-requirements.in (line 18)
+ipdb==0.13.1              # via -r dev-requirements.in (line 18)
 ipython-genutils==0.2.0   # via -r dev-requirements.in (line 19), traitlets
-ipython==7.12.0           # via -r dev-requirements.in (line 20), ipdb
+ipython==7.13.0           # via -r dev-requirements.in (line 20), ipdb
 isort==4.3.21             # via -r dev-requirements.in (line 21)
 jedi==0.16.0              # via -r dev-requirements.in (line 22), ipython
 jinja2==2.11.1            # via -r dev-requirements.in (line 23), ansible
@@ -30,11 +30,11 @@ markupsafe==1.1.1         # via -r dev-requirements.in (line 24), jinja2
 mccabe==0.6.1             # via -r dev-requirements.in (line 25), flake8
 more-itertools==8.2.0     # via -r dev-requirements.in (line 26), pytest
 packaging==20.1           # via -r dev-requirements.in (line 27), pytest, tox
-parso==0.6.1              # via -r dev-requirements.in (line 28), jedi
+parso==0.6.2              # via -r dev-requirements.in (line 28), jedi
 pathspec==0.7.0           # via -r dev-requirements.in (line 29), black
 pexpect==4.8.0            # via -r dev-requirements.in (line 30), ipython
 pickleshare==0.7.5        # via -r dev-requirements.in (line 31), ipython
-pip-tools==4.5.0          # via -r dev-requirements.in (line 32)
+pip-tools==4.5.1          # via -r dev-requirements.in (line 32)
 pluggy==0.13.1            # via -r dev-requirements.in (line 33), pytest, tox
 prompt-toolkit==3.0.3     # via -r dev-requirements.in (line 34), ipython
 ptyprocess==0.6.0         # via -r dev-requirements.in (line 35), pexpect
@@ -55,7 +55,7 @@ toml==0.10.0              # via -r dev-requirements.in (line 49), black, tox
 tox==3.14.5               # via -r dev-requirements.in (line 50)
 traitlets==4.3.3          # via -r dev-requirements.in (line 51), ipython
 typed-ast==1.4.1          # via -r dev-requirements.in (line 52), black
-virtualenv==20.0.5        # via -r dev-requirements.in (line 53), tox
+virtualenv==20.0.7        # via -r dev-requirements.in (line 53), tox
 wcwidth==0.1.8            # via -r dev-requirements.in (line 54), prompt-toolkit, pytest
 zipp==3.0.0               # via -r dev-requirements.in (line 55), importlib-metadata
 
