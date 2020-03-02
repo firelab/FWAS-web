@@ -11,6 +11,11 @@ class Token(BaseModel):
     token: str
 
 
+class AccessToken(BaseModel):
+    access_token: str
+    token_type: str
+
+
 class UserRequest(BaseModel):
     user_id: int
 
@@ -33,17 +38,22 @@ class UserInDb(BaseModel):
     password: str
     is_active: bool
     phone: Optional[str]
-    sign_in_count: int
-    current_sign_in_at: datetime
-    current_sign_in_ip: str
-    last_sign_in_at: datetime
-    last_sign_in_ip: str
     role: models.Roles
     created_at: datetime
     updated_at: datetime
 
     class Config:
         orm_mode = True
+
+
+class UserOut(BaseModel):
+    id: int
+    email: str
+    username: str
+    is_active: bool
+    phone: Optional[str]
+    created_at: datetime
+    updated_at: datetime
 
 
 class TokenResponse(BaseModel):

@@ -1,24 +1,28 @@
-from typing import List
+from typing import List, Optional
 from datetime import datetime
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, Security
+from fastapi.security import OAuth2PasswordRequestForm
 from loguru import logger
 from starlette.status import (
     HTTP_201_CREATED,
     HTTP_400_BAD_REQUEST,
+    HTTP_401_UNAUTHORIZED,
     HTTP_404_NOT_FOUND,
     HTTP_409_CONFLICT,
 )
 from geoalchemy2.elements import WKTElement
 
-from fwas import models, crud, serialize
+from fwas import models, crud, serialize, auth
 from fwas.database import Database
 from fwas.api.dependencies import get_db, get_current_user
 from fwas.serialize import (
     AlertIn,
     UserInDb,
+    UserOut,
     AlertInDb,
+    AccessToken,
     Token,
     AlertShareSuccess,
     NotificationOut,
@@ -33,25 +37,36 @@ def ok():
     return {"message": "ok"}
 
 
-@router.get("/token", response_model=serialize.Token)
-def get_auth_token():
-    token = g.user.generate_auth_token()
-    return {"token": token.decode("ascii")}
+@router.post("/auth/token", response_model=AccessToken)
+async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db: Database = Depends(get_db)):
+    user = await authenticate_user_by_email_password(db, form_data.username, form_data.password)
+
+    if user is None:
+        logger.warning(f"Authentication failed for {form_data.username}: {user}")
+        raise HTTPException(
+            status_code=HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    token = auth.get_auth_token(user.id)
+
+    return {"access_token": token, "token_type": "bearer"}
 
 
-@router.get("/me", response_model=UserInDb)
+async def authenticate_user_by_email_password(db: Database, email: str, password: str) -> Optional[UserInDb]:
+    user = await crud.get_user_by_identity(db, email)
+
+    if user is not None and auth.authenticated(user.password, password=password):
+        return user
+
+
+
+@router.get("/me", response_model=UserOut)
 def user(db: Database = Depends(get_db), user: UserInDb = Depends(get_current_user)):
     """Returns the current users' information."""
-    if user is None:
-        # Entity has not been created yet
-        logger.warning(f"User has already created Entity: uid={user_db.firebase_uid}")
-        raise HTTPException(
-            status_code=HTTP_400_BAD_REQUEST, detail="User does no texist",
-        )
-    if not user:
-        return {"message": f"User {user.id} does not exist."}, 400
+    return user
 
-    return user, 200
 
 
 @router.get("/alerts", response_model=List[serialize.AlertInDb])
@@ -73,7 +88,7 @@ def register_alert_subscriber(
     user: UserInDb = Depends(get_current_user),
 ):
     """Subscribe to an alert created by another user."""
-    user_id = g.user.id
+    user_id = user.id
 
     alert = models.Alert.query.filter_by(uuid=alert_uuid).first()
     if alert is None:

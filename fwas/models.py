@@ -79,11 +79,6 @@ t_users = Table(
     Column("password", String(128), nullable=False),
     Column("is_active", Boolean, nullable=False, server_default=text("true")),
     Column("phone", String(12)),
-    Column("sign_in_count", Integer, nullable=False, default=0),
-    Column("current_sign_in_at", AwareDateTime),
-    Column("current_sign_in_ip", String(45)),
-    Column("last_sign_in_at", AwareDateTime),
-    Column("last_sign_in_ip", String(45)),
     Column(
         "role",
         ENUM(*[code.value for code in Roles], name="role_code"),
