@@ -1,29 +1,31 @@
 import os
-from typing import Optional
+from typing import Optional, List
 from importlib.resources import path as resource_path
-from loguru import logger
 
+import aiofiles
+from loguru import logger
 from geoalchemy2.elements import WKTElement
 
 from fwas import models
 from fwas.database import database, Database
-from fwas.serialize import UserInDb
+from fwas.serialize import UserInDb, AlertInDb, NotificationInDb
 
 
 with resource_path("fwas", "queries") as path:
     QUERY_TEMPLATE_DIR = path
 
 
-def run_sql(filename: str, **params):
+async def run_sql(filename: str, **params):
     abs_path = os.path.join(QUERY_TEMPLATE_DIR, filename)
     if not os.path.exists(abs_path):
         raise IOError(f"{abs_path} does not exist.")
 
     sql_content = None
-    with open(abs_path, "r") as fh:
-        sql_content = fh.read().strip()
+    async with aiofiles.open(abs_path, "r") as fh:
+        sql_content = await fh.read()
+        sql_content = sql_content.strip()
 
-    return database.execute(sql_content, **params)
+    return await database.execute(sql_content, values=params)
 
 
 def get_nearest_alert(lat, lon):
@@ -46,24 +48,16 @@ async def get_user_by_identity(db: Database, identity: str) -> Optional[UserInDb
     return UserInDb(**row) if row else row
 
 
-def get_user_by_email(email):
-    user = conn.query("select * from public.user where email=:email", email=email)
-    return user.first()
+async def get_user_alerts(db: Database, user_id: int, since: str = None) -> List[AlertInDb]:
+    query = "select * from alerts where user_id=:user_id"
+    values = {'user_id': user_id}
 
-
-
-def get_user_alerts(user_id, since=None):
-    query = """
-      select
-        *
-      from alert
-      where user_id=:user_id
-    """
     if since is not None:
         query += "  and created_at >= :since"
+        values['since'] = since
 
-    alerts = conn.query(query, user_id=user_id, since=since)
-    return alerts
+    rows = await db.fetch_all(query, values=values)
+    return [AlertInDb(**row) for row in rows if row]
 
 
 def check_blacklist(auth_token: str) -> bool:
@@ -71,9 +65,10 @@ def check_blacklist(auth_token: str) -> bool:
     return bool(res)
 
 
-def get_user_notifications(user_id):
-    notifications = conn.query_file("get_user_notifications.sql", user_id=user_id)
-    return notifications.all()
+async def get_user_notifications(db: Database, user_id: int, skip: int = 0, limit: int = 10) -> List[NotificationInDb]:
+    query = "select * from notifications where user_id=:user_id offset :skip limit :limit"
+    rows = await db.fetch_all(query, values={'user_id': user_id, 'skip': skip, 'limit': limit})
+    return [NotificationInDb(**row) for row in rows if row]
 
 
 def get_alert_buffers():

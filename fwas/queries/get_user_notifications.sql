@@ -1,4 +1,4 @@
 select 
   * 
-from notification 
+from notifications
 where user_id=:user_id
