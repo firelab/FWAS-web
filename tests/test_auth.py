@@ -2,7 +2,7 @@ import json
 import pytest
 from freezegun import freeze_time
 
-from fwas.models import User, BlacklistToken
+from fwas.serialize import UserInDb, BlacklistTokenInDb
 from fwas.database import db
 
 
@@ -44,7 +44,7 @@ def test_registration(client):
 
 
 def test_registered_with_already_registered_user(client):
-    user = User(
+    user = UserInDb(
         email='test@test.com',
         username='test',
         password='test1234566'

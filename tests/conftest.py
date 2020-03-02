@@ -1,26 +1,43 @@
 import pytest
 from freezegun import freeze_time
 
-from fwas import create_app
-from fwas.config import TestConfig
-from fwas.database import db as _db
+from fwas.main import get_application
+from fwas.database import database
 
 
-@pytest.fixture(scope='function')
-def app():
-    """An application for the tests."""
-    _app = create_app(TestConfig)
+@pytest.fixture(scope="session", autouse=True)
+def create_test_database():
+    # Create test database
+    engine = sqlalchemy.create_engine(settings.SQLALCHEMY_DATABASE_URI)
+    engine.execute('create extension if not exists "uuid-ossp"')
+    metadata.create_all(engine)
 
-    with _app.app_context():
-        _db.create_all()
-        yield _app
-        _db.session.remove()
-        _db.drop_all()
+    # Run the test suite
+    yield
+
+    # Drop test databases
+    metadata.drop_all(engine)
 
 
-@pytest.fixture()
-def client(app):
-    yield app.test_client()
+@pytest.fixture
+async def db():
+    if not database.is_connected:
+        await database.connect()
+        await init_db()
+
+    yield database
+
+    if database.is_connected:
+        await database.disconnect()
+
+
+@pytest.fixture
+async def client():
+    application = get_application()
+
+    async with TestClient(application) as client:
+        await init_db()
+        yield client
 
 
 @pytest.fixture

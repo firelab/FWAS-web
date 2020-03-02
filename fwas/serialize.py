@@ -2,9 +2,9 @@ from datetime import datetime
 from typing import Optional
 from uuid import UUID
 
-from fwas import models
-
 from pydantic import BaseModel, EmailStr
+
+from fwas import models
 
 
 class Token(BaseModel):
@@ -14,6 +14,11 @@ class Token(BaseModel):
 class AccessToken(BaseModel):
     access_token: str
     token_type: str
+
+
+class BlacklistTokenInDb(BaseModel):
+    id: int
+    token: str
 
 
 class UserRequest(BaseModel):
@@ -52,6 +57,7 @@ class UserOut(BaseModel):
     username: str
     is_active: bool
     phone: Optional[str]
+    token: Optional[str] = ""
     created_at: datetime
     updated_at: datetime
 
