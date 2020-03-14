@@ -5,24 +5,23 @@ import shutil
 import tempfile
 import time
 from datetime import datetime, timedelta
+from loguru import logger
 
 import click_log
 from invoke import run
 
-from ..database import db
-from ..models import WeatherRaster
-from . import utils
-from .base import Fetcher
-
-logger = logging.getLogger(__name__)
-click_log.basic_config(logger)
+from fwas.database import Database
+from fwas.fetchers import utils
+from fwas.fetchers.base import Fetcher
+from fwas import crud
 
 
 class HrrrFetcher(Fetcher):
-    def __init__(self):
+    def __init__(self, db: Database):
         self.tempdir = None
+        self.db = db
 
-    def download(self):
+    async def download(self):
         self.tempdir = tempfile.mkdtemp()
         logger.info(f"tempdir created: {self.tempdir}")
         start_hour = datetime.utcnow().hour - 1
@@ -30,15 +29,13 @@ class HrrrFetcher(Fetcher):
         # TODO (lmalott): create appropriate logic for getting the
         # start_hour up to forecast_hour times (handle transition between
         # days as well).
-        loop = asyncio.get_event_loop()
         tasks = [
             retrieve_hrrr_file(start_hour, forecast_hour, self.tempdir)
             for forecast_hour in range(1, 8)
         ]
-        group = asyncio.gather(*tasks)
-        loop.run_until_complete(group)
+        await asyncio.gather(*tasks)
 
-    def transform(self):
+    async def transform(self):
         """Convert each grib2 file into SRID 4326. The latter is suitable
         for storage into PostGIS."""
         logger.info("Entering transform phase")
@@ -56,7 +53,7 @@ class HrrrFetcher(Fetcher):
 
         logger.info("Leaving transform phase")
 
-    def save(self):
+    async def save(self):
         """Load each .vrt file from tempdir into PostGIS"""
         db_url = os.getenv("DATABASE_URL")
         sql_files = [
@@ -75,7 +72,7 @@ class HrrrFetcher(Fetcher):
         for raster in raster_files:
             # TODO (lmalott): Augment with forecast information such as
             # the forecast data vs measurement data and forecast hour
-            for weather_raster in WeatherRaster.query.filter_by(filename=raster):
+            async for weather_raster in crud.get_weather_raster_by_filename(self.db, raster):
                 simulation_offset = get_simulation_offset_from_filename(
                     weather_raster.filename
                 )
@@ -86,11 +83,10 @@ class HrrrFetcher(Fetcher):
                 weather_raster.forecast_time = current_hour + timedelta(
                     hours=simulation_offset
                 )
-                db.session.add(weather_raster)
-                db.session.commit()
+                await crud.update_weather_raster(self.db, weather_raster)
             logger.info(f"Saved {raster}")
 
-    def cleanup(self):
+    async def cleanup(self):
         shutil.rmtree(self.tempdir)
 
 
@@ -122,7 +118,7 @@ async def retrieve_hrrr_file(start_hour: int, forecast_hour: int, directory: str
         directory, url[url.find("file=") + 5 : url.find(".grib2")] + ".grib2"
     )
     logger.info(f"Saving forecast {forecast_hour} data to {output_file}")
-    utils.download(url, output_file)
+    await utils.download(url, output_file)
     end = time.time()
     logger.info(f"Download for {forecast_hour} complete in {end - start} seconds")
 
@@ -159,6 +155,6 @@ def build_url(start_hour: int, forecast_hour: int) -> str:
     return url
 
 
-def run_now():
-    fetcher = HrrrFetcher()
+def run_now(db: Database):
+    fetcher = HrrrFetcher(db)
     fetcher.run()

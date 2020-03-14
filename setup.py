@@ -28,7 +28,7 @@ setup(
     name='fwas',
     packages=find_packages(include=['fwas']),
     test_suite='tests',
-    url='https://github.com/ldmalott/fwas',
+    url='https://github.com/firelab/FWAS',
     version='0.1.0',
     zip_safe=False,
 )

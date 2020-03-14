@@ -4,9 +4,10 @@ from enum import Enum
 
 import click_log
 
-from . import queries
-from .database import db
-from .models import Notification
+from fwas import crud
+from fwas.database import Database
+from fwas.serialize import NotificationIn
+from fwas.config import SQLALCHEMY_DATABASE_URI
 
 logger = logging.getLogger(__name__)
 click_log.basic_config(logger)
@@ -21,7 +22,7 @@ class Bands(Enum):
     precipitation = 7
 
 
-def check_alerts():
+async def check_alerts():
     """
     1. Retrieve alert
     2. Create a buffer around the alert location with radius
@@ -29,31 +30,31 @@ def check_alerts():
     4. Check values against preconfigured alert thresholds
     5. Record violations and queue notifications to be sent
     """
-    start = time.time()
+    with Database(SQLALCHEMY_DATABASE_URI) as db:
+        start = time.time()
 
-    # find contains all current and future times where the
-    # configured alert thresholds are violated by the
-    # the weather data for active alert definitions.
-    rows = queries.find_alert_violations()
+        # find contains all current and future times where the
+        # configured alert thresholds are violated by the
+        # the weather data for active alert definitions.
+        rows = crud.find_alert_violations()
 
-    # create notifications with the details of the violations
-    notifications = []
-    for row in rows:
-        params = row.as_dict()
-        params[
-            "violated_on"
-        ] = "forecast"  # TODO (lmalott): Compute this from something
-        notification = Notification(**params)
-        notifications.append(notification)
+        # create notifications with the details of the violations
+        notifications = []
+        for row in rows:
+            params = dict(row)
+            params[
+                "violated_on"
+            ] = "forecast"  # TODO (lmalott): Compute this from something
+            notification = NotificationIn(**params).dict()
+            notifications.append(notification)
 
-    db.session.add_all(notifications)
-    db.session.commit()
+        await crud.create_user_notifications(db, notifications)
 
-    # TODO (lmalott): remove persistent violations keeping only the first violation
-    # may need separate `violates_at` timestamps for each weather data type
-    # e.g. `temperture_violates_at`.
+        # TODO (lmalott): remove persistent violations keeping only the first violation
+        # may need separate `violates_at` timestamps for each weather data type
+        # e.g. `temperture_violates_at`.
 
-    end = time.time()
-    logger.info(f"Completed check_alerts in {end - start} seconds")
+        end = time.time()
+        logger.info(f"Completed check_alerts in {end - start} seconds")
 
-    return notifications
+        return notifications

@@ -3,6 +3,7 @@ from typing import Optional
 from uuid import UUID
 
 from pydantic import BaseModel, EmailStr
+from geoalchemy2.types import Raster
 
 from fwas import models
 
@@ -137,8 +138,7 @@ class AlertIn(BaseModel):
     precipitation_limit: Optional[float] = None
 
 
-class NotificationInDb(BaseModel):
-    id: int
+class NotificationIn(BaseModel):
     user_id: int
     alert_id: int
     message: str
@@ -155,6 +155,10 @@ class NotificationInDb(BaseModel):
     precipiation_violated: bool
     precipiation_violated_at: datetime
     precipiation_value: float
+
+
+class NotificationInDb(NotificationIn):
+    id: int
     created_at: datetime
     updated_at: datetime
 
@@ -164,6 +168,21 @@ class NotificationInDb(BaseModel):
 
 class NotificationOut(NotificationInDb):
     pass
+
+
+class WeatherRasterInDb(BaseModel):
+    id: int
+    rast: Raster
+    filename: str
+    source: str
+    forecasted_at: datetime
+    forecast_time: datetime
+    created_at: datetime
+    updated_at: datetime
+
+    class Config:
+        arbitrary_types_allowed = True
+        orm_mode = True
 
 
 class Error(BaseModel):

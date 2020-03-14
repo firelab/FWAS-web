@@ -1,4 +1,5 @@
 import abc
+import asyncio
 
 
 class Fetcher(object, metaclass=abc.ABCMeta):
@@ -27,9 +28,12 @@ class Fetcher(object, metaclass=abc.ABCMeta):
         """Cleanup any temporary files, state, etc. Will always be called"""
 
     def run(self):
+        asyncio.run(self.run_async())
+
+    async def run_async(self):
         try:
-            self.download()
-            self.transform()
-            self.save()
+            await self.download()
+            await self.transform()
+            await self.save()
         finally:
-            self.cleanup()
+            await self.cleanup()

@@ -3,13 +3,15 @@ Scheduled and background tasks for FWAS.
 """
 from redis import Redis
 from rq_scheduler import Scheduler
+from loguru import logger
 
-from .fetchers import hrrr
-from .notify import check_alerts
+from fwas.fetchers import hrrr
+from fwas.notify import check_alerts
+from fwas.config import REDIS_URL
 
 
 def schedule_jobs():
-    scheduler = Scheduler(connection=Redis())
+    scheduler = Scheduler(connection=Redis.from_url(REDIS_URL))
 
     scheduler.cron(
         "*/5 * * * *",
@@ -27,3 +29,11 @@ def schedule_jobs():
         queue_name="default",
         timeout=600,
     )
+
+
+def clear_scheduled_jobs():
+    # Delete any existing jobs in the scheduler when the app starts up
+    scheduler = Scheduler(connection=Redis())
+    for job in scheduler.get_jobs():
+        logger.debug("Deleting scheduled job %s", job)
+        job.delete()

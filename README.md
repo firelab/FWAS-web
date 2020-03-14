@@ -26,11 +26,11 @@ available to run as `fwas`.
 
 *Examples*:
 ```
-pipenv run fwas run
-pipenv run fwas runworker
-pipenv run fwas routes
-pipenv run fwas db migrate
-pipenv run rqscheduler
+. /venv/bin/activate
+pip install -e .
+
+fwas runworker
+rqscheduler
 ```
 
 Running locally requires PostGIS and Redis. A `docker-compose.yaml` file is 

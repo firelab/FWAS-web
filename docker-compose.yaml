@@ -22,9 +22,34 @@ services:
     ports:
       - 8000:8000
     depends_on:
+      - redis
       - db
     networks:
       - fwas-network
+
+  worker:
+    build: .
+    command: >
+      fwas runworker
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    networks:
+      - fwas-network
+    depends_on:
+      - redis
+      - db
+
+  rqscheduler:
+    image: iddan/rq-scheduler:slim
+    command: --url $REDIS_URL
+    networks:
+      - fwas-network
+    depends_on:
+      - redis
+    env_file:
+      - .env
 
   redis:
     image: redis:3.2

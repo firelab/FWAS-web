@@ -1,6 +1,7 @@
 -i https://pypi.org/simple
 aiofiles
 aiohttp
+httpx
 alembic
 arrow
 bcrypt
@@ -10,6 +11,7 @@ geoalchemy2
 fastapi[all]
 databases[postgresql]
 invoke
+ipython
 jinja2
 loguru
 numpy
@@ -29,3 +31,4 @@ traitlets
 typing-extensions
 uvicorn
 pydantic[email,typing_extensions,dotenv]
+ujson

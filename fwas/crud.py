@@ -8,13 +8,21 @@ from loguru import logger
 
 from fwas import models
 from fwas.database import Database, database
-from fwas.serialize import AlertInDb, NotificationInDb, UserIn, UserInDb
+from fwas.serialize import (
+    AlertInDb,
+    NotificationIn,
+    NotificationInDb,
+    UserIn,
+    UserInDb,
+    WeatherRasterInDb
+)
+
 
 with resource_path("fwas", "queries") as path:
     QUERY_TEMPLATE_DIR = path
 
 
-async def run_sql(filename: str, **params):
+async def query_file(filename: str, **params):
     abs_path = os.path.join(QUERY_TEMPLATE_DIR, filename)
     if not os.path.exists(abs_path):
         raise IOError(f"{abs_path} does not exist.")
@@ -95,6 +103,35 @@ async def get_user_notifications(
         query, values={"user_id": user_id, "skip": skip, "limit": limit}
     )
     return [NotificationInDb(**row) for row in rows if row]
+
+
+async def create_user_notification(db: Database, notification: NotificationIn) -> int:
+    query = models.t_notifications.insert()
+    return await db.execute(query, values=notification.dict())
+
+
+async def create_user_notifications(db: Database, notifications: List[NotificationIn]):
+    query = models.t_notifications.insert()
+    return await db.execute_many(query, values=notifications)
+
+
+async def get_weather_rasters_by_filename(db: Database, filename: str):
+    query = "select * from weather_rasters where filename=:filename"
+    rows = await db.fetch_all(query, values={'filename': filename})
+    return [WeatherRasterInDb(**row) for row in rows if row]
+
+
+async def update_weather_raster(db: Database, weather_raster: WeatherRasterInDb):
+    query = """
+    update weather_rasters set
+        filename=:filename,
+        rast=:rast,
+        source=:source,
+        forecasted_at=:forecasted_at,
+        forecast_time=:forecast_time
+    where id = :id
+    """
+    return await db.execute(query, values=weather_raster.dict())
 
 
 def get_alert_buffers():
