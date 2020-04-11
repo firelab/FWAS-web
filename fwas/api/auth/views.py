@@ -1,4 +1,5 @@
 from flask import Blueprint, current_app, g
+
 from flask_apispec import marshal_with, use_kwargs
 
 from .. import queries, serialize

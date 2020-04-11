@@ -1,32 +1,30 @@
-from enum import Enum
 from collections import OrderedDict
 from datetime import datetime, timedelta
+from enum import Enum
 from uuid import uuid4
 
 import jwt
 import pytz
 from geoalchemy2.types import Geometry, Raster
-from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.types import DateTime, TypeDecorator
 from sqlalchemy import (
-    create_engine,
-    Column,
-    String,
-    Integer,
-    Float,
     Boolean,
+    CheckConstraint,
+    Column,
+    Float,
     ForeignKey,
+    Integer,
+    MetaData,
+    String,
     Table,
     Text,
+    create_engine,
     text,
-    CheckConstraint,
-    MetaData,
 )
-from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.dialects.postgresql import JSONB, UUID
 from sqlalchemy.dialects.postgresql.base import ENUM, UUID
+from sqlalchemy.types import DateTime, TypeDecorator
 
 from fwas import config, utils
-
 
 metadata = MetaData()
 

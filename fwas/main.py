@@ -9,7 +9,7 @@ from starlette.requests import Request
 from fwas.api.errors.http_error import http_error_handler
 from fwas.api.errors.validation_error import http422_error_handler
 from fwas.api.routes import router as api_router
-from fwas.config import ALLOWED_HOSTS, API_PREFIX, PROJECT_NAME, VERSION, DEBUG
+from fwas.config import ALLOWED_HOSTS, API_PREFIX, DEBUG, PROJECT_NAME, VERSION
 from fwas.core.events import create_start_app_handler, create_stop_app_handler
 
 

@@ -5,15 +5,15 @@ import shutil
 import tempfile
 import time
 from datetime import datetime, timedelta
-from loguru import logger
 
 import click_log
 from invoke import run
+from loguru import logger
 
+from fwas import crud
 from fwas.database import Database
 from fwas.fetchers import utils
 from fwas.fetchers.base import Fetcher
-from fwas import crud
 
 
 class HrrrFetcher(Fetcher):
@@ -72,7 +72,9 @@ class HrrrFetcher(Fetcher):
         for raster in raster_files:
             # TODO (lmalott): Augment with forecast information such as
             # the forecast data vs measurement data and forecast hour
-            async for weather_raster in crud.get_weather_raster_by_filename(self.db, raster):
+            async for weather_raster in crud.get_weather_raster_by_filename(
+                self.db, raster
+            ):
                 simulation_offset = get_simulation_offset_from_filename(
                     weather_raster.filename
                 )

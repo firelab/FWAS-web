@@ -1,6 +1,7 @@
 from functools import wraps
 
 from flask import g, request
+
 from flask_apispec import marshal_with
 
 from .. import serialize

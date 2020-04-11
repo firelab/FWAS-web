@@ -14,9 +14,8 @@ from fwas.serialize import (
     NotificationInDb,
     UserIn,
     UserInDb,
-    WeatherRasterInDb
+    WeatherRasterInDb,
 )
-
 
 with resource_path("fwas", "queries") as path:
     QUERY_TEMPLATE_DIR = path
@@ -117,7 +116,7 @@ async def create_user_notifications(db: Database, notifications: List[Notificati
 
 async def get_weather_rasters_by_filename(db: Database, filename: str):
     query = "select * from weather_rasters where filename=:filename"
-    rows = await db.fetch_all(query, values={'filename': filename})
+    rows = await db.fetch_all(query, values={"filename": filename})
     return [WeatherRasterInDb(**row) for row in rows if row]
 
 

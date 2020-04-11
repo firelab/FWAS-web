@@ -1,13 +1,13 @@
 """
 Scheduled and background tasks for FWAS.
 """
+from loguru import logger
 from redis import Redis
 from rq_scheduler import Scheduler
-from loguru import logger
 
+from fwas.config import REDIS_URL
 from fwas.fetchers import hrrr
 from fwas.notify import check_alerts
-from fwas.config import REDIS_URL
 
 
 def schedule_jobs():

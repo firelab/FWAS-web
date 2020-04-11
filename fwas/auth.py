@@ -1,17 +1,17 @@
-import jwt
-import bcrypt
-from loguru import logger
 from datetime import timedelta
 
-from fwas import config, utils
+import bcrypt
+import jwt
+from loguru import logger
 
+from fwas import config, utils
 from fwas.crud import get_user
 
 
 def encrypt_password(plaintext_password: str) -> str:
     if plaintext_password:
         salt = bcrypt.gensalt(config.BCRYPT_LOG_ROUNDS)
-        password = bcrypt.hashpw(plaintext_password.encode('utf-8'), salt).decode()
+        password = bcrypt.hashpw(plaintext_password.encode("utf-8"), salt).decode()
         return password
 
     return None
@@ -25,10 +25,10 @@ def get_user_id_from_token(auth_token):
         payload = jwt.decode(auth_token, config.SECRET_KEY, algorithms="HS256")
         user_id = payload["sub"]
     except jwt.ExpiredSignatureError:
-        logger.info('Expired signature from token')
+        logger.info("Expired signature from token")
         return None  # 'Signature expired. Please log in again.'
     except jwt.InvalidTokenError:
-        logger.info('Received invalid token.')
+        logger.info("Received invalid token.")
         return None  # 'Invalid token. Please log in again.'
 
     return user_id
@@ -53,6 +53,6 @@ def authenticated(user_password, with_password=True, password=""):
     Ensure a user is authenticated, and optionally check their password.
     """
     if with_password:
-        return bcrypt.checkpw(password.encode('utf-8'), user_password.encode('utf-8'))
+        return bcrypt.checkpw(password.encode("utf-8"), user_password.encode("utf-8"))
 
     return True

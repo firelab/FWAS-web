@@ -2,8 +2,8 @@ from datetime import datetime
 from typing import Optional
 from uuid import UUID
 
-from pydantic import BaseModel, EmailStr
 from geoalchemy2.types import Raster
+from pydantic import BaseModel, EmailStr
 
 from fwas import models
 

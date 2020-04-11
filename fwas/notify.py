@@ -5,9 +5,9 @@ from enum import Enum
 import click_log
 
 from fwas import crud
+from fwas.config import SQLALCHEMY_DATABASE_URI
 from fwas.database import Database
 from fwas.serialize import NotificationIn
-from fwas.config import SQLALCHEMY_DATABASE_URI
 
 logger = logging.getLogger(__name__)
 click_log.basic_config(logger)

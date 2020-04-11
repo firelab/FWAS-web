@@ -1,8 +1,8 @@
 import click
 import click_log
 
-from fwas.worker import run_worker
 from fwas.tasks import clear_scheduled_jobs
+from fwas.worker import run_worker
 
 
 @click.group()

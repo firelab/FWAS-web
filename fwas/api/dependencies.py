@@ -1,15 +1,13 @@
-from fastapi import HTTPException, Depends
+from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer, SecurityScopes
 from starlette.status import HTTP_401_UNAUTHORIZED
 
-from fwas.serialize import UserInDb
 from fwas.auth import get_user_id_from_token
 from fwas.crud import get_user
 from fwas.database import Database, database
-
+from fwas.serialize import UserInDb
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/token",)
-
 
 
 async def get_db():
@@ -17,7 +15,9 @@ async def get_db():
 
 
 async def get_current_user(
-        security_scopes: SecurityScopes, token: str = Depends(oauth2_scheme), db: Database = Depends(get_db)
+    security_scopes: SecurityScopes,
+    token: str = Depends(oauth2_scheme),
+    db: Database = Depends(get_db),
 ) -> UserInDb:
 
     if security_scopes.scopes:
