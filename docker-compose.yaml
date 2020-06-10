@@ -13,8 +13,7 @@ networks:
 services:
   app:
     build: .
-    command: >
-      uvicorn --host=0.0.0.0 --reload fwas.main:app
+    command: bash entrypoint.sh
     env_file:
       - .env
     volumes:
@@ -67,7 +66,6 @@ services:
     volumes:
       - postgres:/var/lib/postgresql/data
       - ./dbbackups:/backups
-      - ./config/db/setup-db.sql:/docker-entrypoint-initdb.d/setup-db.sql
     environment:
       - POSTGRES_DB=gis
       - POSTGRES_USER=docker

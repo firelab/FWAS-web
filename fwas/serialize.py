@@ -88,7 +88,7 @@ class LoginStatusResult(BaseModel):
 
 class AlertInDb(BaseModel):
     id: int
-    uuid: str
+    uuid: UUID
     user_id: int
     name: str
     latitude: float
@@ -96,12 +96,12 @@ class AlertInDb(BaseModel):
     geom: str
     radius: float
     timezone: str
-    expires_at: datetime
+    expires_at: datetime = None
     temperature_limit: float
     relative_humidity_limit: float
     wind_limit: float
     precipitation_limit: float
-    check_thunderstorms: bool
+    check_thunderstorms: Optional[bool]
     created_at: datetime
     updated_at: datetime
 
@@ -130,7 +130,8 @@ class AlertIn(BaseModel):
     latitude: float
     longitude: float
     radius: float
-    timezone: Optional[str]
+    timezone: Optional[str] = None
+    expires_at: Optional[datetime] = None
 
     temperature_limit: Optional[float] = None
     relative_humidity_limit: Optional[float] = None

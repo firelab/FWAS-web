@@ -127,7 +127,7 @@ def register_alert_subscriber(
         }
         return response, 400
 
-    alert.subscribers.append(g.user)
+    alert.subscribers.append(user)
 
     response = {
         "status": "success",
@@ -136,41 +136,18 @@ def register_alert_subscriber(
     return response, 200
 
 
-@router.post("/alerts")
-def create_alert(
+@router.post("/alerts", response_model=serialize.AlertInDb, status_code=201)
+async def create_alert(
     alert: AlertIn,
     db: Database = Depends(get_db),
     user: UserInDb = Depends(get_current_user),
 ):
     """Create an alert definition."""
-    user = g.user
-    data = kwargs
-    errors = serialize.new_alert_schema.validate(data)
-    if errors:
-        current_app.logger.warning(f"Serialization failures: {errors}")
-        response = {"status": "fail", "message": str(errors)}
-        return response, 400
+    async with db.transaction():
+        alert_id = await crud.create_alert_for_user(db, user.id, alert)
+        alert_db = await crud.get_alert_by_id(db, alert_id)
 
-    try:
-        point = WKTElement(f"POINT({data['longitude']} {data['latitude']})", srid=4326)
-        alert = models.Alert(user_id=user.id, geom=point, **kwargs)
-        alert.save()
-
-        response = {
-            "status": "success",
-            "message": "Successfully created alert",
-            "alert_id": alert.id,
-            "alert_uuid": alert.uuid,
-        }
-
-        return response, 201
-    except Exception:
-        current_app.logger.exception("Failed to create alert.")
-        response = {
-            "status": "fail",
-            "message": "Some error occurred. Please try again.",
-        }
-        return response, 500
+        return alert_db
 
 
 @router.get("/notifications", response_model=List[NotificationOut])

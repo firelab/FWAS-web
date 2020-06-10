@@ -9,6 +9,7 @@ from loguru import logger
 from fwas import models
 from fwas.database import Database, database
 from fwas.serialize import (
+    AlertIn,
     AlertInDb,
     NotificationIn,
     NotificationInDb,
@@ -87,9 +88,20 @@ async def get_user_alerts(
     return [AlertInDb(**row) for row in rows if row]
 
 
-def check_blacklist(auth_token: str) -> bool:
-    res = BlacklistToken.query.filter_by(token=str(auth_token)).first()
-    return bool(res)
+async def create_alert_for_user(db: Database, user_id: int, alert: AlertIn) -> int:
+    query = models.t_alerts.insert()
+    values = alert.dict()
+    values['user_id'] = user_id
+    values['geom'] = WKTElement(f"POINT({alert.longitude} {alert.latitude})", srid=4326)
+
+    return await db.execute(query, values=values)
+
+
+async def get_alert_by_id(db: Database, alert_id: int) -> AlertInDb:
+    query = "select * from alerts where id=:alert_id"
+    row = await db.fetch_one(query, values={'alert_id': alert_id})
+    logger.info(dict(**row))
+    return AlertInDb(**row)
 
 
 async def get_user_notifications(
@@ -133,13 +145,12 @@ async def update_weather_raster(db: Database, weather_raster: WeatherRasterInDb)
     return await db.execute(query, values=weather_raster.dict())
 
 
-def get_alert_buffers():
+def get_alert_buffers(db: Database):
     query = """
     select id, st_buffer(geom, radius)
     from alert
     """
-    results = db.engine.execute(query)
-    return [result[0] for result in results]
+    return db.fetch_all(query)
 
 
 def get_clipped_alert_band(band):
