@@ -12,6 +12,7 @@ from loguru import logger
 
 from fwas import crud
 from fwas.database import Database
+from fwas.config import SQLALCHEMY_DATABASE_URI
 from fwas.fetchers import utils
 from fwas.fetchers.base import Fetcher
 
@@ -157,6 +158,7 @@ def build_url(start_hour: int, forecast_hour: int) -> str:
     return url
 
 
-def run_now(db: Database):
-    fetcher = HrrrFetcher(db)
-    fetcher.run()
+def run_now():
+    with Database(SQLALCHEMY_DATABASE_URI) as db:
+        fetcher = HrrrFetcher(db)
+        fetcher.run()
