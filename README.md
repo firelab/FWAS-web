@@ -1,4 +1,4 @@
-# Fire Weather Alert Service
+# Web version of the Fire Weather Alert System
 
 ## Overview
 
